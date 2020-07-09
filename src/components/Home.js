@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import logo from './assets/img/logo.png';
 import Wrapper from './components/Wrapper';
 import Script from './components/Script';
 import Head from './components/Head';
 import Footer from './components/Footer';
-import './App.css';
 import './assets/css/bootstrap.css';
 import './assets/css/custom.css';
 import './assets/css/font-awesome.css';
