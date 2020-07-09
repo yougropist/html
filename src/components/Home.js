@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Wrapper from './components/Wrapper';
-import Script from './components/Script';
-import Head from './components/Head';
-import Footer from './components/Footer';
-import './assets/css/bootstrap.css';
-import './assets/css/custom.css';
-import './assets/css/font-awesome.css';
+import Wrapper from './Wrapper';
+import Script from './Script';
+import Head from './Head';
+import Footer from './Footer';
+import '../assets/css/bootstrap.css';
+import '../assets/css/custom.css';
+import '../assets/css/font-awesome.css';
 
 class App extends Component {
 
