@@ -4,6 +4,9 @@ import Champs from './components/Champs/Champs';
 import Groupe from './components/Groupe/Groupe';
 import Postes from './components/Postes/Postes';
 import Fiches from './components/Fiches/Fiches';
+import './assets/css/bootstrap.css';
+import './assets/css/custom.css';
+import './assets/css/font-awesome.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 class App extends Component {

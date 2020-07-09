@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 function Navigation() {
     return(
@@ -6,16 +7,16 @@ function Navigation() {
             <div className="sidebar-collapse">
                 <ul className="nav" id="main-menu">
                     <li className="active-link">
-                        <a href="index.html" ><i className="fa fa-desktop "></i>Accueil </a>
+                        <Link to="/"><i className="fa fa-desktop"></i>Accueil</Link> 
                     </li>
                     <li>
-                        <a href="ui.html"><i className="fa fa-table "></i>Profil</a>
+                        <a href="ui.html"><i className="fa fa-table"></i>Profil</a>
                     </li>
                     <li>
-                        <a href="champs.html"><i className="fa fa-qrcode "></i>Gestion des champs</a>
+                        <Link to="/champs"><i className="fa fa-desktop"></i>Gestions des champs</Link> 
                     </li>
                     <li>
-                        <a href="groupes.html"><i className="fa fa-bar-chart-o"></i>Gestion des groupes</a>
+                        <Link to="/groupes"><i className="fa fa-bar-chart-o"></i>Gestions des groupes</Link>
                     </li>
                     <li>
                         <a href="poste.html"><i className="fa fa-bar-chart-o"></i>Gestion des poste</a>

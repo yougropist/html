@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import Wrapper from '../Wrapper/Wrapper';
 import Footer from '../Footer/Footer';
-import {Link} from 'react-router-dom';
-import '../../assets/css/bootstrap.css';
-import '../../assets/css/custom.css';
-import '../../assets/css/font-awesome.css';
 
-class App extends Component {
+
+class Home extends Component {
 
   constructor(props){
     super(props);
@@ -20,6 +17,7 @@ class App extends Component {
         visit: 0
       }
     }
+    
   }
   
 
@@ -61,13 +59,13 @@ class App extends Component {
   }
 
   render(){
-    
+    console.log("testing")
     return (
       <div className="App">
         {/* <input value={this.state.value} onChange={this.handleChange.bind(this)}></input><br />
        <button onClick={() => }>START</button> */}
         <Wrapper dataGroupeIndex={this.state.dataGroupeIndex} />
-          <Link to="/contact">Contact</Link>  
+           
         <Footer />
       </div>
     );
@@ -75,6 +73,6 @@ class App extends Component {
   
 }
 
-export default App;
+export default Home;
 
 
