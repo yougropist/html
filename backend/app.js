@@ -23,6 +23,17 @@ app.post('/intro', (req,res) => {
     })
 })
 
+app.get('/sous-groupe', (req,res) => {
+    connexion.query('SELECT * FROM soustable', (err, response) => {
+        if(err) res.json("error")
+        else {
+            console.log(5)
+            res.json(response)
+        }
+    }) 
+})
+
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })

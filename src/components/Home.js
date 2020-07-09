@@ -1,0 +1,98 @@
+import React, {Component} from 'react';
+import Wrapper from './Wrapper';
+import Script from './Script';
+import Head from './Head';
+import Footer from './Footer';
+import '../assets/css/bootstrap.css';
+import '../assets/css/custom.css';
+import '../assets/css/font-awesome.css';
+
+class Home extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {  
+      dataGroupeIndex: [],
+      username: "",
+      resData: {
+        id: 0,
+        user: "",
+        pass: "",
+        visit: 0
+      }
+      
+    }
+  }
+  
+
+  componentDidMount() {
+    console.log("démarage de la fonction serveur")
+    fetch('/intro', {
+      method: 'POST',
+      headers: new Headers({
+          'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        value:this.state.value,
+        data:"ok"
+      }),
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        // console.log('correct: ',res.status)
+        return res.json()
+      } 
+      else {
+        console.log('error: ',res.status)
+        return null
+      }
+    })
+    .then(data => {
+      this.setState({dataGroupeIndex: data})
+      // console.log('data :', data)    
+    })
+    console.log('ICI')
+    // fetch('/sous-groupe')
+    // .then((res) => {
+    //   if (res.status === 200) {
+    //     // console.log('correct: ',res.status)
+    //     return res.json()
+    //   } 
+    //   else {
+    //     console.log('error: ',res.status)
+    //     return null
+    //   }
+    // })
+    // .then(data => {
+    //   console.log('data :', data)    
+    // })
+    
+  }
+
+  handleChange(e){
+    this.setState({value: e.target.value})
+  }
+  
+  handleClick(){
+    this.setState({username: this.state.value})
+  }
+
+  render(){
+    console.log('Home')
+    return (
+      <div>
+        {/* <input value={this.state.value} onChange={this.handleChange.bind(this)}></input><br />
+       <button onClick={() => }>START</button> */}
+        {/* <Head /> */}
+        <Wrapper dataGroupeIndex={this.state.dataGroupeIndex} />
+        <Footer />
+        <Script />
+      </div>
+    );
+  }
+  
+}
+
+export default Home;
+
+
