@@ -3,15 +3,16 @@ import Wrapper from './Wrapper';
 import Script from './Script';
 import Head from './Head';
 import Footer from './Footer';
-import '../assets/css/bootstrap.css';
-import '../assets/css/custom.css';
-import '../assets/css/font-awesome.css';
+import {Link} from 'react-router-dom';
+import '../../assets/css/bootstrap.css';
+import '../../assets/css/custom.css';
+import '../../assets/css/font-awesome.css';
 
 class App extends Component {
 
   constructor(props){
     super(props);
-    this.state = {  
+    this.state = {
       dataGroupeIndex: [],
       username: "",
       resData: {
@@ -20,7 +21,6 @@ class App extends Component {
         pass: "",
         visit: 0
       }
-      
     }
   }
   
@@ -68,8 +68,10 @@ class App extends Component {
       <div className="App">
         {/* <input value={this.state.value} onChange={this.handleChange.bind(this)}></input><br />
        <button onClick={() => }>START</button> */}
+       
         <Head />
         <Wrapper dataGroupeIndex={this.state.dataGroupeIndex} />
+          <Link to="/contact">Contact</Link>  
         <Footer />
         <Script />
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import Groupe from './Index/Groupe'
+import Groupe from './Groupe'
 
 function Container(props) {
     // console.log("--------------",props.dataGroupeIndex[0])
