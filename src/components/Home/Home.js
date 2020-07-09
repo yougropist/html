@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import Wrapper from './Wrapper';
-import Script from './Script';
-import Head from './Head';
-import Footer from './Footer';
+import Wrapper from '../Wrapper/Wrapper';
+import Footer from '../Footer/Footer';
 import {Link} from 'react-router-dom';
 import '../../assets/css/bootstrap.css';
 import '../../assets/css/custom.css';
@@ -68,12 +66,9 @@ class App extends Component {
       <div className="App">
         {/* <input value={this.state.value} onChange={this.handleChange.bind(this)}></input><br />
        <button onClick={() => }>START</button> */}
-       
-        <Head />
         <Wrapper dataGroupeIndex={this.state.dataGroupeIndex} />
           <Link to="/contact">Contact</Link>  
         <Footer />
-        <Script />
       </div>
     );
   }
