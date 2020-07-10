@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from './Navbar';
-import Navigation from './Navigation';
-import Container from './Container';
+import Navbar from '../Navbar/Navbar';
+import Navigation from '../Navigation/Navigation';
+import Container from '../Container/Container';
 
 function Wrapper(props) {
     // console.log("------------------------",props.dataGroupeIndex)

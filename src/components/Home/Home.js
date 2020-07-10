@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import Wrapper from './Wrapper';
-import Script from './Script';
-import Head from './Head';
-import Footer from './Footer';
-import {Link} from 'react-router-dom';
-import '../../assets/css/bootstrap.css';
-import '../../assets/css/custom.css';
-import '../../assets/css/font-awesome.css';
+import Wrapper from '../Wrapper/Wrapper';
+import Footer from '../Footer/Footer';
+import {withRouter} from "react-router"
 
-class App extends Component {
+class Home extends Component {
 
   constructor(props){
     super(props);
@@ -19,9 +14,11 @@ class App extends Component {
         id: 0,
         user: "",
         pass: "",
-        visit: 0
-      }
+        visit: 0,
+      },
+      sousGroupe: []
     }
+    
   }
   
 
@@ -51,6 +48,33 @@ class App extends Component {
       this.setState({dataGroupeIndex: data})
       // console.log('data :', data)    
     })
+
+    if (this.props.match.params) {
+      fetch('/sous-groupe', {
+        method: 'POST',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({
+          idGroupe:this.props.match.params
+        }),
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // console.log('correct: ',res.status)
+          return res.json()
+        } 
+        else {
+          console.log('error: ',res.status)
+          return null
+        }
+      })
+      .then(data => {
+        console.log('data :', data)   
+        this.setState({sousGroupe: data}) 
+      })
+    }
+   
     
   }
 
@@ -63,23 +87,21 @@ class App extends Component {
   }
 
   render(){
-    
+    console.log(this.props.match.params.groupe,12)
     return (
       <div className="App">
         {/* <input value={this.state.value} onChange={this.handleChange.bind(this)}></input><br />
        <button onClick={() => }>START</button> */}
-       
-        <Head />
-        <Wrapper dataGroupeIndex={this.state.dataGroupeIndex} />
-          <Link to="/contact">Contact</Link>  
+        <Wrapper dataGroupeIndex={this.state.sousGroupe.length > 0 ? this.state.sousGroupe : this.state.dataGroupeIndex} />
+
+           
         <Footer />
-        <Script />
       </div>
     );
   }
   
 }
 
-export default App;
+export default withRouter(Home);
 
 
