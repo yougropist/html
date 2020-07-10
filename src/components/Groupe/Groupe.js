@@ -19,6 +19,29 @@ class Groupe extends Component  {
 
     updateGroupe() {
         console.log("update: ", this.props.data.id)
+        fetch('/updateGroupe', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify({
+              data:"update groupe"
+            }),
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              // console.log('correct: ',res.status)
+              return res.json()
+            } 
+            else {
+              console.log('error: ',res.status)
+              return null
+            }
+          })
+          .then(data => {
+            this.setState({dataGroupeIndex: data})
+            // console.log('data :', data)    
+          })
     }
 
     moveGroupe() {
@@ -31,9 +54,10 @@ class Groupe extends Component  {
             // console.log('la', e.target.value)
             const array = []
             array.push(this.props.data.id)
-            this.setState(prevState => ({value: [...prevState.value, array[0]]}))
+            // this.state({value: })
+            // this.setState(prevState => ({value: [...prevState.value, array[0]]}))
         } else {
-            console.log('ici', e.target.value)            
+            console.log('ici', e.target.value)
         }                
     }
 
