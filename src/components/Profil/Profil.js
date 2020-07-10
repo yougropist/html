@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 
-function PanelGroupes()  {
+function Profil()  {
     return(
         <div>
-            <h1>Groupes</h1>
+            <h1>Profil</h1>
         </div>
     )    
 }
 
-export default PanelGroupes
+export default Profil
