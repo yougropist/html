@@ -15,10 +15,9 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 app.post('/intro', (req,res) => {
     // console.log("DATA serveur node recu du front:  ", req.body)
-    connexion.query(`SELECT * FROM groupe WHERE zIndex="0"` , (err, response) => {
-        if(err) console.log(err)
+    connexion.query('SELECT * FROM groupetable', (err, response) => {
+        if(err) res.json("error")
         else {
-            // console.log(response)
             res.json(response)
         }
     })
@@ -26,7 +25,7 @@ app.post('/intro', (req,res) => {
 
 app.post('/sous-groupe', (req,res) => {
     console.log(req.body.idGroupe.groupe,199)
-    connexion.query(`SELECT * FROM groupe WHERE id_categorie="${req.body.idGroupe.groupe}"`, (err, response) => {
+    connexion.query(`SELECT * FROM soustable WHERE idTable="${req.body.idGroupe.groupe}"`, (err, response) => {
         if(err) res.json("error")
         else {
             res.json(response)
