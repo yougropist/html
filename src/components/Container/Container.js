@@ -25,7 +25,7 @@ function Container(props) {
                 <div className="row text-center pad-top">
                     {
                         props.dataGroupeIndex.map((elem, index) => (
-                            <Groupe data={props.dataGroupeIndex[index]} />
+                            <Groupe data={props.dataGroupeIndex[index]} admin={false} />
                         ))
                     }
                 </div>  

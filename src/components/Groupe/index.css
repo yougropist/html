@@ -1,0 +1,19 @@
+.panelGroupe{
+    width: 800px;
+    margin: 0 auto;
+}
+.div-square2{
+    padding: 5px;
+    box-shadow: 1px 1px 2px #005769;
+    background-color: #E7FBFF;
+    border-radius: 8px;
+    margin: 5px;
+}
+#styleIcon{
+    background-color: #428bca;
+    color: #fff;
+    border-color: #357ebd; 
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}

@@ -19,7 +19,6 @@ class Home extends Component {
     }
     
   }
-  
 
   componentDidMount() {
     // console.log("démarage de la fonction serveur")
@@ -47,7 +46,6 @@ class Home extends Component {
       this.setState({dataGroupeIndex: data})
       // console.log('data :', data)    
     })
-    
   }
 
   handleChange(e){

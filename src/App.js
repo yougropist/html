@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Home from './components/Home/Home';
 import Champs from './components/Champs/Champs';
-import panelGroupe from './components/panelGroupes/panelGroupes';
+import panelGroupes from './components/panelGroupes/panelGroupes';
 import Postes from './components/Postes/Postes';
 import Fiches from './components/Fiches/Fiches';
 import Profil from './components/Profil/Profil';
@@ -22,7 +22,7 @@ class App extends Component {
             <Route path="/" component={Home} exact></Route>
             <Route path="/profil" component={Profil}></Route>
             <Route path="/champs" component={Champs}></Route>            
-            <Route path="/panelGroupes" component={panelGroupe}></Route>
+            <Route path="/panelGroupes" component={panelGroupes}></Route>
             <Route path="/postes" component={Postes}></Route>
             <Route path="/fiches" component={Fiches}></Route>
           </Switch>
