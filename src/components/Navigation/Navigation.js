@@ -19,10 +19,10 @@ function Navigation() {
                         <Link to="/panelGroupes"><i className="fa fa-bar-chart-o"></i>Gestions des groupes</Link>
                     </li>
                     <li>
-                        <Link to="/postes"><i className="fa fa-bar-chart-o"></i>Gestions des poste</Link>
+                        <Link to="/fiches"><i className="fa fa-bar-chart-o"></i>Gestions des fiches</Link>
                     </li>
                     <li>
-                        <Link to="/fiches"><i className="fa fa-bar-chart-o"></i>Gestions des fiches</Link>
+                        <Link to="/pages"><i className="fa fa-bar-chart-o"></i>Gestions des page</Link>
                     </li>
                                    
                 </ul>

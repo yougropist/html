@@ -131,7 +131,7 @@ z-index: 1;
    -moz-border-radius:8px;
     border-radius:8px;
     margin:5px;
-    min-height: 110px;
+    min-height: 130px;
 }
 .div-square:hover {
     background-color: #8fe8fa;

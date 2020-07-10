@@ -10,6 +10,7 @@ function Wrapper(props) {
             <Navbar />
             <Navigation />
             <Container dataGroupeIndex={props.dataGroupeIndex} />
+            
         </div>
 
     ) 
