@@ -4,16 +4,51 @@
 }
 .div-square2{
     padding: 5px;
+    width: 100%;
+    height: 50px;
     box-shadow: 1px 1px 2px #005769;
     background-color: #E7FBFF;
     border-radius: 8px;
     margin: 5px;
 }
+@media (max-width: 1201px) {
+    .div-square2{
+        padding: 5px;
+        box-shadow: 1px 1px 2px #005769;
+        background-color: #E7FBFF;
+        border-radius: 8px;
+        margin: 5px;
+    }
+  }
 #styleIcon{
-    background-color: #428bca;
+    background-color: #0c1326;
     color: #fff;
-    border-color: #357ebd; 
+    border-color: #0c1326; 
     border-radius: 5px;
     margin: 5px;
     padding: 5px;
+}
+#nomGroupe{
+    display: flex;
+    padding: 10;
+}
+#nomGroupe input{
+    width: 500px;
+    background-color: transparent;
+    border: none;
+    margin-left: 20px;
+}
+.div-square3{
+    padding: 5px;
+    width: 95%;
+    height: 40px;
+    box-shadow: 1px 1px 2px #005769;
+    background-color: #fffcf6;
+    border-radius: 8px;
+    margin: 5px auto;
+    visibility: hidden;
+    position: absolute;
+}
+.div-square4{
+    margin: 5px auto;
 }

@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 
 app.post('/intro', (req,res) => {
-    // console.log("DATA serveur node recu du front:  ", req.body)
+    console.log(req.body," SERVEUR SELECT GROUPE")
     connexion.query(`SELECT * FROM groupe WHERE zIndex="0"` , (err, response) => {
         if(err) console.log(err)
         else {
@@ -25,8 +25,35 @@ app.post('/intro', (req,res) => {
 })
 
 app.post('/sous-groupe', (req,res) => {
-    console.log(req.body.idGroupe.groupe,199)
-    connexion.query(`SELECT * FROM groupe WHERE id_categorie="${req.body.idGroupe.groupe}"`, (err, response) => {
+    console.log(req.body.idGroupe.id," SERVEUR SELECT SOUS GROUPE")
+    connexion.query(`SELECT * FROM groupe WHERE id_categorie="${req.body.idGroupe.id}"`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            res.json(response)
+        }
+    }) 
+})
+
+app.post('/delGroupe', (req,res) => {
+    console.log(req.body.id," SERVEUR DELETE GROUPE")
+    connexion.query(`DELETE FROM groupe WHERE id="${req.body.id}"`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            connexion.query(`SELECT * FROM groupe WHERE zIndex="0"` , (err, response) => {
+                if(err) console.log(err)
+                else {
+                    // console.log(response)
+                    res.json(response)
+                }
+            })
+        }
+    }) 
+})
+
+
+app.put('/updateGroupe', (req,res) => {
+    console.log(req.body.data.id," SERVEUR UPDATE GROUPE")
+    connexion.query(`UPDATE groupe SET nom="${req.body.data.nom}", nomNl="${req.body.data.nomNl}" WHERE id=${req.body.data.id}`, (err, response) => {
         if(err) res.json("error")
         else {
             res.json(response)
