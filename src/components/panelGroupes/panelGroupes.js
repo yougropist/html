@@ -42,6 +42,8 @@ class PanelGroupes extends Component  {
         })
       }
 
+      
+
       checked(obj){
           if(obj.checked){
               this.setState(prevState => ({
@@ -63,15 +65,15 @@ class PanelGroupes extends Component  {
               <div className="row text-center pad-top">
               <h2>PANEL DE GESTION DES GROUPES</h2>
               <div style={{marginBottom: 50}}>
-                  <button className="btn btn-primary">Ajouter</button>
                   <button className="btn btn-warning">Déplacer</button>
                   <button className="btn btn-warning">Modifier</button>
                   <button className="btn btn-warning">Dupliquer</button>
                   <button className="btn btn-danger">Supprimer</button>
-              </div>                
+              </div>        
               {
 
                   this.state.dataGroupeIndex.map((elem, index) => (
+                    
                       <Groupe data={this.state.dataGroupeIndex[index]} admin={true} checked={(obj) => this.checked(obj)}/>
                   ))
               }
