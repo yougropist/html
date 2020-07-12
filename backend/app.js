@@ -34,6 +34,39 @@ app.post('/sous-groupe', (req,res) => {
     }) 
 })
 
+app.get('/champs', (req,res) => {
+    connexion.query(`SELECT * FROM colonne`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            res.json(response)
+        }
+    }) 
+})
+
+app.put('/champs/update', (req,res) => {
+    console.log(66)
+    connexion.query(`UPDATE colonne SET nom ='${req.body.nom}', nomNl = '${req.body.nomNl}' WHERE id = '${req.body.id}'`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            res.json(response)
+        }
+    }) 
+})
+
+app.post('/champs/add', (req,res) => {
+    console.log(66)
+    connexion.query(`INSERT INTO colonne (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            connexion.query(`SELECT * FROM colonne`, (err, result) => {
+                if(err) res.json("error")
+                else {
+                    res.json(result)
+                }
+            }) 
+        }
+    }) 
+})
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
