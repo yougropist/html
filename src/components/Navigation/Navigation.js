@@ -19,11 +19,15 @@ function Navigation() {
                         <Link to="/panelGroupes"><i className="fa fa-bar-chart-o"></i>Gestions des groupes</Link>
                     </li>
                     <li>
-                        <Link to="/fiches"><i className="fa fa-bar-chart-o"></i>Gestions des fiches</Link>
+                        <Link to="/pages"><i className="fa fa-bar-chart-o"></i>Gestions des pages</Link>
                     </li>
                     <li>
-                        <Link to="/pages"><i className="fa fa-bar-chart-o"></i>Gestions des page</Link>
+                        <Link to="/pages">Enquête Usagers Confinement</Link>
                     </li>
+                    <li>
+                        <Link to="/pages">Actualités COVID-19</Link>
+                    </li>
+                    
                                    
                 </ul>
             </div>

@@ -48,21 +48,9 @@ class Groupe extends Component  {
         console.log("move: ", this.props.data.id)
     }
 
-    handleChange(e){
-        // console.log('aa', e.target.checked)
-        if(e.target.checked){
-            // console.log('la', e.target.value)
-            const array = []
-            array.push(this.props.data.id)
-            // this.state({value: })
-            // this.setState(prevState => ({value: [...prevState.value, array[0]]}))
-        } else {
-            console.log('ici', e.target.value)
-        }                
-    }
 
     render(){
-        console.log("VALUE TAB : ",this.state.value)
+        // console.log("VALUE TAB : ",this.state.value)
         if(this.props.admin == true){
             return(
                 <div>
@@ -73,7 +61,7 @@ class Groupe extends Component  {
                                 <i id="styleIcon" onClick={() => {this.updateGroupe()} } className="fa fa-pencil-square-o " aria-hidden="true"></i>
                                 <i id="styleIcon" onClick={() => {this.moveGroupe()} } className="fa fa-folder-o " aria-hidden="true"></i>
                                 <i id="styleIcon" onClick={() => {this.delGroupe()} } className="fa fa-trash-o " aria-hidden="true" />
-                                <input type="checkbox" onClick={(e) => this.handleChange(e) } />
+                                <input type="checkbox" onChange={(e) => this.props.checked({id: this.props.data.id, checked: e.target.checked}) } />
                                 <h4>{this.props.data.nom}</h4>
                             </div>
                         </div>

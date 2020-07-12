@@ -3,13 +3,13 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 import Home from './components/Home/Home';
 import Champs from './components/Champs/Champs';
-import panelGroupes from './components/panelGroupes/panelGroupes';
 import Postes from './components/Postes/Postes';
 import Fiches from './components/Fiches/Fiches';
 import Profil from './components/Profil/Profil';
 import './assets/css/bootstrap.css';
 import './assets/css/custom.css';
 import './assets/css/font-awesome.css';
+import PanelGroupes from './components/panelGroupes/panelGroupes';
 
 class App extends Component {
 
@@ -24,11 +24,10 @@ class App extends Component {
             <Route path="/" component={Home} exact></Route>
             <Route path="/profil" component={Profil}></Route>
             <Route path="/champs" component={Champs}></Route>            
-            <Route path="/panelGroupes" component={panelGroupes}></Route>
+            <Route path="/panelGroupes" component={PanelGroupes}></Route>
             <Route path="/postes" component={Postes}></Route>
             <Route path="/fiches" component={Fiches}></Route>
             <Route path="/sous-groupe/:groupe" component={Home}></Route>
-
           </Switch>
         </BrowserRouter>
       </div>
