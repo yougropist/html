@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import Wrapper from '../Wrapper/Wrapper';
+import PanelGroupes from '../panelGroupes/panelGroupes';
 import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/Navbar';
+import Navigation from '../Navigation/Navigation';
+import Container from '../Container/Container';
 import {withRouter} from "react-router"
 
 class Home extends Component {
@@ -79,9 +83,11 @@ class Home extends Component {
     console.log("DATAAA : ", this.props.dataGroupeIndex)
     console.log(this.props.match.params.groupe,12)
     return (
-      <div className="App">
-        <Wrapper dataGroupeIndex={this.state.sousGroupe.length > 0 ? this.state.sousGroupe : this.state.dataGroupeIndex} />           
-        <Footer />
+      <div className="App">      
+          <Navbar />
+          <Navigation />
+          <Container dataGroupeIndex={this.state.sousGroupe.length > 0 ? this.state.sousGroupe : this.state.dataGroupeIndex}/>
+          <Footer />
       </div>
     );
   }
