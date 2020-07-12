@@ -61,7 +61,9 @@ class Groupe extends Component  {
                                 <i id="styleIcon" onClick={() => {this.updateGroupe()} } className="fa fa-pencil-square-o " aria-hidden="true"></i>
                                 <i id="styleIcon" onClick={() => {this.moveGroupe()} } className="fa fa-folder-o " aria-hidden="true"></i>
                                 <i id="styleIcon" onClick={() => {this.delGroupe()} } className="fa fa-trash-o " aria-hidden="true" />
+                                
                                 <input type="checkbox" onChange={(e) => this.props.checked({id: this.props.data.id, checked: e.target.checked}) } />
+                                
                                 <h4>{this.props.data.nom}</h4>
                             </div>
                         </div>
