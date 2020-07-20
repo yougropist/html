@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import Wrapper from '../Wrapper/Wrapper';
-import PanelGroupes from '../panelGroupes/panelGroupes';
 import Footer from '../Footer/Footer';
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
@@ -13,22 +11,15 @@ class Home extends Component {
     super(props);
     this.state = {
       dataGroupeIndex: [],
-      sousGroupe: []
+      sousGroupe: [],
+      fiches: []
     }
     
   }
 
   componentDidMount() {
     // console.log("démarage de la fonction serveur")
-    fetch('/intro', {
-      method: 'POST',
-      headers: new Headers({
-          'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify({
-        data:"ok"
-      }),
-    })
+    fetch('/intro', {method: 'POST'})
     .then((res) => {
       if (res.status === 200) {
         // console.log('correct: ',res.status)
@@ -41,7 +32,7 @@ class Home extends Component {
     })
     .then(data => {
       this.setState({dataGroupeIndex: data})
-      // console.log('data :', data)    
+      console.log('data :', data)    
     })
 
     if (this.props.match.params) {
@@ -65,28 +56,25 @@ class Home extends Component {
         }
       })
       .then(data => {
-        // console.log('data :', data)   
-        this.setState({sousGroupe: data}) 
+        console.log('data :', data)   
+        if(data.fiches) this.setState({sousGroupe: [],fiches: data.fiches})
+        else this.setState({sousGroupe: data, fiches: []})         
       })
     }
-   
-    
   }
-
-  
   
   handleClick(){
     this.setState({username: this.state.value})
   }
 
   render(){
-    console.log("DATAAA : ", this.props.dataGroupeIndex)
-    console.log(this.props.match.params.groupe,12)
+    // console.log("REACT RENDER : ", this.state.idFiches)
+    // console.log(this.props.match.params.groupe,12)
     return (
       <div className="App">      
           <Navbar />
           <Navigation />
-          <Container dataGroupeIndex={this.state.sousGroupe.length > 0 ? this.state.sousGroupe : this.state.dataGroupeIndex}/>
+          <Container fiches={this.state.fiches} dataGroupeIndex={this.state.sousGroupe.length > 0 ? this.state.sousGroupe : this.state.dataGroupeIndex} />
           <Footer />
       </div>
     );

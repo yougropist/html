@@ -6,9 +6,11 @@ import Champs from './components/Champs/Champs';
 import Postes from './components/Postes/Postes';
 import Fiches from './components/Fiches/Fiches';
 import Profil from './components/Profil/Profil';
+import Admin from './components/Admin/Admin';
 import './assets/css/bootstrap.css';
 import './assets/css/custom.css';
 import './assets/css/font-awesome.css';
+
 import PanelGroupes from './components/panelGroupes/panelGroupes';
 
 class App extends Component {
@@ -18,10 +20,11 @@ class App extends Component {
     
     return (
       <div className="App">
-        {console.log(888)}
+        {/* {console.log(888)} */}
         <BrowserRouter>
           <Switch>
             <Route path="/" component={Home} exact></Route>
+            <Route path="/ff18e410" component={Admin}></Route>
             <Route path="/profil" component={Profil}></Route>
             <Route path="/champs" component={Champs}></Route>            
             <Route path="/panelGroupes" component={PanelGroupes}></Route>
