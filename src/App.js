@@ -12,6 +12,7 @@ import './assets/css/custom.css';
 import './assets/css/font-awesome.css';
 
 import PanelGroupes from './components/panelGroupes/panelGroupes';
+import Pages from './components/Pages/Pages';
 
 class App extends Component {
 
@@ -30,6 +31,7 @@ class App extends Component {
             <Route path="/panelGroupes" component={PanelGroupes}></Route>
             <Route path="/postes" component={Postes}></Route>
             <Route path="/fiches" component={Fiches}></Route>
+            <Route path="/pages" component={Pages}></Route>
             <Route path="/sous-groupe/:groupe" component={Home}></Route>
           </Switch>
         </BrowserRouter>
