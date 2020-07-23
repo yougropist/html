@@ -16,7 +16,7 @@ class Groupe extends Component  {
 
 
     render(){
-        console.log("Panel render Groupe : ",this.props.fiches)
+        // console.log("Panel render Groupe : ",this.props.fiches)
             return(
                 <a href={`/sous-groupe/${this.props.data.id}`}>
                     <div className="col-xs-12 col-md-6 col-lg-3">

@@ -25,12 +25,90 @@ app.post('/intro', (req,res) => {
     })
 })
 
+app.post('/selectFiche', (req,res) => {
+    console.log(req.body," SERVEUR SELECT DETAIL FICHE")
+    connexion.query(`SELECT * FROM fiches WHERE id=${req.body.id}` , (err, response) => {
+        if(err) console.log(err)
+        else {
+            res.json(response[0])
+        }
+    })    
+})
+
+app.get('/selectIcon', (req,res) => {
+    console.log("SELECT ICON")
+    connexion.query(`SELECT * FROM icon`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            console.log(response)
+            res.json(response)
+        }
+    }) 
+})
+
+app.post('/addGroupe', (req,res) => {
+    console.log(req.body,'SERVER INSERT GROUPE')
+    connexion.query(`INSERT INTO groupe (nom , nomNl , id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '0')`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            connexion.query(`SELECT * FROM groupe` , (err, response1) => {
+                if(err) console.log(err)
+                else {
+                    res.json(response1)
+                }
+            })
+        }
+    }) 
+})
+
+app.post('/addSousGroupe', (req,res) => {
+    console.log(req.body,'SERVER INSERT SOUS GROUPE')
+    connexion.query(`INSERT INTO groupe (nom , nomNl , id_categorie , zIndex) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.id}', '1')`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            connexion.query(`SELECT * FROM groupe` , (err, response1) => {
+                if(err) console.log(err)
+                else {
+                    res.json(response1)
+                }
+            })
+        }
+    }) 
+})
+
 app.get('/allGroupe', (req,res) => {
     console.log(req.body," SERVEUR SELECT GROUPE")
     connexion.query(`SELECT * FROM groupe` , (err, response) => {
         if(err) console.log(err)
         else {
             res.json(response)
+        }
+    })
+})
+
+app.post('/verifyChild', (req,res) => {
+    console.log(req.body," SERVEUR VERIFY CHILD")
+    connexion.query(`SELECT * FROM idFiche WHERE idFiche=${req.body.id}` , (err, response) => {
+        if(err) console.log(err)
+        else {
+            if(response.length !== 0){
+                console.log(999,1)
+                const array = []
+                for(let i = 0; i < response.length; i++ ){
+                    connexion.query(`SELECT * FROM fiches WHERE id=${response[i].id}` , (err, response1) => {
+                        if(err) console.log(err)
+                        else {                            
+                            array.push(response1[0])
+                            if(i == response.length-1 ) {
+                                // console.log(array, 2)
+                                res.json(array)
+                            } 
+                        }
+                    })
+                }
+            } else {
+                res.json(response)
+            }
         }
     })
 })
@@ -89,6 +167,35 @@ app.post('/delGroupe', (req,res) => {
                     res.json(response)
                 }
             })
+        }
+    }) 
+})
+
+app.put('/refreshFiches', (req,res) => {
+    console.log(req.body," SERVEUR UPDATE FICHE")
+    connexion.query(`UPDATE fiches SET ${req.body.champs}="${req.body.value}" WHERE id="${req.body.id}"`, (err, response) => {
+        console.log(response,1)
+        if(err) res.json("error")
+        else {
+            connexion.query(`SELECT * FROM fiches WHERE id="${req.body.id}"` , (err, response1) => {
+                if(err) console.log(err)
+                else {
+                    console.log(response1[0], 2)
+                    res.json(response1[0])
+                }
+            }) 
+            console.log(response, 3)
+            res.json(response)
+        }
+    }) 
+})
+
+app.put('/updateFiche', (req,res) => {
+    console.log(req.body," SERVEUR UPDATE FICHE")
+    connexion.query(`UPDATE fiches SET ${req.body.champs}="${req.body.value}" WHERE id=${req.body.id}`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            res.json(response)
         }
     }) 
 })
