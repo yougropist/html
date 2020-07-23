@@ -1,0 +1,31 @@
+.hidden{
+    display: none;
+}
+.path{
+    list-style: none;
+    display: flex;
+}
+.pathItem{
+    padding: 3px;
+    border-left: 1px solid rgb(177, 177, 177);
+}
+.delOn{
+    background-color: red;
+}
+.styleIcon{
+    background-color: #0c1326;
+    color: #fff ;
+    border-color: #0c1326; 
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+.moveOn{
+    visibility: visible;
+    width: 10%;
+    display: block;
+}
+.moveOff{
+    visibility: hidden;
+    display: none;
+}

@@ -32,7 +32,7 @@ class Home extends Component {
     })
     .then(data => {
       this.setState({dataGroupeIndex: data})
-      console.log('data :', data)    
+      // console.log('data :', data)    
     })
 
     if (this.props.match.params) {
@@ -56,7 +56,7 @@ class Home extends Component {
         }
       })
       .then(data => {
-        console.log('data :', data)   
+        // console.log('data :', data, 5555)   
         if(data.fiches) this.setState({sousGroupe: [],fiches: data.fiches})
         else this.setState({sousGroupe: data, fiches: []})         
       })
@@ -68,7 +68,7 @@ class Home extends Component {
   }
 
   render(){
-    // console.log("REACT RENDER : ", this.state.idFiches)
+    // console.log("REACT RENDER : ", this.state.sousGroupe, this.state.dataGroupeIndex)
     // console.log(this.props.match.params.groupe,12)
     return (
       <div className="App">      

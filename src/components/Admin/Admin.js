@@ -42,7 +42,7 @@ class Admin extends Component  {
       }
 
     render(){
-      // console.log("panelgroupe render: ", this.state.sousGroupe)
+      console.log("panelgroupe render: ", this.state.data)
         return(
           <div>
             <Navbar />

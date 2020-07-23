@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Groupe from '../Groupe/Groupe'
 import Fiche from '../Fiche/Fiche'
+import DetailFiche from '../DetailFiche/DetailFiche'
 
 class Container extends Component {
 
@@ -9,14 +10,55 @@ class Container extends Component {
         this.state = {
           dataGroupeIndex: [],
           sousGroupe: [],
-          fiches: []
+          fiches: [],
+          detailFiches: [],
+          idFiche: '',
+          champs: [],
         }
         
       }
     
     ficheDetail(id){
-        console.log(id)
-        this.setState({})
+        this.setState({idFiche: id})
+        console.log("REACT SELECT DETAIL FICHE: ", id)
+        fetch('/selectFiche', {
+          method: 'POST',
+          headers: new Headers({
+              'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify({
+            id: id
+          }),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {
+          console.log('data :', data)   
+          this.setState({detailFiches: data}) 
+        })
+        fetch('/champs')
+        .then((res) => {
+        if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+        } 
+        else {
+            console.log('error: ',res.status)
+            return null
+        }
+        })
+        .then(data => {
+        console.log('data champs :', data) 
+        this.setState({champs: data}) 
+        })
     }
 
     render(){
@@ -38,10 +80,22 @@ class Container extends Component {
                                 <button className="btn btn-warning">Modifier</button>
                                 <button className="btn btn-danger">Supprimer</button>    
                             </div>
-                            
                         </div>
                     </div>
-                    {this.props.fiches.length !== 0 ?
+                    {this.state.detailFiches.length !== 0 ?
+                    <>
+                    <ul className="list-group list-champs">
+                    <button className="btn btn-success">Ajouter une fiche</button>
+                    {                        
+                        this.state.champs.map((elem, index) => {
+                            console.log(this.state.detailFiches[this.state.champs[index].nom])
+                            return this.state.detailFiches[this.state.champs[index].nom] !== '' &&
+                            <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nom} />                            
+                        })
+                    }
+                    </ul>
+                    </>
+                    : this.props.fiches.length !== 0 ?
                     <>
                     <ul className="list-group list-champs">
                     <button className="btn btn-success">Ajouter une fiche</button>

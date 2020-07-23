@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Groupe from '../Groupe/Groupe'
-import Container from '../Container/Container';
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
-import './style.css'
-import logo from '../../logo.svg'
+import DetailFiche from '../DetailFiche/DetailFiche'
+import UpdateFiche from '../UpdateFiche/UpdateFiche';
+import './style.css';
+
 
 class PanelGroupes extends Component  {
 
@@ -22,6 +22,12 @@ class PanelGroupes extends Component  {
           moveOn: "",
           selected: 0,
           path: [],
+          nomFiche: [],
+          detailFiche: [],
+          idFiche: '',
+          champs: [],
+          updateFiche: false,
+          addGroupe: false,
         }
       }
 
@@ -56,7 +62,7 @@ class PanelGroupes extends Component  {
 
     
       componentDidMount() {
-        console.log("REACT SELECT ALL GROUPE")
+        // console.log("REACT SELECT ALL GROUPE")
         fetch('/allGroupe')
         .then((res) => {
           if (res.status === 200) {
@@ -133,32 +139,61 @@ class PanelGroupes extends Component  {
         })
       }
 
-      addGroupe(id) {
-        console.log("REACT SELECT SOUS GROUPE: ", id)
-        fetch('/sous-groupe', {
-          method: 'POST',
-          headers: new Headers({
-              'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({
-            idGroupe: {
-              groupe: id
+      addGroupe(nom, nomNl, id) {
+        console.log("REACT SELECT SOUS GROUPE: ", nom, nomNl, id)
+        if(id === 0) {
+          fetch('/addGroupe', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify({
+                nom: nom,
+                nomNl: nomNl
+            }),
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              // console.log('correct: ',res.status)
+              return res.json()
+            } 
+            else {
+              console.log('error: ',res.status)
+              return null
             }
-          }),
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            // console.log('correct: ',res.status)
-            return res.json()
-          } 
-          else {
-            console.log('error: ',res.status)
-            return null
-          }
-        })
-        .then(data => {
-          this.setState({dataGroupeIndex: data})
-        })
+          })
+          .then(data => {
+            // console.log('data add groupe: ', data)
+            this.setState({dataGroupeIndex: data})
+          })
+        } else {
+          fetch('/addSousGroupe', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify({
+                nom: nom,
+                nomNl: nomNl,
+                id: id
+            }),
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              // console.log('correct: ',res.status)
+              return res.json()
+            } 
+            else {
+              console.log('error: ',res.status)
+              return null
+            }
+          })
+          .then(data => {
+            console.log('data add sous groupe: ', data)
+            this.setState({dataGroupeIndex: data})
+          })
+        }
+        
       }
 
       
@@ -189,8 +224,7 @@ class PanelGroupes extends Component  {
             })
             .then(data => {
               console.log('data :', data)   
-              this.setState({dataGroupeIndex: data}) 
-              this.setState({moveOn: ""}) 
+              this.setState({dataGroupeIndex: data, moveOn: ""}) 
             })
           } else {
             this.setState({moveOn: ""}) 
@@ -201,28 +235,122 @@ class PanelGroupes extends Component  {
         }        
       }
 
-      refreshPath(index, id){
-        this.setState({selected: id})
-        const array = this.state.path.filter((elem, i) => i<=index )
-        this.setState({path: array})
+      selectIcon(){
+        console.log()
+        fetch('/selectIcon')
+        .then((res) => {
+          if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {         
+            console.log('data :', data) 
+            this.setState({selectIcon: data})
+            // console.log(this.state.selectIcon[0].icon,this.state.selectIcon.length, 66666)
+        })
       }
 
-      checked(obj){
-        if(obj.checked){
-          this.setState(prevState => ({
-            checked: [...prevState.checked, obj.id]
-          }))
-        } else {
-          const array = this.state.checked.filter(elem => elem !== obj.id)
-          // console.log(array, 44)
-          this.setState({checked: array})
-        }                
+      openGroupe(){        
+        fetch('/verifyChild', {
+          method: 'POST',
+          headers: new Headers({
+              'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify({
+            id: this.state.selected
+          }),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {         
+            // console.log('data :', data) 
+            this.setState({nomFiche: data})
+        })
       }
+
+      ficheDetail(id){
+        this.setState({idFiche: id})
+        // console.log("REACT SELECT DETAIL FICHE: ", id)
+        fetch('/selectFiche', {
+          method: 'POST',
+          headers: new Headers({
+              'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify({
+            id: id
+          }),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {
+          // console.log('data :', data)   
+          this.setState({detailFiche: data}) 
+        })
+        fetch('/champs')
+        .then((res) => {
+        if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+        } 
+        else {
+            console.log('error: ',res.status)
+            return null
+        }
+        })
+        .then(data => {
+        // console.log('data champs :', data) 
+        this.setState({champs: data}) 
+        })
+    }
+
+    refreshPath(index, id){
+      console.log(id, this.state.selected, 999)
+      if(id === this.state.selected) {
+        const array = this.state.path.filter((elem, i) => i<=index )
+        this.setState({path: array, selected: id, detailFiche: [],updateFiche: false})
+      } else {
+        const array = this.state.path.filter((elem, i) => i<=index )
+        this.setState({path: array, selected: id, nomFiche: [], detailFiche: [],updateFiche: false,})
+      }
+    }
+
+    checked(obj){
+      if(obj.checked){
+        this.setState(prevState => ({
+          checked: [...prevState.checked, obj.id]
+        }))
+      } else {
+        const array = this.state.checked.filter(elem => elem !== obj.id)
+        // console.log(array, 44)
+        this.setState({checked: array})
+      }                
+    }
+
     render(){
-        return(
-          
-          <div>
-            {/* {console.log("delete: ", this.state.delOn)} */}
+      console.log(this.state.selectIcon, 888888888)
+        return(          
+          <div>            
             <Navbar />
             <Navigation />
               <div id="page-wrapper">
@@ -230,46 +358,95 @@ class PanelGroupes extends Component  {
                   <div className="row text-center">
                   <h2>PANEL DE GESTION DES GROUPES</h2>
                   <div style={{marginBottom: 50}}>
-                      <button className="btn btn-primary">Ajouter</button>
+                      <button className={`btn btn-primary ${this.state.addGroupe === true ? "green" : "white"}`} onClick={() => {this.state.addGroupe === false ? this.setState({addGroupe: true}, this.selectIcon()) : this.setState({addGroupe: false}) }} >Ajouter</button>
                       <button className="btn btn-warning">Déplacer</button>
                       <button className="btn btn-danger">Supprimer</button>
-                  </div>    
+                  </div>  
+                  <div style={{display : this.state.addGroupe !== false ? "initial" : "none"}}>
+                      <input required ref="nom" type="text" placeholder="Nom" />
+                      <input required ref="nomNl" type="text" placeholder="Naam"/>
+                      <a  href="#" onClick={() => this.setState({addGroupe: false},  this.addGroupe(this.refs['nom'].value, this.refs['nomNl'].value, this.state.selected))}><i class="fa fa-plus-square fa-2x" aria-hidden="true"></i></a>
+                      {/* {                    
+                      this.state.selectIcon.map((elem, index) => {
+                        return(<i onClick={() => {console.log(elem)}} className={this.state.selectIcon[index].icon} />)                        
+                      })
+                      } */}
+                  </div>  
                   <ul className="path" style={{borderRadius: 7, backgroundColor: '#f3f3f3' }}>
-                    <li className="pathItem" onClick={() => this.setState({selected: 0, path: []})}><a href='#'><i className="fa fa-home fa-2x" aria-hidden="true"></i></a></li> 
+                    <li className="pathItem" onClick={() => {console.log(111);this.setState({selected: 0,updateFiche: false, path: [], nomFiche: []},  () => console.log(222))}}><a href='#'><i className="fa fa-home fa-2x" aria-hidden="true"></i></a></li> 
                     {
-                      this.state.path.map((elem, index) => (
-                        <li className="pathItem" onClick={() => this.refreshPath(index, elem.id)}> <a href='#'>{elem.nom}</a>  </li>                          
-                      ))
+                      this.state.path.map((elem, index) => {
+                        
+                        return(<li className="pathItem" onClick={() => {this.refreshPath(index, elem.id); console.log("test")}}> <a href='#'>{elem.nom}</a></li>)
+                      })
                     }
                   </ul>
                   <ul className="list-group list-champs">
-                  <div style={{display : this.state.moveOn !== "" ? "initial" : "none"}}><a onClick={() => this.state.moveOn !== "" ? this.moveGroupe(this.state.moveOn, 0) : this.moveGroupe(this.state.moveOn, 0) } href='#'><i style={{color: "#2bb800"}} className="fa fa-home fa-2x" aria-hidden="true"></i></a></div> 
-                    {
-                      this.state.dataGroupeIndex.map((elem, index) => (                        
-                        <li  className={`list-group-item ${elem.id_categorie !== this.state.selected && "hidden" }`} >  
-                          <input ref={`nom${index}`} className={this.state.updateOn === elem.id && "active" } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nom}/>
-                          <input ref={`nomNl${index}`} className={this.state.updateOn === elem.id && "active" } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nomNl}/>
-                          <div>
-                            <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.updateGroupe(elem.id, index) } > <i className={`fa fa-magic fa-2x `} aria-hidden="true"></i>   </a>
-                            <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => this.state.moveOn !== elem.id ? this.moveGroupe(this.state.moveOn, elem.id) : this.moveGroupe(this.state.moveOn, elem.id) }> <i className="fa fa-folder fa-2x" aria-hidden="true" />  </a> 
-                            <a className={this.state.delOn === elem.id ? "green" : "white"} onClick={() => this.state.delOn !== elem.id ?  this.setState({delOn: elem.id}) : this.setState({delOn: ""})}><i className={`fa fa-trash fa-2x`} aria-hidden="true" /></a>
-                            <a className="white" onClick={() => this.setState((prevState => ({path: [...prevState.path, elem], selected: elem.id}))) } > <i className={`fa fa-arrow-down fa-2x`} aria-hidden="true" />   </a>
-                            <input type="checkbox" onChange={(e) => this.checked({id: elem.id, checked: e.target.checked}) } />
-                          </div>
-                          <div style={{display: this.state.delOn === elem.id ? "initial" :  "none"}}>
-                            <p>Êtes vous sur?</p>
-                            <button onClick={() => this.delGroupe(elem.id, index) } className="btn btn-success">Oui</button>
-                            <button onClick={() => this.setState({delOn: ""})} className="btn btn-danger">Non</button>
-                          </div>
-                        </li>
-                      ))
-                    }
-                  </ul>    
+                  <div style={{display : this.state.moveOn !== "" ? "initial" : "none"}}><a onClick={() => this.state.moveOn !== "" ? this.moveGroupe(this.state.moveOn, 0) : this.moveGroupe(this.state.moveOn, 0) } href='#'><i style={{color: "#2bb800"}} className="fa fa-home fa-2x" aria-hidden="true"></i></a></div>     
+                        <div>  
+                          {
+                          this.state.nomFiche.length === 0 ?
+                          this.state.dataGroupeIndex.map((elem, index) => {
+                            return (
+                              <>
+                              <li className={`list-group-item ${elem.id_categorie !== this.state.selected && "hidden" }`} >  
+                                <i className={`${elem.icon} fa-2x`} style={{color: "#f3ca12"}} ></i>
+                                <input ref={`nom${index}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nom}/>
+                                <input ref={`nomNl${index}`} className={this.state.updateOn === elem.id ? "active" : undefined } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nomNl}/>
+                                <div>
+                                  <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}, this.selectIcon()) : this.updateGroupe(elem.id, index) } > <i className={`fa fa-magic fa-2x `} aria-hidden="true"></i>   </a>
+                                  <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => this.state.moveOn !== elem.id ? this.moveGroupe(this.state.moveOn, elem.id) : this.moveGroupe(this.state.moveOn, elem.id) }> <i className="fa fa-folder fa-2x" aria-hidden="true" />  </a> 
+                                  <a className={this.state.delOn === elem.id ? "green" : "white"} onClick={() => this.state.delOn !== elem.id ?  this.setState({delOn: elem.id}) : this.setState({delOn: ""})}><i className={`fa fa-trash fa-2x`} aria-hidden="true" /></a>
+                                  <a className="white" onClick={() => this.setState((prevState => ({path: [...prevState.path, elem], selected: elem.id})), () => this.openGroupe()) } > <i className={`fa fa-arrow-down fa-2x`} aria-hidden="true" />   </a>
+                                  <input type="checkbox" onChange={(e) => this.checked({id: elem.id, checked: e.target.checked}) } />
+                                </div>
+                              </li>
+                              <div style={{display: this.state.delOn === elem.id ? "initial" :  "none"}}>
+                                <p>Êtes vous sur?</p>
+                                <button onClick={() => this.delGroupe(elem.id, index) } className="btn btn-success">Oui</button>
+                                <button onClick={() => this.setState({delOn: ""})} className="btn btn-danger">Non</button>
+                              </div>
+                              <div style={{display: this.state.updateOn === elem.id ? "initial" :  "none"}}>
+                                <i className={`${elem.icon} fa-2x`} style={{color: "#f3ca12"}} ></i>
+                              </div>
+                              </>
+                              ) } )
+                          : this.state.detailFiche.length === 0 ?
+                          this.state.nomFiche.map((elem, index) => {
+                            return(
+                              <li className="list-group-item" >  
+                                <p style={{textAlign: 'left', width:300}}>{elem.Nom}</p>
+                                <p style={{textAlign: 'left', width:100}}>{elem['Code postal']}</p>
+                                <div>
+                                  <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } > <i className={`fa fa-magic fa-2x `} aria-hidden="true"></i>   </a>
+                                  <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => console.log("move fiche") }> <i className="fa fa-folder fa-2x" aria-hidden="true" />  </a> 
+                                  <a className={this.state.delOn === elem.id ? "green" : "white"} onClick={() => console.log("delete fiche")}><i className={`fa fa-trash fa-2x`} aria-hidden="true" /></a>
+                                  <a className="white" onClick={() => this.ficheDetail(elem.id) } > <i className={`fa fa-arrow-down fa-2x`} aria-hidden="true" />   </a>
+                                  <input type="checkbox" onChange={() =>  console.log("check fiche")} />
+                                </div>
+                              </li>
+                            )
+                          }) 
+                          : 
+                          this.state.updateFiche === false ?
+                            this.state.champs.map((elem, index) => {
+                              return this.state.detailFiche[this.state.champs[index].nom] !== '' &&
+                              <DetailFiche data={this.state.detailFiche} champs={this.state.champs[index].nom} />
+                            })
+                          :                          
+                            this.state.champs.map((elem, index) => {
+                              return (                           
+                              <UpdateFiche idFiche={this.state.idFiche} update={this.state.updateFiche} data={this.state.detailFiche} champs={this.state.champs[index].nom} />
+                              )
+                            })
+                          } 
+                        </div>       
+                      </ul>    
+                    </div>
                   </div>
                 </div>
-              </div>
-            <Footer />
-          </div>
+              <Footer />
+            </div>
           
             
         )    
@@ -278,16 +455,3 @@ class PanelGroupes extends Component  {
 }
 
 export default PanelGroupes
-
-
-
-{/* <div className={this.state.moveOn === elem.id ? "moveOn" :"moveOff" }>
-                            <select onChange={(e) => this.setState({moveId: e.target.options[e.target.selectedIndex].value})}>
-                              {
-                                this.state.dataGroupeIndex.map((eleme, index) => (
-                                  <option>{eleme.id}</option>
-                                  ))
-                              }
-                            </select>
-                            <button  onClick={() => this.setState({moveOn: ""}) }  className="btn btn-danger">Annuler</button>
-                          </div> */}
