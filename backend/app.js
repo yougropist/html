@@ -250,6 +250,15 @@ app.get('/groupes', (req,res) => {
     }) 
 })
 
+app.get('/post/get', (req,res) => {
+    connexion.query(`SELECT * FROM post`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            res.json(response)
+        }
+    }) 
+})
+
 app.post('/post/insert', (req,res) => {
     console.log(66)
     connexion.query(`INSERT INTO post (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
@@ -279,6 +288,91 @@ app.post('/post/add', (req,res) => {
         }
     }) 
 })
+
+app.post('/groupe/update', (req,res) => {
+    console.log(66)
+    connexion.query(`INSERT INTO page_groupe (id_page, id_groupe) VALUES ('${req.body.id}', '${req.body.groupe}')`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
+                if(err) console.log(err)
+                else {
+                    console.log(resp, 7)
+                    const array = []
+                    for(let i = 0; i < resp.length; i++){
+                        connexion.query(`SELECT * FROM groupe WHERE id='${resp[i].id_groupe}'`, (err, result) => {
+                            if(err) console.log(err)
+                            else {
+                                console.log(result, 8)
+                                array.push(result[0])
+                                if(i===resp.length-1)res.json(array)
+                                }    
+                        }) 
+                    }
+                }
+            }) 
+        }
+    }) 
+})
+
+app.delete('/groupe/delete', (req,res) => {
+    console.log(66)
+    connexion.query(`DELETE FROM page_groupe WHERE id_page='${req.body.id}' AND id_groupe='${req.body.groupe}'`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
+                if(err) console.log(err)
+                else {
+                    console.log(resp, 7)
+                    const array = []
+                    for(let i = 0; i < resp.length; i++){
+                        connexion.query(`SELECT * FROM groupe WHERE id='${resp[i].id_groupe}'`, (err, result) => {
+                            if(err) console.log(err)
+                            else {
+                                console.log(result, 8)
+                                array.push(result[0])
+                                if(i===resp.length-1) res.json(array)
+                                }    
+                        }) 
+                    }
+                    if(resp.length === 0) res.json([])
+                }
+            }) 
+        }
+    }) 
+})
+
+app.put('/image/update', (req,res) => {
+    connexion.query(`UPDATE post SET image="${req.body.image}" WHERE id=${req.body.post}`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            connexion.query(`SELECT * FROM post WHERE id_pages=${req.body.page}`, (err, result) => {
+                if(err) console.log(err)
+                else {
+                    res.json(result)
+                }
+            }) 
+        }
+    }) 
+})
+
+app.put('/input/update', (req,res) => {
+    const array=['titre','titreNL','url', 'image','descriptio','descriptioNL']
+    connexion.query(`UPDATE post SET ${array[req.body.i]}="${req.body.content}" WHERE id=${req.body.post}`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            
+            connexion.query(`SELECT * FROM post WHERE id_pages=${req.body.page}`, (err, result) => {
+                if(err) console.log(err)
+                else {
+                    
+                    res.json(result)
+                }
+            }) 
+        }
+    }) 
+})
+
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
