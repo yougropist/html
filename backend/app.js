@@ -412,12 +412,34 @@ app.post('/groupe/update', (req,res) => {
                             else {
                                 console.log(result, 8)
                                 array.push(result[0])
-                                if(i===resp.length-1)res.json(array)
-                                }    
+                                if(i===resp.length-1) res.json(array)
+                                }
                         }) 
                     }
                 }
             }) 
+        }
+    }) 
+})
+
+app.post('/groupe/page', (req, res) => {
+    console.log('yes', req.body.id)
+    connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
+        if(err) console.log(err)
+        else {
+            console.log(resp, 7)
+            const array = []
+            for(let i = 0; i < resp.length; i++){
+                connexion.query(`SELECT * FROM groupe WHERE id='${resp[i].id_groupe}'`, (err, result) => {
+                    if(err) console.log(err)
+                    else {
+                        console.log(result, 8)
+                        array.push(result[0])
+                        if(i===resp.length-1) res.json(array)
+                        }
+                }) 
+            }
+            if(resp.length === 0) res.json([])
         }
     }) 
 })
@@ -449,11 +471,25 @@ app.delete('/groupe/delete', (req,res) => {
     }) 
 })
 
+app.delete('/post/delete', (req, res) => {
+    connexion.query(`DELETE FROM post WHERE id='${req.body.idPost}'`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            connexion.query(`SELECT * FROM post`, (err, result) => {
+                if(err) console.log(err)
+                else {
+                    res.json(result)
+                }
+            }) 
+        }
+    })
+})
+
 app.put('/image/update', (req,res) => {
     connexion.query(`UPDATE post SET image="${req.body.image}" WHERE id=${req.body.post}`, (err, response) => {
         if(err) console.log(err)
         else {
-            connexion.query(`SELECT * FROM post WHERE id_pages=${req.body.page}`, (err, result) => {
+            connexion.query(`SELECT * FROM post`, (err, result) => {
                 if(err) console.log(err)
                 else {
                     res.json(result)
@@ -469,7 +505,7 @@ app.put('/input/update', (req,res) => {
         if(err) console.log(err)
         else {
             
-            connexion.query(`SELECT * FROM post WHERE id_pages=${req.body.page}`, (err, result) => {
+            connexion.query(`SELECT * FROM post`, (err, result) => {
                 if(err) console.log(err)
                 else {
                     

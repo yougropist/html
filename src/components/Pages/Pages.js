@@ -3,12 +3,6 @@ import Footer from '../Footer/Footer';
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import "./index.scss"
-import e from 'cors';
-import ReactHtmlParser from 'react-html-parser';
-// import CKEditor from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-
 
 class Pages extends Component  {
     constructor(props){
@@ -16,11 +10,11 @@ class Pages extends Component  {
         this.state = {
             pages: [],
             post: [],
-            groupes:[],
+            groupes: [],
             groupesPost: [],
             groupePage: [],
-            update:{index:'',i:''},
-            groupeSelected: {id:'',nom:''},
+            update: {index: '', i: ''},
+            groupeSelected: {id: '',nom: '', icon: ''},
             pageSelected: '',
             switch: false,
             newPost: {
@@ -32,16 +26,13 @@ class Pages extends Component  {
                 descriptionNl: '',
                 
             }
-          
-            
         } 
-    
     }
+
     componentDidMount(){
         fetch('/pages')
         .then((res) => {
             if (res.status === 200) {
-              // console.log('correct: ',res.status)
               return res.json()
             } 
             else {
@@ -52,9 +43,12 @@ class Pages extends Component  {
           .then(data => {
             console.log('data :', data, 199999999999999999) 
           
-            this.setState({pages: data}) 
-            this.setState({pageSelected: this.refs.pageSelect.options[this.refs.pageSelect.selectedIndex].id})
+            this.setState({
+              pages: data,
+              pageSelected: data[0].id
+            }) 
 
+            this.getGroupesByPage(data[0].id)
           })
 
           fetch('/groupes')
@@ -89,6 +83,33 @@ class Pages extends Component  {
             this.setState({post: data}) 
           })
     }
+
+    getGroupesByPage(id) {
+      console.log('yes')
+      fetch('/groupe/page', {
+        method: 'POST',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({
+          id: id,
+        }),
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json()
+        } 
+        else {
+          console.log('error: ',res.status)
+          return null
+        }
+      })
+      .then(data => {
+        console.log('groupePage :', data) 
+      
+        this.setState({groupePage: data}) 
+      })
+    }
     
     addPost(){
       fetch('/post/add', {
@@ -101,21 +122,20 @@ class Pages extends Component  {
           newPost:this.state.newPost
         }),
       })
-          .then((res) => {
-            if (res.status === 200) {
-              // console.log('correct: ',res.status)
-              return res.json()
-            } 
-            else {
-              console.log('error: ',res.status)
-              return null
-            }
-          })
-          .then(data => {
-            console.log('data :', data) 
-          
-            this.setState({post: data}) 
-          })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json()
+        } 
+        else {
+          console.log('error: ',res.status)
+          return null
+        }
+      })
+      .then(data => {
+        console.log('data :', data) 
+      
+        this.setState({post: data}) 
+      })
     }
 
     updateGroupe(){
@@ -141,7 +161,6 @@ class Pages extends Component  {
           })
           .then(data => {
             console.log('data :', data) 
-            console.log(data, 123)
           this.setState({groupePage:data})
             
           })
@@ -162,7 +181,6 @@ class Pages extends Component  {
           })
               .then((res) => {
                 if (res.status === 200) {
-                  // console.log('correct: ',res.status)
                   return res.json()
                 } 
                 else {
@@ -180,7 +198,6 @@ class Pages extends Component  {
     }
 
     getPost(id){
-        console.log(8)
         fetch('/post', {
             method: 'POST',
             headers: new Headers({
@@ -209,11 +226,9 @@ class Pages extends Component  {
     }
 
     showPreview(e) {
-        console.log(e.target.files[0])
         if(e.target.files[0]) {
           const reader = new FileReader()
           reader.onload = () => {
-              console.log(reader.result)
             this.setState(prevState => ({newPost: {...prevState.newPost, image: reader.result}}))
           }
           reader.readAsDataURL(e.target.files[0])
@@ -225,11 +240,9 @@ class Pages extends Component  {
       }
 
       updateImage(id,e){
-        console.log(e.target.files[0])
         if(e.target.files[0]) {
           const reader = new FileReader()
           reader.onload = () => {
-              console.log(reader.result)
               fetch('/image/update', {
                 method: 'PUT',
                 headers: new Headers({
@@ -243,7 +256,6 @@ class Pages extends Component  {
               })
                   .then((res) => {
                     if (res.status === 200) {
-                      // console.log('correct: ',res.status)
                       return res.json()
                     } 
                     else {
@@ -263,7 +275,7 @@ class Pages extends Component  {
       }
       
       updateInput(id,index,i){
-        console.log(this.refs.pageSelect.options[this.refs.pageSelect.selectedIndex].id,id,this.refs[`input${index}-${i}`].value,i,5666)
+        console.log(this.refs.pageSelect.options[this.refs.pageSelect.selectedIndex].id, id, this.refs[`input${index}-${i}`].value, i, 5666)
         fetch('/input/update', {
           method: 'PUT',
           headers: new Headers({
@@ -278,7 +290,6 @@ class Pages extends Component  {
         })
             .then((res) => {
               if (res.status === 200) {
-                // console.log('correct: ',res.status)
                 return res.json()
               } 
               else {
@@ -318,18 +329,46 @@ class Pages extends Component  {
             .then(data => {
               console.log('delete :', data) 
             
-              this.setState({groupePage:data})            })
+              this.setState({groupePage:data})
+            })
+      }
+
+      deletePost(idPost) {
+        fetch('/post/delete', {
+          method: 'DELETE',
+          headers: new Headers({
+              'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify({
+            idPost: idPost
+          }),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {
+          console.log('delete :', data) 
+        
+          this.setState({post:data})
+        })
       }
 
     render() {
-        console.log(this.state, 999,this.state.update.index===0&&this.state.update.i===0 )
+        console.log(this.state.pageSelected, 999)
         const postElem = [
           {type: 'input', title: 'Titre en français :', content: 'titre'}, 
           {type: 'input', title: 'Titre en néerlandais :', content: 'titreNL'}, 
           {type: 'input', title: 'URL :', content: 'url'}, 
           {type: 'image', title: 'Image :'}, 
-          {type: 'textarea', title: 'Description en français', content: 'descriptio'}, 
-          {type: 'textarea', title: 'Description en néerlandais', content: 'descriptioNL'}
+          {type: 'textarea', title: 'Description en français :', content: 'descriptio'}, 
+          {type: 'textarea', title: 'Description en néerlandais :', content: 'descriptioNL'}
         ]
         return(
     <>
@@ -339,16 +378,17 @@ class Pages extends Component  {
                 <div id='page-inner'>
                     
                 <div className='container-ajout create-page'>
-                  <div>
+                <span className='banner'>Création de page</span>
+                  <div className="creation-inputs">
                   <input placeholder='Nom FR' type='text' ref='fr' />
                         <input placeholder='Nom NL' type='text' ref='nl' />
                              
-                             <select onChange= {(e) => this.setState({groupeSelected: {id: e.target.options[e.target.selectedIndex].id,nom: e.target.options[e.target.selectedIndex].value}})}>
+                             <select onChange= {(e) => this.setState({groupeSelected: {id: e.target.options[e.target.selectedIndex].id, nom: e.target.options[e.target.selectedIndex].value, icon: this.state.groupes.filter(elem => elem.id == e.target.options[e.target.selectedIndex].id)[0].icon}})}>
                       
                         {this.state.groupes.map((elem,index) => (
                     <option id={elem.id}>
                         {elem.nom}
-                       
+                       {/* {console.log(elem, 'groupe')} */}
                             
                         </option>
                 ))}
@@ -361,7 +401,11 @@ class Pages extends Component  {
                         <ul>
                         {this.state.groupesPost.map((elem,index) => (
                     <li>
-                        {elem.nom}
+                      {console.log(this.state.groupesPost, this.state.groupeSelected, 'here')}
+                        <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                          <i className={`${elem.icon} fa-2x`}></i>
+                          <p>{elem.nom}</p>
+                      </div>
                        
                             
                         </li>
@@ -373,7 +417,11 @@ class Pages extends Component  {
                         <div ref='info' className='info'>
                             Les données ont bien été ajoutées
                         </div>
-                        <select ref='pageSelect' onChange= {(e) => this.setState({pageSelected: e.target.options[e.target.selectedIndex].id})}>
+
+                        <div className="container-ajout create-page">
+                        <span className='banner'>Gestion de page</span>
+                        <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                        <select ref='pageSelect' onChange= {(e) => this.setState({pageSelected: e.target.options[e.target.selectedIndex].id}, () => this.getGroupesByPage(this.state.pageSelected))}>
                             
                         {this.state.pages.map((elem,index) => (
                     <option id={elem.id}>
@@ -383,44 +431,40 @@ class Pages extends Component  {
                         </option>
                 ))}
                         </select>
-                        <button onClick={()=>this.setState({switch:!this.state.switch})}>Ajouter un post</button>
+                        <button onClick={()=>this.setState({switch:!this.state.switch})}>{this.state.switch ? 'Retourner sur la page' : 'Ajouter un post'}</button>
+                        </div>
+                        </div>
                 
                 {this.state.switch?
-                <form>
-                  {/* <CKEditor
-                    editor={ ClassicEditor }
-                    data="<p>Hello from CKEditor 5!</p>"
-
-                    onChange={ ( event, editor ) => {
-                        const data = editor.getData();
-                        this.setState(prevState => ({newPost: {...prevState.newPost, titre: data}}))}
-                        
-                    } 
-                   
-                /> */}
+                <form className="newPost">
                     <input onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, titre: e.target.value}}))}} placeholder='Titre FR' type='text'/>
                     <input onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, titreNl: e.target.value}}))}} placeholder='Titre NL' type='text'/>
                     <input  onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, url: e.target.value}}))}} placeholder='URL (optionnel)' type='text'/>
-                    <input onChange={(e) => this.showPreview(e)} type='file'/>
+                    <input style={{display: 'none'}} id="postImage" onChange={(e) => this.showPreview(e)} type='file' accept="image/*"/>
+                    <div><label htmlFor="postImage">Ajouter une image</label></div>
                     <img src={this.state.newPost.image}/>
                     <textarea onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, description: e.target.value}}))}} placeholder='Description FR'></textarea>
                     <textarea onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, descriptionNl: e.target.value}}))}} placeholder='Description NL'></textarea>
                     
-                         <button onClick={()=>this.addPost()}>Confirmer</button>
+                         <div><button onClick={()=>this.addPost()}>Confirmer</button></div>
                 </form>
                 
                 :
                 <div className='container-ajout create-page'>
                   <span className='banner'>Groupes liés à la page</span>
-                {this.state.groupePage.length===0?
+                {this.state.groupePage.length ===0 ?
                 <span>Aucun groupe n'est lié à la page</span>
                 :
                 <ul>
                 {this.state.groupePage.map((elem,index) => (
                 <li>
-                  <p>{elem.nom}</p>
-                  <span onClick={()=>this.deleteGroupe(elem.id)}>X</span>
-                
+                  <div style={{flexDirection: 'column', alignItems: 'center'}}>
+                    <i className={`${elem.icon} fa-2x`}></i>
+                    <p>{elem.nom}</p>
+                  </div>
+                  <button className="deleteGroupe" onClick={()=>this.deleteGroupe(elem.id)}>
+                    <i className="fa fa-trash fa-1x"></i>
+                  </button>
                
                     
                 </li>
@@ -444,13 +488,14 @@ class Pages extends Component  {
                  </div>
 
                   <span className='banner'>Posts liés à la page</span>
-                {this.state.post.length===0?
+                {this.state.post.filter(elem => elem.id_pages == this.state.pageSelected).length === 0 ?
                 <span>Aucun post n'est lié à la page</span>
                 :
                 <ul className='listPost'>
                 {this.state.post.map((elem,index) => (
                   
                     <li style={{display: elem.id_pages != this.state.pageSelected ? 'none' : 'initial'}}>
+                      <div className="controlPost"><button onClick={() => this.deletePost(elem.id)}><i className="fa fa-trash fa-2x"></i></button></div>
                       <ul>
                         {postElem.map((el,i)=>{
                           switch(true) {
@@ -458,8 +503,9 @@ class Pages extends Component  {
                               return <li><p>{el.title}</p><div><input  ref={`input${index}-${i}`} defaultValue={elem[el.content]} disabled={this.state.update.index===index&&this.state.update.i===i ?  false:true} type='text' /><button className={this.state.update.index===index&&this.state.update.i===i ? 'valide':''} onClick={(e)=> {this.setState({update: index===this.state.update.index&&i===this.state.update.i?{index:'',i:''}:{index:index,i:i}}); index===this.state.update.index&&i===this.state.update.i&& this.updateInput(elem.id,index,i)}}>{this.state.update.index===index&&this.state.update.i===i ? 'Valider':'Modifier'}</button></div></li>
                               break;
                             case el.type === 'image':
-                            return <li><p>{el.title}</p><div><img src={elem.image} /><label htmlFor='image'>Modifier</label><input onChange={(e)=>this.updateImage(elem.id,e)} id='image' type='file' style={{display:'none'}}/></div></li>
-                              break;      
+                            return <li><p>{el.title}</p><div><img src={elem.image} /><label htmlFor={`image${index}-${i}`}>Modifier</label><input onChange={(e)=> this.updateImage(elem.id,e)} id={`image${index}-${i}`} type='file' accept="image/*" style={{display:'none'}}/></div></li>
+                              break;     
+                            case el.type === 'textarea': 
                             return <li><p>{el.title}</p><div><textarea ref={`input${index}-${i}`} defaultValue={elem[el.content]} disabled={this.state.update.index===index&&this.state.update.i===i ?  false:true}></textarea><button className={this.state.update.index===index&&this.state.update.i===i ? 'valide':''} onClick={()=> {this.setState({update: index===this.state.update.index&&i===this.state.update.i?{index:'',i:''}:{index:index,i:i}}); index===this.state.update.index&&i===this.state.update.i&& this.updateInput(elem.id,index,i)}}>{this.state.update.index===index&&this.state.update.i===i ? 'Valider':'Modifier'}</button></div></li>
                               break;
                           }
