@@ -7,6 +7,7 @@ import Postes from './components/Postes/Postes';
 import Fiches from './components/Fiches/Fiches';
 import Profil from './components/Profil/Profil';
 import Admin from './components/Admin/Admin';
+import Page from './components/Page/Page';
 import './assets/css/bootstrap.css';
 import './assets/css/custom.css';
 import './assets/css/font-awesome.css';
@@ -21,7 +22,6 @@ class App extends Component {
     
     return (
       <div className="App">
-        {/* {console.log(888)} */}
         <BrowserRouter>
           <Switch>
             <Route path="/" component={Home} exact></Route>
@@ -33,6 +33,7 @@ class App extends Component {
             <Route path="/fiches" component={Fiches}></Route>
             <Route path="/pages" component={Pages}></Route>
             <Route path="/sous-groupe/:groupe" component={Home}></Route>
+            <Route path="/page/:page" component={Page}></Route>
           </Switch>
         </BrowserRouter>
       </div>

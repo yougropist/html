@@ -1,32 +1,67 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import {withRouter} from 'react-router'
 
-function Navigation() {
-    return(
-        <nav className="navbar-default navbar-side" role="navigation" >
-            <div className="sidebar-collapse">
-                <ul className="nav" id="main-menu">
-                    <li className="active-link">
-                        <Link to="/"><i className="fa fa-desktop"></i> Accueil</Link> 
-                    </li>
-                    <li>
-                        <Link to="/profil"><i className="fa fa-user"></i> Profil</Link>
-                    </li>
-                    <li>
-                        <Link to="/champs"><i className="fa fa-bars"></i> Gestions des champs</Link> 
-                    </li>
-                    <li>
-                        <Link to="/panelGroupes"><i className="fa fa-object-group"></i> Gestions des groupes</Link>
-                    </li>
-                    <li>
-                        <Link to="/pages"><i className="fa fa-link"></i> Gestions des pages</Link>
-                    </li>
-                    
-                                   
-                </ul>
-            </div>
-        </nav> 
-    ) 
+class Navigation extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            pages: []
+        }
+    }
+
+    componentDidMount() {
+        fetch('/pages')
+          .then((res) => {
+            if (res.status === 200) {
+              return res.json()
+            } 
+            else {
+              console.log('error: ', res.status)
+              return null
+            }
+          })
+          .then(data => {          
+            this.setState({pages: data}) 
+          })
+    }
+
+    render() {
+
+        const adminNav = [
+            {text: 'Profil', link: '/profil', icon: 'fa fa-user'},
+            {text: 'Gestions des champs', link: '/champs', icon: 'fa fa-bars'},
+            {text: 'Gestions des groupes', link: '/panelGroupes', icon: 'fa fa-object-group'},
+            {text: 'Gestions des pages', link: '/pages', icon: 'fa fa-link'}
+        ]
+
+        return(
+            <nav className="navbar-default navbar-side" role="navigation" >
+                <div className="sidebar-collapse">
+                    <ul className="nav" id="main-menu" style={{backgroundColor: 'rgb(15, 15, 70)'}}>
+                        {adminNav.map(elem => (
+                            <li style={{backgroundColor: window.location.pathname == elem.link && 'rgb(50, 50, 130)'}}>
+                                <Link style={{color: 'rgb(150, 150, 245)'}} to={elem.link}><i className={elem.icon}></i> {elem.text}</Link>
+                            </li>
+                        ))}
+                    </ul>
+    
+                    <ul className="nav" style={{paddingTop: '0'}}>
+                        <li className={window.location.pathname == '/' && 'active-link'}>
+                            <Link to="/"><i className="fa fa-desktop"></i> Accueil</Link> 
+                        </li>
+                        {
+                            this.state.pages.map(elem => (
+                                <li className={this.props.match.params.page == elem.id && 'active-link'}>
+                                    <Link to={`/page/${elem.id}`}>{elem.nom}</Link>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+            </nav> 
+        ) 
+    }
 }
 
-export default Navigation
+export default withRouter(Navigation)
