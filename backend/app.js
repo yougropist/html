@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 8000
+const port = 8000;
 const cors = require('cors')
 const connexion = require('./conf.js');
+require('dotenv').config();
+const sendgrid = require('@sendgrid/mail');
 let session = false
 
 app.use(cors({
@@ -13,6 +15,22 @@ app.use(cors({
 app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+
+app.post('/contact', (req,res) => {
+    try {
+        sendgrid.send({
+            to: process.env.EMAIL,
+            from: req.body.email,
+            subject: req.body.subject,
+            html: `<p>${req.body.message}</p><p>${req.body.firstName} ${req.body.lastName}</p>`,
+        }, () => res.json('success'));
+    }
+    catch (error) {
+        console.log("mailMember error:", error)
+        res.json('error')
+    }
+})
 
 app.post('/intro', (req,res) => {
     console.log(req.body," SERVEUR SELECT GROUPE")

@@ -8,6 +8,7 @@ import Fiches from './components/Fiches/Fiches';
 import Profil from './components/Profil/Profil';
 import Admin from './components/Admin/Admin';
 import Page from './components/Page/Page';
+import MailBox from './components/MailBox/MailBox';
 import './assets/css/bootstrap.css';
 import './assets/css/custom.css';
 import './assets/css/font-awesome.css';
@@ -36,6 +37,7 @@ class App extends Component {
             <Route path="/page/:page" component={Page}></Route>
           </Switch>
         </BrowserRouter>
+        <MailBox />
       </div>
     );
   }
