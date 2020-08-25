@@ -66,7 +66,7 @@ app.get('/selectIcon', (req,res) => {
 
 app.post('/addGroupe', (req,res) => {
     console.log(req.body,'SERVER INSERT GROUPE')
-    connexion.query(`INSERT INTO groupe (nom , nomNl , id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '0')`, (err, response) => {
+    connexion.query(`INSERT INTO groupe (nom , nomNl, icon, id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '0')`, (err, response) => {
         if(err) res.json("error")
         else {
             connexion.query(`SELECT * FROM groupe` , (err, response1) => {
@@ -81,7 +81,7 @@ app.post('/addGroupe', (req,res) => {
 
 app.post('/addSousGroupe', (req,res) => {
     console.log(req.body,'SERVER INSERT SOUS GROUPE')
-    connexion.query(`INSERT INTO groupe (nom , nomNl , id_categorie , zIndex) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.id}', '1')`, (err, response) => {
+    connexion.query(`INSERT INTO groupe (nom , nomNl , icon, id_categorie , zIndex) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '${req.body.id}', '1')`, (err, response) => {
         if(err) res.json("error")
         else {
             connexion.query(`SELECT * FROM groupe` , (err, response1) => {

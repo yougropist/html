@@ -12,7 +12,96 @@ class PanelGroupes extends Component  {
     constructor(props){
         super(props);
         this.state = {
-          dataGroupeIndex: [],
+          dataGroupeIndex: [
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0},
+            {id: 1, nom: "zeb", nomNl: "zebNl", icon: "fas fa-bed", zIndex: 0, id_categorie: 0}
+          ],
           sousGroupe:[],
           checked: [],
           value: "",
@@ -28,6 +117,23 @@ class PanelGroupes extends Component  {
           champs: [],
           updateFiche: false,
           addGroupe: false,
+          newIcon: "",
+          addFiche: '',
+          listIcon: [
+            'fas fa-bed',
+            'fas fa-band-aid',
+            'fas fa-align-justify',
+            'fas fa-building',
+            'fas fa-box',
+            'fas fa-address-book',
+            'fas fa-child',
+            'fas fa-ambulance',
+            'fas fa-american-sign-language-interpreting',
+            'fas fa-adjust',
+            'fas fa-address-card',
+            'fab fa-android',
+
+          ]
         }
       }
 
@@ -75,8 +181,8 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {
-          this.setState({dataGroupeIndex: data})
-          // console.log('data :', data)    
+          // this.setState({dataGroupeIndex: data})
+          console.log(569856985)    
         })
       }
 
@@ -139,8 +245,8 @@ class PanelGroupes extends Component  {
         })
       }
 
-      addGroupe(nom, nomNl, id) {
-        console.log("REACT SELECT SOUS GROUPE: ", nom, nomNl, id)
+      addGroupe(nom, nomNl, icon ,id) {
+        console.log("REACT SELECT SOUS GROUPE: ", nom, nomNl, icon,id)
         if(id === 0) {
           fetch('/addGroupe', {
             method: 'POST',
@@ -149,7 +255,8 @@ class PanelGroupes extends Component  {
             }),
             body: JSON.stringify({
                 nom: nom,
-                nomNl: nomNl
+                nomNl: nomNl,
+                icon: icon
             }),
           })
           .then((res) => {
@@ -163,8 +270,8 @@ class PanelGroupes extends Component  {
             }
           })
           .then(data => {
-            // console.log('data add groupe: ', data)
-            this.setState({dataGroupeIndex: data})
+            console.log('data add groupe: ', data)
+            this.setState({dataGroupeIndex: data, newIcon: ''})
           })
         } else {
           fetch('/addSousGroupe', {
@@ -175,6 +282,7 @@ class PanelGroupes extends Component  {
             body: JSON.stringify({
                 nom: nom,
                 nomNl: nomNl,
+                icon: icon,
                 id: id
             }),
           })
@@ -235,25 +343,7 @@ class PanelGroupes extends Component  {
         }        
       }
 
-      selectIcon(){
-        console.log()
-        fetch('/selectIcon')
-        .then((res) => {
-          if (res.status === 200) {
-            // console.log('correct: ',res.status)
-            return res.json()
-          } 
-          else {
-            console.log('error: ',res.status)
-            return null
-          }
-        })
-        .then(data => {         
-            console.log('data :', data) 
-            this.setState({selectIcon: data})
-            // console.log(this.state.selectIcon[0].icon,this.state.selectIcon.length, 66666)
-        })
-      }
+      
 
       openGroupe(){        
         fetch('/verifyChild', {
@@ -276,7 +366,7 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {         
-            // console.log('data :', data) 
+            console.log('data :', data) 
             this.setState({nomFiche: data})
         })
       }
@@ -348,7 +438,7 @@ class PanelGroupes extends Component  {
     }
 
     render(){
-      console.log(this.state.selectIcon, 888888888)
+      console.log(this.state.dataGroupeIndex, 9898)
         return(          
           <div>            
             <Navbar />
@@ -358,26 +448,28 @@ class PanelGroupes extends Component  {
                   <div className="row text-center">
                   <h2>PANEL DE GESTION DES GROUPES</h2>
                   <div style={{marginBottom: 50}}>
-                      <button className={`btn btn-primary ${this.state.addGroupe === true ? "green" : "white"}`} onClick={() => {this.state.addGroupe === false ? this.setState({addGroupe: true}, this.selectIcon()) : this.setState({addGroupe: false}) }} >Ajouter</button>
+                      <button className={`btn btn-primary ${this.state.addFiche === true ? "green" : "white"}`} disabled={this.state.nomFiche.length === 0 ? true : false}>Ajouter fiche</button>
+                      <button className={`btn btn-primary ${this.state.addGroupe === true ? "green" : "white"}`} disabled={this.state.nomFiche.length !== 0 ? true : false} onClick={() => {this.state.addGroupe === false ? this.setState({addGroupe: true }) : this.setState({addGroupe: false}) }} >Ajouter groupe</button>
                       <button className="btn btn-warning">Déplacer</button>
                       <button className="btn btn-danger">Supprimer</button>
                   </div>  
                   <div style={{display : this.state.addGroupe !== false ? "initial" : "none"}}>
                       <input required ref="nom" type="text" placeholder="Nom" />
                       <input required ref="nomNl" type="text" placeholder="Naam"/>
-                      <a  href="#" onClick={() => this.setState({addGroupe: false},  this.addGroupe(this.refs['nom'].value, this.refs['nomNl'].value, this.state.selected))}><i class="fa fa-plus-square fa-2x" aria-hidden="true"></i></a>
-                      {/* {                    
-                      this.state.selectIcon.map((elem, index) => {
-                        return(<i onClick={() => {console.log(elem)}} className={this.state.selectIcon[index].icon} />)                        
-                      })
-                      } */}
+                      <a  href="#" onClick={() => this.setState({addGroupe: false},  this.addGroupe(this.refs['nom'].value, this.refs['nomNl'].value, this.state.newIcon,this.state.selected))}><i class="fa fa-plus-square fa-2x" aria-hidden="true"></i></a>
+                      <div>
+                      {
+                        this.state.listIcon.map((elem, index) => {
+                          return(<><a style={{color: this.state.newIcon !== elem ? 'yellow' :  'green'  }} onClick={() => {this.setState({newIcon: elem})}} > <i  className={`${this.state.listIcon[index]} fa-2x `} />  </a></> )                        
+                        })
+                      }
+                      </div>                      
                   </div>  
                   <ul className="path" style={{borderRadius: 7, backgroundColor: '#f3f3f3' }}>
                     <li className="pathItem" onClick={() => {console.log(111);this.setState({selected: 0,updateFiche: false, path: [], nomFiche: []},  () => console.log(222))}}><a href='#'><i className="fa fa-home fa-2x" aria-hidden="true"></i></a></li> 
                     {
-                      this.state.path.map((elem, index) => {
-                        
-                        return(<li className="pathItem" onClick={() => {this.refreshPath(index, elem.id); console.log("test")}}> <a href='#'>{elem.nom}</a></li>)
+                      this.state.path.map((elem, index) => {                        
+                        return( <li className="pathItem" onClick={() => {this.refreshPath(index, elem.id); console.log("test")}}> <a href='#'>{elem.nom}</a></li>)
                       })
                     }
                   </ul>
@@ -385,7 +477,7 @@ class PanelGroupes extends Component  {
                   <div style={{display : this.state.moveOn !== "" ? "initial" : "none"}}><a onClick={() => this.state.moveOn !== "" ? this.moveGroupe(this.state.moveOn, 0) : this.moveGroupe(this.state.moveOn, 0) } href='#'><i style={{color: "#2bb800"}} className="fa fa-home fa-2x" aria-hidden="true"></i></a></div>     
                         <div>  
                           {
-                          this.state.nomFiche.length === 0 ?
+                          this.state.nomFiche.length === 0 ? 
                           this.state.dataGroupeIndex.map((elem, index) => {
                             return (
                               <>
@@ -394,7 +486,7 @@ class PanelGroupes extends Component  {
                                 <input ref={`nom${index}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nom}/>
                                 <input ref={`nomNl${index}`} className={this.state.updateOn === elem.id ? "active" : undefined } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nomNl}/>
                                 <div>
-                                  <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}, this.selectIcon()) : this.updateGroupe(elem.id, index) } > <i className={`fa fa-magic fa-2x `} aria-hidden="true"></i>   </a>
+                                  <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.updateGroupe(elem.id, index) } > <i className={`fa fa-magic fa-2x `} aria-hidden="true"></i>   </a>
                                   <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => this.state.moveOn !== elem.id ? this.moveGroupe(this.state.moveOn, elem.id) : this.moveGroupe(this.state.moveOn, elem.id) }> <i className="fa fa-folder fa-2x" aria-hidden="true" />  </a> 
                                   <a className={this.state.delOn === elem.id ? "green" : "white"} onClick={() => this.state.delOn !== elem.id ?  this.setState({delOn: elem.id}) : this.setState({delOn: ""})}><i className={`fa fa-trash fa-2x`} aria-hidden="true" /></a>
                                   <a className="white" onClick={() => this.setState((prevState => ({path: [...prevState.path, elem], selected: elem.id})), () => this.openGroupe()) } > <i className={`fa fa-arrow-down fa-2x`} aria-hidden="true" />   </a>
@@ -407,7 +499,11 @@ class PanelGroupes extends Component  {
                                 <button onClick={() => this.setState({delOn: ""})} className="btn btn-danger">Non</button>
                               </div>
                               <div style={{display: this.state.updateOn === elem.id ? "initial" :  "none"}}>
-                                <i className={`${elem.icon} fa-2x`} style={{color: "#f3ca12"}} ></i>
+                                {
+                                  this.state.listIcon.map((elem, index) => {
+                                    return(<><a style={{color: this.state.newSousIcon !== elem ? 'yellow' :  'green'  }} onClick={() => {this.setState({newIcon: elem})}} > <i  className={`${this.state.listIcon[index]} fa-2x `} />  </a></> )                        
+                                  })
+                                }
                               </div>
                               </>
                               ) } )
