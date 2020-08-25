@@ -337,11 +337,9 @@ app.post('/post', (req,res) => {
     connexion.query(`SELECT * FROM post WHERE id_pages='${req.body.id}'`, (err, response) => {
         if(err) console.log(err)
         else {
-            console.log(1)
             connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, r) => {
                 if(err) console.log(err)
                 else {
-                    console.log(2,r.length)
                     const array = []
                     for(let i=0;i<r.length;i++){
                         
@@ -349,16 +347,12 @@ app.post('/post', (req,res) => {
                         if(err) console.log(err)
                         else {
                             array.push(resp[0])
-                            console.log(3,r[i].id_groupe)
                             if(i === r.length - 1) {
-                                console.log(4)
-                                console.log('a',{posts:response,groupes:array})
                             res.json({posts:response,groupes:array})
                             }
                         }
                     }) 
                 }
-                console.log('b',{posts:response,groupes:[]})
                 if (r.length===0)res.json({posts:response,groupes:[]})
                 }
             }) 
