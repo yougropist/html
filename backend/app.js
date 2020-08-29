@@ -65,7 +65,7 @@ app.get('/selectIcon', (req,res) => {
 
 app.post('/addGroupe', (req,res) => {
     console.log(req.body,'SERVER INSERT GROUPE')
-    connexion.query(`INSERT INTO groupe (nom , nomNl , id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '0')`, (err, response) => {
+    connexion.query(`INSERT INTO groupe (nom , nomNl, icon, id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '0')`, (err, response) => {
         if(err) res.json("error")
         else {
             connexion.query(`SELECT * FROM groupe` , (err, response1) => {
@@ -80,7 +80,7 @@ app.post('/addGroupe', (req,res) => {
 
 app.post('/addSousGroupe', (req,res) => {
     console.log(req.body,'SERVER INSERT SOUS GROUPE')
-    connexion.query(`INSERT INTO groupe (nom , nomNl , id_categorie , zIndex) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.id}', '1')`, (err, response) => {
+    connexion.query(`INSERT INTO groupe (nom , nomNl , icon, id_categorie , zIndex) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '${req.body.id}', '1')`, (err, response) => {
         if(err) res.json("error")
         else {
             connexion.query(`SELECT * FROM groupe` , (err, response1) => {
@@ -336,11 +336,9 @@ app.post('/post', (req,res) => {
     connexion.query(`SELECT * FROM post WHERE id_pages='${req.body.id}'`, (err, response) => {
         if(err) console.log(err)
         else {
-            console.log(1)
             connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, r) => {
                 if(err) console.log(err)
                 else {
-                    console.log(2,r.length)
                     const array = []
                     for(let i=0;i<r.length;i++){
                         
@@ -348,16 +346,12 @@ app.post('/post', (req,res) => {
                         if(err) console.log(err)
                         else {
                             array.push(resp[0])
-                            console.log(3,r[i].id_groupe)
                             if(i === r.length - 1) {
-                                console.log(4)
-                                console.log('a',{posts:response,groupes:array})
                             res.json({posts:response,groupes:array})
                             }
                         }
                     }) 
                 }
-                console.log('b',{posts:response,groupes:[]})
                 if (r.length===0)res.json({posts:response,groupes:[]})
                 }
             }) 
