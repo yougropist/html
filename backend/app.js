@@ -6,10 +6,9 @@ const cors = require('cors')
 const connexion = require('./conf.js');
 require('dotenv').config();
 const sendgrid = require('@sendgrid/mail');
-let session = false
 
 app.use(cors({
-    origin: 'http://localhost:8000'
+    origin: 'http://localhost:3000'
 }))
 
 app.use(bodyParser.json({limit: '10mb'}))
@@ -534,6 +533,23 @@ app.put('/input/update', (req,res) => {
     }) 
 })
 
+app.get('/fiches', (req,res) => {
+    connexion.query(`SELECT id, Nom FROM fiches`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            res.json(response)
+        }
+    }) 
+})
+
+app.post('/idGroupe', (req,res) => {
+    connexion.query(`SELECT idFiche FROM idFiche WHERE id=${req.body.id}`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            res.json(response)
+        }
+    }) 
+})
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)

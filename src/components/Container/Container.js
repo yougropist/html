@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Groupe from '../Groupe/Groupe'
 import Fiche from '../Fiche/Fiche'
 import DetailFiche from '../DetailFiche/DetailFiche'
+import SearchBar from '../SearchBar/SearchBar'
 
 class Container extends Component {
 
@@ -82,6 +83,7 @@ class Container extends Component {
                             </div>
                         </div>
                     </div>
+                    <SearchBar />
                     {this.state.detailFiches.length !== 0 ?
                     <>
                     <ul className="list-group list-champs">
