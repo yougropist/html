@@ -72,6 +72,7 @@ app.post('/addGroupe', (req,res) => {
             connexion.query(`SELECT * FROM groupe` , (err, response1) => {
                 if(err) console.log(err)
                 else {
+                    console.log(response1)
                     res.json(response1)
                 }
             })
@@ -110,7 +111,6 @@ app.post('/verifyChild', (req,res) => {
         if(err) console.log(err)
         else {
             if(response.length !== 0){
-                console.log(999,1)
                 const array = []
                 for(let i = 0; i < response.length; i++ ){
                     connexion.query(`SELECT * FROM fiches WHERE id=${response[i].id}` , (err, response1) => {
@@ -118,7 +118,6 @@ app.post('/verifyChild', (req,res) => {
                         else {                            
                             array.push(response1[0])
                             if(i == response.length-1 ) {
-                                // console.log(array, 2)
                                 res.json(array)
                             } 
                         }
@@ -221,10 +220,15 @@ app.put('/updateFiche', (req,res) => {
 
 app.put('/updateGroupe', (req,res) => {
     console.log(req.body.data.id," SERVEUR UPDATE GROUPE")
-    connexion.query(`UPDATE groupe SET nom="${req.body.data.nom}", nomNl="${req.body.data.nomNl}" WHERE id=${req.body.data.id}`, (err, response) => {
+    connexion.query(`UPDATE groupe SET nom="${req.body.data.nom}", nomNl="${req.body.data.nomNl}", icon ="${req.body.data.icon}" WHERE id=${req.body.data.id}`, (err, response) => {
         if(err) res.json("error")
         else {
-            res.json(response)
+            connexion.query(`SELECT * FROM groupe`, (err, response) => {
+                if(err) res.json("error")
+                else {
+                    res.json(response)
+                }
+            }) 
         }
     }) 
 })

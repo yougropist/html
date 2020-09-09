@@ -1,0 +1,50 @@
+.container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.div-square2{
+    padding: 5px;
+    width: 650px;
+    height: 40px;
+    background-color: #ffffff;
+    margin: 5px;
+}
+@media (max-width: 1201px) {
+    .div-square2{
+        padding: 5px;
+        background-color: #ffffff;
+        margin: 5px;
+    }
+  }
+
+.nomGroupe{
+    display: flex;
+}
+#nomGroupe input{
+    width: 500px;
+    background-color: transparent;
+    border: none;
+    margin-left: 20px;
+}
+.greenBtn{
+    background-color: green;
+}
+.blueBtn{
+    background-color: #0c1326;
+}
+.openSousGroupe{
+    visibility: visible;
+    position: relative;
+    padding: 0; 
+}
+.closeSousGroupe{
+    visibility: hidden;
+    position: absolute;    
+    padding: 0;
+}
+#listeSousGroupe{
+    justify-content: space-between;
+}
+
+
