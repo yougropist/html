@@ -32,7 +32,7 @@ class Home extends Component {
     })
     .then(data => {
       this.setState({dataGroupeIndex: data})
-      // console.log('data :', data)    
+      console.log('data :', data, 89898989)    
     })
 
     if (this.props.match.params) {
@@ -56,8 +56,8 @@ class Home extends Component {
         }
       })
       .then(data => {
-        // console.log('data :', data, 5555)   
-        if(data.fiches) this.setState({sousGroupe: [],fiches: data.fiches})
+        console.log('data :', data.fiches, 5555)   
+        if(data.fiches !== undefined) this.setState({sousGroupe: [],fiches: data.fiches})
         else this.setState({sousGroupe: data, fiches: []})         
       })
     }

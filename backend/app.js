@@ -8,7 +8,7 @@ require('dotenv').config();
 const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'http://51.68.175.96:3000'
 }))
 
 app.use(bodyParser.json({limit: '10mb'}))

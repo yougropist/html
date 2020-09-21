@@ -58,17 +58,17 @@ class SearchBar extends Component {
   }
 
   render() {
-    console.log(this.state.search, 77)
+    console.log(this.state.fiches, 77)
     return(
       <div className="search">
         <img src={search} />
         <input onBlur={() => this.setState({display: false})} onFocus={() => this.setState({display: true})} type="search" onChange={e => this.setState({search: e.target.value})} />
         <ul style={{opacity: this.state.display ? '1' : '0'}}>
-          {this.state.fiches.filter(el => el.Nom.toLowerCase().includes(this.state.search.toLowerCase())).map(elem => (
+          {/* {this.state.fiches.filter(el => el.Nom.toLowerCase().includes(this.state.search.toLowerCase())).map(elem => (
             <li onClick={() => this.urlUpdate(elem.id)}>
               {elem.Nom}
             </li>
-          ))}
+          ))} */}
         </ul>
       </div>
     )
