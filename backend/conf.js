@@ -6,7 +6,7 @@ const connexion = mysql.createConnection({
   user : process.env.USER,
   password : process.env.PASSWORD,
   database : process.env.DATABASE,
-  insecureAuth : true
+  insecureAuth : false
 })
 
 connexion.connect(function(err) {
