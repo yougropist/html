@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 1352;
+const port = 80;
 const cors = require('cors')
 const connexion = require('./conf.js');
 require('dotenv').config();
 const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
-    origin: 'http://localhost:1352'
+    origin: 'http://localhost:80'
 }))
 
 app.use(bodyParser.json({limit: '10mb'}))
