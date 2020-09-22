@@ -21,13 +21,13 @@ class Navigation extends Component {
               return null
             }
           })
-          .then(data => {          
+          .then(data => {        
             this.setState({pages: data}) 
           })
     }
 
     render() {
-
+        console.log(this.state.pages, 5656)
         const adminNav = [
             {text: 'Profil', link: '/profil', icon: 'fa fa-user'},
             {text: 'Gestions des champs', link: '/champs', icon: 'fa fa-bars'},

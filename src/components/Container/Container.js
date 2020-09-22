@@ -63,6 +63,7 @@ class Container extends Component {
     }
 
     render(){
+        console.log(this.state.dataGroupeIndex, 878787)
         return(
             <div id="page-wrapper" >
                 <div id="page-inner">

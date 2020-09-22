@@ -8,7 +8,7 @@ require('dotenv').config();
 const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
-    origin: 'http://51.68.175.96:3000'
+    origin: 'http://localhost:8000'
 }))
 
 app.use(bodyParser.json({limit: '10mb'}))
@@ -141,7 +141,7 @@ app.post('/path', (req,res) => {
 })
 
 app.post('/sous-groupe', (req,res) => {
-    console.log(req.body.idGroupe.groupe," SERVEUR SELECT SOUS GROUPE")
+    console.log(req.body.idGroupe," SERVEUR SELECT SOUS GROUPE")
     const array = []
     connexion.query(`SELECT * FROM groupe WHERE id_categorie="${req.body.idGroupe.groupe}"`, (err, response) => {
         if(err) res.json("error")
@@ -197,11 +197,11 @@ app.put('/refreshFiches', (req,res) => {
             connexion.query(`SELECT * FROM fiches WHERE id="${req.body.id}"` , (err, response1) => {
                 if(err) console.log(err)
                 else {
-                    console.log(response1[0], 2)
+                    // console.log(response1[0], 2)
                     res.json(response1[0])
                 }
             }) 
-            console.log(response, 3)
+            // console.log(response, 3)
             res.json(response)
         }
     }) 
@@ -267,7 +267,7 @@ app.post('/moveGroupe', (req,res) => {
 })
 
 app.put('/champs/update', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`UPDATE colonne SET nom ='${req.body.nom}', nomNl = '${req.body.nomNl}' WHERE id = '${req.body.id}'`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -277,7 +277,7 @@ app.put('/champs/update', (req,res) => {
 })
 
 app.post('/champs/add', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`INSERT INTO colonne (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -292,7 +292,7 @@ app.post('/champs/add', (req,res) => {
 })
 
 app.post('/pages/add', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`INSERT INTO pages (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -301,7 +301,7 @@ app.post('/pages/add', (req,res) => {
                 connexion.query(`SELECT LAST_INSERT_ID() FROM pages WHERE id=LAST_INSERT_ID()`, (err, r) => {
                     if(err) console.log(err)
                     else {
-                        console.log(r, 777)
+                        // console.log(r, 777)
                         for(let i=0;i<req.body.groupes.length;i++){
                             connexion.query(`INSERT INTO page_groupe (id_page, id_groupe) VALUES ('${r[0]['LAST_INSERT_ID()']}', '${req.body.groupes[i].id}')`, (err, response) => {
                                 if(err) console.log(err)
@@ -327,6 +327,7 @@ app.get('/pages', (req,res) => {
     connexion.query(`SELECT * FROM pages`, (err, response) => {
         if(err) console.log(err)
         else {
+            console.log(response)
             res.json(response)
         }
     }) 
@@ -378,7 +379,7 @@ app.get('/post/get', (req,res) => {
 })
 
 app.post('/post/insert', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`INSERT INTO post (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
         if(err) console.log(err)
         else {
@@ -393,7 +394,7 @@ app.post('/post/insert', (req,res) => {
 })
 
 app.post('/post/add', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`INSERT INTO post (titre, descriptio,titreNL,descriptioNL,id_pages,url,image) VALUES ('${req.body.newPost.titre}', '${req.body.newPost.description}','${req.body.newPost.titreNl}','${req.body.newPost.descriptionNl}','${req.body.id}','${req.body.newPost.url}','${req.body.newPost.image}')`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -408,20 +409,20 @@ app.post('/post/add', (req,res) => {
 })
 
 app.post('/groupe/update', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`INSERT INTO page_groupe (id_page, id_groupe) VALUES ('${req.body.id}', '${req.body.groupe}')`, (err, response) => {
         if(err) console.log(err)
         else {
             connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
                 if(err) console.log(err)
                 else {
-                    console.log(resp, 7)
+                    // console.log(resp, 7)
                     const array = []
                     for(let i = 0; i < resp.length; i++){
                         connexion.query(`SELECT * FROM groupe WHERE id='${resp[i].id_groupe}'`, (err, result) => {
                             if(err) console.log(err)
                             else {
-                                console.log(result, 8)
+                                // console.log(result, 8)
                                 array.push(result[0])
                                 if(i===resp.length-1) res.json(array)
                                 }
@@ -438,13 +439,13 @@ app.post('/groupe/page', (req, res) => {
     connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
         if(err) console.log(err)
         else {
-            console.log(resp, 7)
+            // console.log(resp, 7)
             const array = []
             for(let i = 0; i < resp.length; i++){
                 connexion.query(`SELECT * FROM groupe WHERE id='${resp[i].id_groupe}'`, (err, result) => {
                     if(err) console.log(err)
                     else {
-                        console.log(result, 8)
+                        // console.log(result, 8)
                         array.push(result[0])
                         if(i===resp.length-1) res.json(array)
                         }
@@ -463,13 +464,13 @@ app.delete('/groupe/delete', (req,res) => {
             connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
                 if(err) console.log(err)
                 else {
-                    console.log(resp, 7)
+                    // console.log(resp, 7)
                     const array = []
                     for(let i = 0; i < resp.length; i++){
                         connexion.query(`SELECT * FROM groupe WHERE id='${resp[i].id_groupe}'`, (err, result) => {
                             if(err) console.log(err)
                             else {
-                                console.log(result, 8)
+                                // console.log(result, 8)
                                 array.push(result[0])
                                 if(i===resp.length-1) res.json(array)
                                 }    

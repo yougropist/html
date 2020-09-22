@@ -12,9 +12,9 @@ class Home extends Component {
     this.state = {
       dataGroupeIndex: [],
       sousGroupe: [],
-      fiches: []
+      fiches: [],
+      objEmpty: {}
     }
-    
   }
 
   componentDidMount() {
@@ -31,8 +31,9 @@ class Home extends Component {
       }
     })
     .then(data => {
+      console.log('data :', data, 89898989)
       this.setState({dataGroupeIndex: data})
-      console.log('data :', data, 89898989)    
+      
     })
 
     if (this.props.match.params) {
@@ -57,10 +58,11 @@ class Home extends Component {
       })
       .then(data => {
         console.log('data :', data.fiches, 5555)   
-        if(data.fiches !== undefined) this.setState({sousGroupe: [],fiches: data.fiches})
-        else this.setState({sousGroupe: data, fiches: []})         
-      })
-    }
+        if(data.fiches != undefined) {this.setState({sousGroupe: [], fiches: data.fiches})} 
+        else {this.setState({sousGroupe: data, fiches: []})}      
+      }) 
+    } 
+
   }
   
   handleClick(){
@@ -68,13 +70,13 @@ class Home extends Component {
   }
 
   render(){
-    // console.log("REACT RENDER : ", this.state.sousGroupe, this.state.dataGroupeIndex)
+    console.log("REACT RENDER : ", this.state.dataGroupeIndex)
     // console.log(this.props.match.params.groupe,12)
     return (
       <div className="App">      
           <Navbar />
           <Navigation />
-          <Container fiches={this.state.fiches} dataGroupeIndex={this.state.sousGroupe.length > 0 ? this.state.sousGroupe : this.state.dataGroupeIndex} />
+          <Container fiches={this.state.fiches} dataGroupeIndex={this.state.dataGroupeIndex} />
           <Footer />
       </div>
     );
