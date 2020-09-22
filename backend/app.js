@@ -31,13 +31,9 @@ app.post('/contact', (req,res) => {
     }
 })
 
-app.get('/', (req,res) => {    
-    console.log(req, "USER CONNECTED")
-    res.write('test')
-})
 
-app.post('/intro', (req,res) => {
-    console.log(req.body," SERVEUR SELECT GROUPE")
+app.get('/', (req,res) => {
+    // console.log(req.body," SERVEUR SELECT GROUPE")
     connexion.query(`SELECT * FROM groupe WHERE zIndex="0"` , (err, response) => {
         if(err) console.log(err)
         else {
