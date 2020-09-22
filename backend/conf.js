@@ -2,10 +2,10 @@ const mysql = require('mysql');
 require('dotenv').config();
 
 const connexion = mysql.createConnection({
-  host : env.HOST,
-  user : env.USER,
-  password : env.PASSWORD,
-  database : env.DATABASE,
+  host : "ID273471_pfcsm.db.webhosting.be",
+  user : "ID273471_pfcsm",
+  password : "ff18e410",
+  database : "ID273471_pfcsm",
   insecureAuth : true
 })
 
