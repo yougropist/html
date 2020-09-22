@@ -21,7 +21,8 @@ class Navigation extends Component {
               return null
             }
           })
-          .then(data => {        
+          .then(data => { 
+            console.log(data, "id/ 78")       
             this.setState({pages: data}) 
           })
     }
