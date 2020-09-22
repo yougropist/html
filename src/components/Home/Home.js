@@ -36,32 +36,33 @@ class Home extends Component {
       
     })
 
-    if (this.props.match.params) {
-      fetch('/sous-groupe', {
-        method: 'POST',
-        headers: new Headers({
-            'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          idGroupe:this.props.match.params
-        }),
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          // console.log('correct: ',res.status)
-          return res.json()
-        } 
-        else {
-          console.log('error: ',res.status)
-          return null
-        }
-      })
-      .then(data => {
-        console.log('data :', data.fiches, 5555)   
-        if(data.fiches != undefined) {this.setState({sousGroupe: [], fiches: data.fiches})} 
-        else {this.setState({sousGroupe: data, fiches: []})}      
-      }) 
-    } 
+    // if (this.props.match.params) {
+    //   fetch('/sous-groupe', {
+    //     method: 'POST',
+    //     headers: new Headers({
+    //         'Content-Type': 'application/json',
+    //     }),
+    //     body: JSON.stringify({
+    //       idGroupe:this.props.match.params
+    //     }),
+    //   })
+    //   .then((res) => {
+    //     if (res.status === 200) {
+    //       // console.log('correct: ',res.status)
+    //       return res.json()
+    //     } 
+    //     else {
+    //       console.log('error: ',res.status)
+    //       return null
+    //     }
+    //   })
+    //   .then(data => {
+    //     // console.log('data :', data.fiches, 5555)   
+    //     // if(data.fiches != undefined) {this.setState({sousGroupe: [], fiches: data.fiches})} 
+    //     // else {this.setState({sousGroupe: data, fiches: []})}
+    //     console.log(data, 65656565)      
+    //   }) 
+    // } 
 
   }
   
