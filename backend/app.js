@@ -31,8 +31,9 @@ app.post('/contact', (req,res) => {
     }
 })
 
-app.get('/', (req,res) => {
-    console.log(" USER CONNECTED")
+app.get('/', (req,res) => {    
+    console.log(req, "USER CONNECTED")
+    res.write('test')
 })
 
 app.post('/intro', (req,res) => {
