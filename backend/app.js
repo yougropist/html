@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = 8412;
+const port = 8000;
 const cors = require('cors')
 const connexion = require('./conf.js');
 require('dotenv').config();
@@ -147,17 +147,17 @@ app.post('/path', (req,res) => {
 })
 
 app.post('/sous-groupe', (req,res) => {
-    console.log(req.body.idGroupe," SERVEUR SELECT SOUS GROUPE")
+    console.log(req.body.idGroupe.groupe," SERVEUR SELECT SOUS GROUPE")
     const array = []
     connexion.query(`SELECT * FROM groupe WHERE id_categorie="${req.body.idGroupe.groupe}"`, (err, response) => {
         if(err) res.json("error")
         else {
-            // console.log(req.body.idGroupe.groupe)
+            // console.log(req.body.idGroupe.groupe, 8888888)
             if(response.length === 0){
                 connexion.query(`SELECT * FROM idFiche WHERE idFiche="${req.body.idGroupe.groupe}"`, (err, response1) => {
                     if(err) res.json("error")
                     else { 
-                        // console.log("ici", response1)
+                        // console.log("ici", response1, 444)
                         for(let i = 0; i < response1.length ; i++ ){
                             connexion.query(`SELECT * FROM fiches WHERE id="${response1[i].id}"`, (err, response2) => {
                                 if(err) res.json("error")
