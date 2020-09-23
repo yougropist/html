@@ -16,10 +16,7 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
-setInterval(function () {
-    connexion.query('SELECT 1');
-    console.log("maintient connexion")
-}, 5000);
+
 
 app.post('/contact', (req,res) => {
     try {
@@ -35,6 +32,10 @@ app.post('/contact', (req,res) => {
         res.json('error')
     }
 })
+
+setInterval(function () {
+    connexion.query('SELECT 1');
+}, 5000);
 
 app.post('/intro', (req,res) => {
     console.log(req.body," SERVEUR SELECT GROUPE")
