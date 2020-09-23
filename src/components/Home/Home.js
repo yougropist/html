@@ -31,7 +31,7 @@ class Home extends Component {
       }
     })
     .then(data => {
-      console.log('data :', data, 89898989)
+      // console.log('data :', data, 89898989)
       this.setState({dataGroupeIndex: data})
       
     })
@@ -71,7 +71,7 @@ class Home extends Component {
   }
 
   render(){
-    console.log("REACT RENDER : ", this.state.dataGroupeIndex)
+    // console.log("REACT RENDER : ", this.state.dataGroupeIndex)
     // console.log(this.props.match.params.groupe,12)
     return (
       <div className="App">      

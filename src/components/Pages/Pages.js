@@ -41,7 +41,7 @@ class Pages extends Component  {
             }
           })
           .then(data => {
-            console.log('data :', data, 199999999999999999) 
+            // console.log('data :', data, 199999999999999999) 
           
             this.setState({
               pages: data,
@@ -62,7 +62,7 @@ class Pages extends Component  {
             }
           })
           .then(data => {
-            console.log('data :', data) 
+            // console.log('data :', data) 
           
             this.setState({groupes: data, groupeSelected: data[0]}) 
           })
@@ -78,14 +78,14 @@ class Pages extends Component  {
             }
           })
           .then(data => {
-            console.log('data :', data) 
+            // console.log('data :', data) 
           
             this.setState({post: data}) 
           })
     }
 
     getGroupesByPage(id) {
-      console.log('yes')
+      // console.log('yes')
       fetch('/groupe/page', {
         method: 'POST',
         headers: new Headers({
@@ -105,7 +105,7 @@ class Pages extends Component  {
         }
       })
       .then(data => {
-        console.log('groupePage :', data) 
+        // console.log('groupePage :', data) 
       
         this.setState({groupePage: data}) 
       })
@@ -361,7 +361,7 @@ class Pages extends Component  {
       }
 
     render() {
-        console.log(this.state.pageSelected, 999)
+        // console.log(this.state.pageSelected, 999)
         const postElem = [
           {type: 'input', title: 'Titre en français :', content: 'titre'}, 
           {type: 'input', title: 'Titre en néerlandais :', content: 'titreNL'}, 
@@ -383,7 +383,7 @@ class Pages extends Component  {
                   <input placeholder='Nom FR' type='text' ref='fr' />
                         <input placeholder='Nom NL' type='text' ref='nl' />
                              
-                             <select onChange= {(e) => this.setState({groupeSelected: {id: e.target.options[e.target.selectedIndex].id, nom: e.target.options[e.target.selectedIndex].value, icon: this.state.groupes.filter(elem => elem.id == e.target.options[e.target.selectedIndex].id)[0].icon}})}>
+                             <select onChange= {(e) => this.setState({groupeSelected: {id: e.target.options[e.target.selectedIndex].id, nom: e.target.options[e.target.selectedIndex].value, icon: this.state.groupes.filter(elem => elem.id === e.target.options[e.target.selectedIndex].id)[0].icon}})}>
                       
                         {this.state.groupes.map((elem,index) => (
                     <option id={elem.id}>
@@ -442,7 +442,7 @@ class Pages extends Component  {
                     <input  onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, url: e.target.value}}))}} placeholder='URL (optionnel)' type='text'/>
                     <input style={{display: 'none'}} id="postImage" onChange={(e) => this.showPreview(e)} type='file' accept="image/*"/>
                     <div><label htmlFor="postImage">Ajouter une image</label></div>
-                    <img src={this.state.newPost.image}/>
+                    <img alt="" src={this.state.newPost.image}/>
                     <textarea onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, description: e.target.value}}))}} placeholder='Description FR'></textarea>
                     <textarea onChange={(e) => {e.persist(); this.setState(prevState => ({newPost: {...prevState.newPost, descriptionNl: e.target.value}}))}} placeholder='Description NL'></textarea>
                     
@@ -488,26 +488,26 @@ class Pages extends Component  {
                  </div>
 
                   <span className='banner'>Posts liés à la page</span>
-                {this.state.post.filter(elem => elem.id_pages == this.state.pageSelected).length === 0 ?
+                {this.state.post.filter(elem => elem.id_pages === this.state.pageSelected).length === 0 ?
                 <span>Aucun post n'est lié à la page</span>
                 :
                 <ul className='listPost'>
                 {this.state.post.map((elem,index) => (
                   
-                    <li style={{display: elem.id_pages != this.state.pageSelected ? 'none' : 'initial'}}>
+                    <li style={{display: elem.id_pages !== this.state.pageSelected ? 'none' : 'initial'}}>
                       <div className="controlPost"><button onClick={() => this.deletePost(elem.id)}><i className="fa fa-trash fa-2x"></i></button></div>
                       <ul>
                         {postElem.map((el,i)=>{
                           switch(true) {
                             case el.type === 'input':
                               return <li><p>{el.title}</p><div><input  ref={`input${index}-${i}`} defaultValue={elem[el.content]} disabled={this.state.update.index===index&&this.state.update.i===i ?  false:true} type='text' /><button className={this.state.update.index===index&&this.state.update.i===i ? 'valide':''} onClick={(e)=> {this.setState({update: index===this.state.update.index&&i===this.state.update.i?{index:'',i:''}:{index:index,i:i}}); index===this.state.update.index&&i===this.state.update.i&& this.updateInput(elem.id,index,i)}}>{this.state.update.index===index&&this.state.update.i===i ? 'Valider':'Modifier'}</button></div></li>
-                              break;
+                              
                             case el.type === 'image':
-                            return <li><p>{el.title}</p><div><img src={elem.image} /><label htmlFor={`image${index}-${i}`}>Modifier</label><input onChange={(e)=> this.updateImage(elem.id,e)} id={`image${index}-${i}`} type='file' accept="image/*" style={{display:'none'}}/></div></li>
-                              break;     
+                              return <li><p>{el.title}</p><div><img alt="" src={elem.image} /><label htmlFor={`image${index}-${i}`}>Modifier</label><input onChange={(e)=> this.updateImage(elem.id,e)} id={`image${index}-${i}`} type='file' accept="image/*" style={{display:'none'}}/></div></li>
+                                   
                             case el.type === 'textarea': 
-                            return <li><p>{el.title}</p><div><textarea ref={`input${index}-${i}`} defaultValue={elem[el.content]} disabled={this.state.update.index===index&&this.state.update.i===i ?  false:true}></textarea><button className={this.state.update.index===index&&this.state.update.i===i ? 'valide':''} onClick={()=> {this.setState({update: index===this.state.update.index&&i===this.state.update.i?{index:'',i:''}:{index:index,i:i}}); index===this.state.update.index&&i===this.state.update.i&& this.updateInput(elem.id,index,i)}}>{this.state.update.index===index&&this.state.update.i===i ? 'Valider':'Modifier'}</button></div></li>
-                              break;
+                              return <li><p>{el.title}</p><div><textarea ref={`input${index}-${i}`} defaultValue={elem[el.content]} disabled={this.state.update.index===index&&this.state.update.i===i ?  false:true}></textarea><button className={this.state.update.index===index&&this.state.update.i===i ? 'valide':''} onClick={()=> {this.setState({update: index===this.state.update.index&&i===this.state.update.i?{index:'',i:''}:{index:index,i:i}}); index===this.state.update.index&&i===this.state.update.i&& this.updateInput(elem.id,index,i)}}>{this.state.update.index===index&&this.state.update.i===i ? 'Valider':'Modifier'}</button></div></li>
+                              
                           }
                         }
                         )}

@@ -28,7 +28,7 @@ class Page extends Component {
     })
     .then((res) => {
       if (res.status === 200) {
-        console.log('correct: ',res.status)
+        // console.log('correct: ',res.status)
         return res.json()
       } 
       else {
@@ -50,7 +50,7 @@ class Page extends Component {
   }
 
   render() {
-    console.log(this.props.match.params, 'ici')
+    // console.log(this.props.match.params, 'ici')
     this.urlUpdate()
     
     return (

@@ -63,7 +63,7 @@ class Container extends Component {
     }
 
     render(){
-        console.log(this.state.dataGroupeIndex, 878787)
+        // console.log(this.state.dataGroupeIndex, 878787)
         return(
             <div id="page-wrapper" >
                 <div id="page-inner">
@@ -76,11 +76,9 @@ class Container extends Component {
                         <div className="col-lg-12 ">
                             <div className="alert alert-info">
                                 Ce répertoire, est destiné à toute personne, usagers, proches et professionnels à la recherche de coordonnées de services en santé mentale en Région de Bruxelles-Capitale.
-                                Il est développé et mis à jour par www.pfcsm-opgg.be la Plate-forme de Concertation pour la Santé Mentale de Bruxelles.                            
-                                Si vous souhaitez nous faire part d’une remarque, d’un oubli de notre part, ou d’une erreur d’encodage, n’hésitez pas à nous contacter via l’adresse mail suivante : info@pfcsm-opgg.be
-                                <br/>
-                                <button className="btn btn-warning">Modifier</button>
-                                <button className="btn btn-danger">Supprimer</button>    
+                                Il est développé et mis à jour par <a href="https://pfcsm-opgg.be/">https://pfcsm-opgg.be/</a>  la Plate-forme de Concertation pour la Santé Mentale de Bruxelles.                            
+                                Si vous souhaitez nous faire part d’une remarque, d’un oubli de notre part, ou d’une erreur d’encodage, n’hésitez pas à nous contacter via l’adresse mail suivante : <a href="mailto:info@pfcsm-opgg.be">info@pfcsm-opgg.be</a> 
+                                <br/>   
                             </div>
                         </div>
                     </div>

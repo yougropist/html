@@ -34,28 +34,3 @@ class Groupe extends Component  {
 }
 
 export default Groupe
-
-
-
-{/* <i className="fa fa-comments-o fa-3x" aria-hidden="true" />                                      
-                        
-                        <ul ref="sousGroupe" class="closeSousGroupe" >
-                        {
-                            this.props.sousGroupe.map((elem, index) => (
-                                <li id="listeSousGroupe"> 
-                                    <input disabled type="text" defaultValue={elem.nom}/>
-                                    <input disabled type="text" defaultValue={elem.nomNl}/>
-                                    <i id="styleIcon" className="fa fa-pencil-square-o " aria-hidden="true"></i>
-                                    <i id="styleIcon" className="fa fa-folder-o " aria-hidden="true"></i>
-                                    <i id="styleIcon" className="fa fa-trash-o " aria-hidden="true" />
-                                    <i id="styleIcon" className={`fa fa-arrow-down`} aria-hidden="true" />
-                                    <input type="checkbox" />
-                                </li>
-                            )) 
-                        }     
-                        </ul>  
-                        <div ref="confirmDelGroupe" class="closeSousGroupe" >
-                            <p>Etes vous sur de vouloir le supprimer ?</p>    
-                            <button onClick={() => {this.props.delGroupe(this.props.data.id)}} class="btn btn-primary">Oui</button>
-                            <button onClick={() => {this.confirmDeleteGroupe()}} class="btn btn-danger">Non</button>
-                        </div>  */}

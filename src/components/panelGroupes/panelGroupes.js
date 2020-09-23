@@ -217,8 +217,8 @@ class PanelGroupes extends Component  {
       
       
       moveGroupe(moveOn, elemId) {
-        if(moveOn != "" ) {
-          if(moveOn != elemId){
+        if(moveOn !== "" ) {
+          if(moveOn !== elemId){
             console.log("Move groupe on: ", this.state.moveOn,"out: ", elemId)
             fetch('/moveGroupe', {
               method: 'POST',
@@ -348,7 +348,7 @@ class PanelGroupes extends Component  {
     }
 
     render(){
-      console.log(this.state.dataGroupeIndex, 9898)
+      // console.log(this.state.dataGroupeIndex, 9898)
         return(          
           <div>            
             <Navbar />
@@ -364,13 +364,13 @@ class PanelGroupes extends Component  {
                       <button className="btn btn-danger">Supprimer</button>
                   </div>  
                   <div style={{display : this.state.addGroupe !== false ? "initial" : "none"}}>
-                      <input required ref="nom" type="text" placeholder="Nom" />
-                      <input required ref="nomNl" type="text" placeholder="Naam"/>
-                      <a  href="#" onClick={() => this.setState({addGroupe: false},  this.addGroupe(this.refs['nom'].value, this.refs['nomNl'].value, this.state.newIcon,this.state.selected))}><i class="fa fa-plus-square fa-2x" aria-hidden="true"></i></a>
+                      <input required id="nom" ref="nom" type="text" placeholder="Nom" />
+                      <input required id="nomNl" ref="nomNl" type="text" placeholder="Naam"/>
+                      <a  href="#" onClick={() => this.setState({addGroupe: false},  this.addGroupe(document.getElementById('nom').value, document.getElementById('nomNl').value, this.state.newIcon,this.state.selected))}><i className="fa fa-plus-square fa-2x" aria-hidden="true"></i></a>
                       <div>
                       {
                         this.state.listIcon.map((elem, index) => {
-                          return(<><a style={{color: this.state.newIcon !== elem ? 'yellow' :  'green'  }} onClick={() => {this.setState({newIcon: elem})}} > <i  className={`${this.state.listIcon[index]} fa-2x `} />  </a></> )                        
+                          return(<><a key={new Date()} style={{color: this.state.newIcon !== elem ? 'yellow' :  'green'  }} onClick={() => {this.setState({newIcon: elem})}} > <i  className={`${this.state.listIcon[index]} fa-2x `} />  </a></> )                        
                         })
                       }
                       </div>                      

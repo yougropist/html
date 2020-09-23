@@ -38,7 +38,7 @@ class MailBox extends Component {
       }
     })
     .then(data => {    
-      if(data == 'error') {
+      if(data === 'error') {
         this.refs.info.textContent = "Echec de l'envoi..."
         setTimeout(() => {this.refs.info.textContent = ""}, 5000)
       } 
@@ -64,11 +64,11 @@ class MailBox extends Component {
   verifyInputs() {
     const inputs = ['firstName', 'lastName', 'email', 'subject', 'message']
     
-    inputs.filter(elem => this.state[elem] == '').map(elem => {
+    inputs.filter(elem => this.state[elem] === '').map(elem => {
       this.refs[elem].style.border = '2px solid rgb(255, 90, 68)'
     })
 
-    if(inputs.filter(elem => this.state[elem] == '').length === 0) this.sendMail(inputs)
+    if(inputs.filter(elem => this.state[elem] === '').length === 0) this.sendMail(inputs)
   }
 
   render() {
@@ -92,7 +92,7 @@ class MailBox extends Component {
           <textarea ref='message' placeholder="Message" onChange={e => this.setState({message: e.target.value})}></textarea>
           <button onClick={() => this.verifyInputs()}>
             <p>Envoyer</p>
-            <i class="fas fa-paper-plane"></i>
+            <i className="fas fa-paper-plane"></i>
           </button>
         </div>
 

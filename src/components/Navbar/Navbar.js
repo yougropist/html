@@ -13,7 +13,7 @@ function Navbar() {
                     </button>
                 </div> 
             </div>
-            <img id="headerr" src={img} />
+            <img id="headerr" alt="" src={img} />
         </div>
     )
 }

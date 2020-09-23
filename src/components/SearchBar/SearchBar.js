@@ -16,7 +16,7 @@ class SearchBar extends Component {
     fetch('/fiches')
     .then((res) => {
       if (res.status === 200) {
-        console.log('correct: ', res.status)
+        // console.log('correct: ', res.status)
         return res.json()
       } 
       else {
@@ -25,7 +25,7 @@ class SearchBar extends Component {
       }
     })
     .then(data => {    
-      console.log(data, 88)
+      // console.log(data, 88)
       this.setState({fiches: data})
     })
   }
@@ -52,13 +52,12 @@ class SearchBar extends Component {
       }
     })
     .then(data => {
-      window.location.href = `/sous-groupe/${data[0].idFiche}`
-      
+      window.location.href = `/sous-groupe/${data[0].idFiche}`      
     })
   }
 
   render() {
-    console.log(this.state.fiches, 77)
+    // console.log(this.state.fiches, 77)
     return(
       <div className="search">
         <img src={search} />

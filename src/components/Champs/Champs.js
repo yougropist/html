@@ -26,12 +26,12 @@ class Champs extends Component  {
             }
           })
           .then(data => {
-            console.log('data :', data) 
+            // console.log('data :', data) 
           
             this.setState({champs: data}) 
           })
 
-         console.log(this.refs.nom)
+        //  console.log(this.refs.nom)
     }
 
 
