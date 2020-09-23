@@ -45,8 +45,7 @@ class Navigation extends Component {
                                 <Link style={{color: 'rgb(150, 150, 245)'}} to={elem.link}><i className={elem.icon}></i> {elem.text}</Link>
                             </li>
                         ))}
-                    </ul>
-    
+                    </ul>    
                     <ul className="nav" style={{paddingTop: '0'}}>
                         <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
                             <Link to="/"><i className="fa fa-desktop"></i> Accueil</Link> 

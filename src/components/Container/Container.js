@@ -86,7 +86,6 @@ class Container extends Component {
                     {this.state.detailFiches.length !== 0 ?
                     <>
                     <ul className="list-group list-champs">
-                    <button className="btn btn-success">Ajouter une fiche</button>
                     {                        
                         this.state.champs.map((elem, index) => {
                             console.log(this.state.detailFiches[this.state.champs[index].nom])
@@ -111,7 +110,7 @@ class Container extends Component {
                     <div className="row text-center pad-top">
                     {
                         this.props.dataGroupeIndex.map((elem, index) => (
-                            <Groupe data={this.props.dataGroupeIndex[index]} />
+                            <Groupe data={this.props.dataGroupeIndex[index]}  />
                         ))
                     }
                     </div> 
