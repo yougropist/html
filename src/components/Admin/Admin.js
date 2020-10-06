@@ -2,19 +2,22 @@ import React, {Component} from 'react';
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
+import Profil from '../Profil/Profil';
+import {Redirect} from 'react-router-dom'
 
 class Admin extends Component  {
 
     constructor(props){
         super(props);
         this.state = {
-          data: false
+          data: false,
+          redirect: false,
         }
       }
     
 
       connexion() {
-        console.log("REACT CONNEXION ADMIN: ", this.refs.user.value, this.refs.mdp.value)
+        // console.log("REACT CONNEXION ADMIN: ", this.refs.user.value, this.refs.mdp.value)
         fetch('/connexion', {
           method: 'POST',
           headers: new Headers({
@@ -35,30 +38,42 @@ class Admin extends Component  {
             return null
           }
         })
-        .then(data => {
-          console.log('data :', data)   
-          this.setState({data: data})
+        .then(data => {           
+          if(data !== false){
+            console.log('data :', data)  
+            this.setState({redirect: true})   
+            window.redirect = true      
+          } else {
+            console.log("data: ", data)
+            this.setState({redirect: false}) 
+            window.redirect = false
+          }
+          
         })
       }
 
     render(){
-      console.log("panelgroupe render: ", this.state.data)
+      // console.log("panelgroupe render: ", this.state.data)
         return(
           <div>
             <Navbar />
             <Navigation />
-            <div id="page-wrapper">
-              <div id="page-inner">
-                <div className="row text-center pad-top">
-                  <h2>Connexion administrateur</h2>
-                  <div style={{marginBottom: 50}}>
-                    <input ref="user" type="text" placeholder="Pseudo" />
-                    <input ref="mdp" type="text" placeholder="Mot de passe" />
-                    <button className="btn btn-primary" onClick={() => { this.connexion() } }>Connexion</button>
-                  </div> 
+            {this.state.redirect !== true ?
+              <div id="page-wrapper">
+                <div id="page-inner">
+                  <div className="row text-center pad-top">
+                    <h2>Connexion administrateur</h2>
+                    <div style={{marginBottom: 50}}>
+                      <input required ref="user" type="text" placeholder="Pseudo" />
+                      <input required ref="mdp" type="password" placeholder="Mot de passe" />
+                      <button className="btn btn-primary" onClick={() => { this.connexion() } }>Connexion</button>
+                    </div> 
+                  </div>
                 </div>
               </div>
-            </div>
+            :
+              <Redirect to="/" />
+            }      
             <Footer />
           </div>
           

@@ -30,34 +30,64 @@ class Navigation extends Component {
     render() {
         // console.log(this.state.pages, 5656)
         const adminNav = [
-            {text: 'Profil', link: '/profil', icon: 'fa fa-user'},
-            {text: 'Gestions des champs', link: '/champs', icon: 'fa fa-bars'},
-            {text: 'Gestions des groupes', link: '/panelGroupes', icon: 'fa fa-object-group'},
-            {text: 'Gestions des pages', link: '/pages', icon: 'fa fa-link'}
+            {text: 'Profil', link: '/profil'},
+            {text: 'Gestions des champs', link: '/champs'},
+            {text: 'Gestions des groupes', link: '/panelGroupes'},
+            {text: 'Gestions des pages', link: '/pages'},
+            {text: 'Deconnexion', link: '/logout'}
         ]
 
         return(
             <nav className="navbar-default navbar-side" role="navigation" >
                 <div className="sidebar-collapse">
-                    <ul className="nav" id="main-menu" style={{backgroundColor: 'rgb(15, 15, 70)'}}>
-                        {adminNav.map(elem => (
-                            <li style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
-                                <Link style={{color: 'rgb(150, 150, 245)'}} to={elem.link}><i className={elem.icon}></i> {elem.text}</Link>
+                    {window.redirect === true ? 
+                    <div>
+                        <ul className="nav" id="main-menu" style={{backgroundColor: 'rgb(15, 15, 70)'}}>
+                            {adminNav.map(elem => (
+                                <li style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
+                                    <Link style={{color: 'rgb(150, 150, 245)'}} to={elem.link}> {elem.text}</Link>
+                                </li>
+                            ))}
+                        </ul>  
+                        <ul className="nav" style={{paddingTop: '0'}}>
+                            <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
+                                <Link to="/"> Accueil</Link> 
                             </li>
-                        ))}
-                    </ul>    
-                    <ul className="nav" style={{paddingTop: '0'}}>
-                        <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
-                            <Link to="/"><i className="fa fa-desktop"></i> Accueil</Link> 
-                        </li>
-                        {
+                            {
                             this.state.pages.map(elem => (
-                                <li className={this.props.match.params.page === elem.id && 'active-link'}>
+                                <li className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>
                                     <Link to={`/page/${elem.id}`}>{elem.nom}</Link>
                                 </li>
                             ))
-                        }
-                    </ul>
+                            }
+                        </ul> 
+                    </div>                    
+                    :
+                    <div>
+                        <ul className="nav" id="main-menu" style={{backgroundColor: '#0d1326'}}>
+                            {adminNav.map(elem => (
+                                <li style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
+                                    <Link style={{color: '#9a9494'}} to={elem.link}> {elem.text}</Link>
+                                </li>
+                            ))}
+                        </ul> 
+                        <ul className="nav" style={{paddingTop: '-50px'}}>
+                            <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
+                                <Link to="/"> Accueil</Link> 
+                            </li>
+                            {
+                            this.state.pages.map(elem => (
+                                <li className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>
+                                    <Link to={`/page/${elem.id}`}>{elem.nom}</Link>
+                                </li>
+                            ))
+                            }
+                        </ul>           
+                    </div>
+                    
+                    }
+                     
+                    
                 </div>
             </nav> 
         ) 

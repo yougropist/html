@@ -14,16 +14,14 @@ class Fiche extends Component  {
     }
 
     render(){
-        // console.log("Panel render Groupe : ", this.props.data)
+        // console.log("Panel render Groupe : ", this.props)
         return(                
-            <li class="list-group-item">
-                <h4>{this.props.data.Nom}</h4>
+            <li className="list-group-item">
+                <h4>{this.props.data["a0"]}</h4>
                 <button onClick={() => this.props.ficheDetail(this.props.data.id)} className="btn btn-success">Détail</button>
             </li> 
-        )         
+        )
     }
-    
-       
 }
 
 export default Fiche

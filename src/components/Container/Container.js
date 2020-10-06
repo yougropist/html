@@ -15,13 +15,12 @@ class Container extends Component {
           detailFiches: [],
           idFiche: '',
           champs: [],
-        }
-        
+        }        
       }
     
     ficheDetail(id){
         this.setState({idFiche: id})
-        console.log("REACT SELECT DETAIL FICHE: ", id)
+        // console.log("REACT SELECT DETAIL FICHE: ", id)
         fetch('/selectFiche', {
           method: 'POST',
           headers: new Headers({
@@ -42,7 +41,7 @@ class Container extends Component {
           }
         })
         .then(data => {
-          console.log('data :', data)   
+        //   console.log('data :', data)   
           this.setState({detailFiches: data}) 
         })
         fetch('/champs')
@@ -57,7 +56,7 @@ class Container extends Component {
         }
         })
         .then(data => {
-        console.log('data champs :', data) 
+        // console.log('data champs :', data)
         this.setState({champs: data}) 
         })
     }
@@ -88,9 +87,9 @@ class Container extends Component {
                     <ul className="list-group list-champs">
                     {                        
                         this.state.champs.map((elem, index) => {
-                            console.log(this.state.detailFiches[this.state.champs[index].nom])
+                            // console.log(this.state.champs[index].id, "ZEBI")
                             return this.state.detailFiches[this.state.champs[index].nom] !== '' &&
-                            <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nom} />                            
+                            <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nom} i={this.state.champs[index].id} />                            
                         })
                     }
                     </ul>
@@ -98,7 +97,6 @@ class Container extends Component {
                     : this.props.fiches.length !== 0 ?
                     <>
                     <ul className="list-group list-champs">
-                    <button className="btn btn-success">Ajouter une fiche</button>
                     {
                         this.props.fiches.map((elem, index) => (
                             <Fiche ficheDetail={(id) => this.ficheDetail(id)} data={this.props.fiches[index]} />

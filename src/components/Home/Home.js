@@ -19,6 +19,8 @@ class Home extends Component {
 
   componentDidMount() {
     // console.log("démarage de la fonction serveur")
+  
+    
     fetch('/intro', {method: 'POST'})
     .then((res) => {
       if (res.status === 200) {
@@ -32,8 +34,7 @@ class Home extends Component {
     })
     .then(data => {
       // console.log('data :', data, 89898989)
-      this.setState({dataGroupeIndex: data})
-      
+      this.setState({dataGroupeIndex: data})      
     })
 
     if (this.props.match.params) {
@@ -57,7 +58,7 @@ class Home extends Component {
         }
       })
       .then(data => {
-        console.log('data :', data, 5555)   
+        // console.log('data :', data, 5555)   
         if(data.fiches !== undefined) {this.setState({sousGroupe: [], fiches: data.fiches})} 
         else {this.setState({dataGroupeIndex: data, fiches: []})}
       }) 
@@ -71,7 +72,7 @@ class Home extends Component {
 
   render(){
     // console.log("REACT RENDER : ", this.state.dataGroupeIndex)
-    console.log(this.props.match.params.groupe,12)
+    // console.log(this.state.fiches, this.state.dataGroupeIndex, 12)
     return (
       <div className="App">      
           <Navbar />

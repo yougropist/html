@@ -376,7 +376,7 @@ class Pages extends Component  {
             <Navigation />
             <div id='page-wrapper'>
                 <div id='page-inner'>
-                    
+                <h2 style={{textAlign: 'center'}}>PANEL DES CHAMPS</h2>
                 <div className='container-ajout create-page'>
                 <span className='banner'>Création de page</span>
                   <div className="creation-inputs">

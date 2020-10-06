@@ -114,15 +114,15 @@ update(id,index){
                 <Navigation />
                 <div id='page-wrapper'>
                     <div id='page-inner'>
+                        <h2 style={{textAlign: 'center'}}>PANEL DES CHAMPS</h2>
                         <div className='container-ajout'>
                         <input placeholder='Nom FR' type='text' ref='fr' />
                         <input placeholder='Nom NL' type='text' ref='nl' />
-                             <button onClick={() => this.add()}>Ajouter champs</button>
+                        <button onClick={() => this.add()}>Ajouter champs</button>
                         </div>
                         <div ref='info' className='info'>
                             Les données ont bien été ajoutées
-                        </div>
-                       
+                        </div>                       
                     <ul className="list-group list-champs">
                     {this.state.champs.map((elem,index) => (
                         <li key={index} class="list-group-item">

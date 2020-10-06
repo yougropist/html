@@ -2,9 +2,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const port = 8000;
-const cors = require('cors')
+const cors = require('cors');
 const connexion = require('./conf.js');
 require('dotenv').config();
+
 const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
@@ -16,8 +17,6 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
-
-
 app.post('/contact', (req,res) => {
     try {
         sendgrid.send({
@@ -28,7 +27,7 @@ app.post('/contact', (req,res) => {
         }, () => res.json('success'));
     }
     catch (error) {
-        console.log("mailMember error:", error)
+        // console.log("mailMember error:", error)
         res.json('error')
     }
 })
@@ -38,7 +37,8 @@ setInterval(function () {
 }, 5000);
 
 app.post('/intro', (req,res) => {
-    console.log(req.body," SERVEUR SELECT GROUPE")
+    // console.log(req.body," SERVEUR SELECT GROUPE")
+    
     connexion.query(`SELECT * FROM groupe WHERE zIndex="0"` , (err, response) => {
         if(err) console.log(err)
         else {
@@ -49,7 +49,7 @@ app.post('/intro', (req,res) => {
 })
 
 app.post('/selectFiche', (req,res) => {
-    console.log(req.body," SERVEUR SELECT DETAIL FICHE")
+    // console.log(req.body," SERVEUR SELECT DETAIL FICHE")
     connexion.query(`SELECT * FROM fiches WHERE id=${req.body.id}` , (err, response) => {
         if(err) console.log(err)
         else {
@@ -59,18 +59,18 @@ app.post('/selectFiche', (req,res) => {
 })
 
 app.get('/selectIcon', (req,res) => {
-    console.log("SELECT ICON")
+    // console.log("SELECT ICON")
     connexion.query(`SELECT * FROM icon`, (err, response) => {
         if(err) res.json("error")
         else {
-            console.log(response)
+            // console.log(response)
             res.json(response)
         }
     }) 
 })
 
 app.post('/addGroupe', (req,res) => {
-    console.log(req.body,'SERVER INSERT GROUPE')
+    // console.log(req.body,'SERVER INSERT GROUPE')
     connexion.query(`INSERT INTO groupe (nom , nomNl, icon, id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '0')`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -85,7 +85,7 @@ app.post('/addGroupe', (req,res) => {
 })
 
 app.post('/addSousGroupe', (req,res) => {
-    console.log(req.body,'SERVER INSERT SOUS GROUPE')
+    // console.log(req.body,'SERVER INSERT SOUS GROUPE')
     connexion.query(`INSERT INTO groupe (nom , nomNl , icon, id_categorie , zIndex) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '${req.body.id}', '1')`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -100,7 +100,7 @@ app.post('/addSousGroupe', (req,res) => {
 })
 
 app.get('/allGroupe', (req,res) => {
-    console.log(req.body," SERVEUR SELECT GROUPE")
+    // console.log(req.body," SERVEUR SELECT GROUPE")
     connexion.query(`SELECT * FROM groupe` , (err, response) => {
         if(err) console.log(err)
         else {
@@ -110,34 +110,53 @@ app.get('/allGroupe', (req,res) => {
 })
 
 app.post('/verifyChild', (req,res) => {
-    console.log(req.body," SERVEUR VERIFY CHILD")
-    connexion.query(`SELECT * FROM idFiche WHERE idFiche=${req.body.id}` , (err, response) => {
+    // console.log(req.body," SERVEUR VERIFY CHILD")
+    connexion.query(`SELECT * FROM idFiche WHERE idFiche= '${req.body.id}'` , (err, response) => {
         if(err) console.log(err)
         else {
             if(response.length !== 0){
-                console.log(999,1)
-                const array = []
+                // console.log(response ,999)
+                const resp = []                
+                const info = "fiche"
                 for(let i = 0; i < response.length; i++ ){
+                    // console.log(i, response.length-1, "boucle for")
                     connexion.query(`SELECT * FROM fiches WHERE id=${response[i].id}` , (err, response1) => {
                         if(err) console.log(err)
                         else {                            
-                            array.push(response1[0])
-                            if(i == response.length-1 ) {
-                                // console.log(array, 2)
-                                res.json(array)
-                            } 
+                            if(response1[0] !== null && response1[0] !== undefined ) {
+                                // console.log("ahechoune", response1[0])
+                                resp.push(response1[0])
+                            }                            
+                            if(i >= response.length-1 ) {
+                                const obj = {info, resp}                                
+                                res.json(obj)
+                            }
                         }
                     })
                 }
             } else {
-                res.json(response)
+                // console.log("verify groupe")
+                connexion.query(`SELECT * FROM groupe WHERE id_categorie = '${req.body.id}'`, (err, resp) => {
+                    if(err) res.json("error")
+                    else {
+                        if(resp.length === 0){
+                            const info = "none"
+                            const obj = {info, resp}
+                            res.json(obj)  
+                        } else {
+                            const info = "groupe"
+                            const obj = {info, resp}
+                            res.json(obj)  
+                        }
+                    }                    
+                })
             }
         }
     })
 })
 
 app.post('/path', (req,res) => {
-    console.log(req.body," SERVEUR SELECT GROUPE")
+    // console.log(req.body," SERVEUR SELECT GROUPE")
     connexion.query(`SELECT * FROM groupe WHERE id = ${req.body.id}` , (err, response) => {
         if(err) console.log(err)
         else {
@@ -146,8 +165,14 @@ app.post('/path', (req,res) => {
     })
 })
 
+app.post('/selectSousGroupe', (req,res) => {
+    // console.log(req.body.id," SERVEUR SELECT SOUS GROUPE")
+    const array = []
+     
+})
+
 app.post('/sous-groupe', (req,res) => {
-    console.log(req.body.idGroupe.groupe," SERVEUR SELECT SOUS GROUPE")
+    // console.log(req.body.idGroupe.groupe," SERVEUR SELECT SOUS GROUPE")
     const array = []
     connexion.query(`SELECT * FROM groupe WHERE id_categorie="${req.body.idGroupe.groupe}"`, (err, response) => {
         if(err) res.json("error")
@@ -180,41 +205,82 @@ app.post('/sous-groupe', (req,res) => {
 })
 
 app.post('/delGroupe', (req,res) => {
-    console.log(req.body.id," SERVEUR DELETE GROUPE")
-    connexion.query(`DELETE FROM groupe WHERE id="${req.body.id}"`, (err, response) => {
+    // console.log(req.body.id," SERVEUR DELETE GROUPE")
+    connexion.query(`DELETE FROM groupe WHERE id="${req.body.id}"`, (err, response0) => {
         if(err) res.json("error")
         else {
-            connexion.query(`SELECT * FROM groupe` , (err, response) => {
+            connexion.query(`SELECT * FROM groupe ` , (err, response2) => {
                 if(err) console.log(err)
                 else {
-                    res.json(response)
+                    res.json(response2)
                 }
             })
         }
     }) 
 })
 
+app.post('/moveFiche', (req,res) => {
+    console.log(req.body," SERVEUR UPDATE FICHE/GROUPE")
+    connexion.query(`SELECT * FROM groupe WHERE id_categorie=${req.body.idGroupe}` , (err, response) => {
+        if(err) console.log(err)
+        else {
+            if(response.length > 0){
+                res.json(false)
+            } else {
+                connexion.query(`UPDATE idFiche SET idFiche="${req.body.idGroupe}" WHERE id=${req.body.idFiche} `, (err, response1) => {
+                    if(err) res.json("error")
+                    else {
+                        connexion.query(`SELECT 1`, (err, response2) => {
+                            if(err) res.json("error")
+                            else {
+                                // console.log("zebi")
+                                res.json(response2)
+                            }
+                        })
+                    }
+                }) 
+            }
+        }
+    })
+    
+})
+
+
 app.put('/refreshFiches', (req,res) => {
-    console.log(req.body," SERVEUR UPDATE FICHE")
-    connexion.query(`UPDATE fiches SET ${req.body.champs}="${req.body.value}" WHERE id="${req.body.id}"`, (err, response) => {
-        console.log(response,1)
+    // console.log(req.body," SERVEUR UPDATE FICHE")
+    connexion.query(`UPDATE fiches SET ${req.body.champs}="${req.body.value}" WHERE id=${req.body.id} `, (err, response) => {
         if(err) res.json("error")
         else {
-            connexion.query(`SELECT * FROM fiches WHERE id="${req.body.id}"` , (err, response1) => {
-                if(err) console.log(err)
+            connexion.query(`SELECT * FROM idFiche WHERE idFiche = ${req.body.idGroupe} `, (err, response6) => {
+                if(err) res.json("error")
                 else {
-                    // console.log(response1[0], 2)
-                    res.json(response1[0])
+                    // console.log(response6, "JUS DE FRUIT")
+                    const arrayFiche = []
+                    for(let i = 0; i < response6.length ; i++){
+                        // console.log(response6[i].id, "ici")
+                        connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].id}' `, (err, response7) => {
+                            if(err) res.json("error")
+                            else {
+                                arrayFiche.push(response7[0])
+                                // console.log("--------------- -",i ,response7,  "--------------- -")
+                                if( i >= response6.length-1 ) {
+                                    // console.log(response, i, "GOOL")
+                                // console.log(arrayFiche, 7589)
+                                res.json(arrayFiche)
+                                }
+                            }
+                        })
+                    }                                                               
                 }
             }) 
-            // console.log(response, 3)
-            res.json(response)
         }
     }) 
 })
 
+
+
 app.put('/updateFiche', (req,res) => {
-    console.log(req.body," SERVEUR UPDATE FICHE")
+    // console.log(req.body," SERVEUR UPDATE FICHE")
     connexion.query(`UPDATE fiches SET ${req.body.champs}="${req.body.value}" WHERE id=${req.body.id}`, (err, response) => {
         if(err) res.json("error")
         else {
@@ -225,13 +291,37 @@ app.put('/updateFiche', (req,res) => {
 
 
 app.put('/updateGroupe', (req,res) => {
-    console.log(req.body.data.id," SERVEUR UPDATE GROUPE")
-    connexion.query(`UPDATE groupe SET nom="${req.body.data.nom}", nomNl="${req.body.data.nomNl}" WHERE id=${req.body.data.id}`, (err, response) => {
-        if(err) res.json("error")
-        else {
-            res.json(response)
-        }
-    }) 
+    // console.log(req.body.data," SERVEUR UPDATE GROUPE")
+    if(req.body.data.icon !== "") {
+        connexion.query(`UPDATE groupe SET nom="${req.body.data.nom}", nomNl="${req.body.data.nomNl}", icon="${req.body.data.icon}" WHERE id=${req.body.data.id}`, (err, response) => {
+            if(err) res.json("error")
+            else {
+                // console.log('ok')
+                connexion.query(`SELECT * FROM groupe` , (err, resp) => {
+                    if(err) console.log(err)
+                    else {
+                        // console.log(response)
+                        res.json(resp)
+                    }
+                })
+            }
+        })
+    } else {
+        connexion.query(`UPDATE groupe SET nom="${req.body.data.nom}", nomNl="${req.body.data.nomNl}" WHERE id=${req.body.data.id}`, (err, response) => {
+            if(err) res.json("error")
+            else {
+                // console.log('not')
+                connexion.query(`SELECT * FROM groupe` , (err, resp) => {
+                    if(err) console.log(err)
+                    else {
+                        // console.log(response)
+                        res.json(resp)
+                    }
+                })
+            }
+        })
+    }
+     
 })
 
 app.get('/champs', (req,res) => {
@@ -244,12 +334,12 @@ app.get('/champs', (req,res) => {
 })
 
 app.post('/connexion', (req,res) => {
-    console.log('CONNECT ADMIN', req.body.user, req.body.mdp)
+    // console.log('CONNECT ADMIN', req.body.user, req.body.mdp)
     connexion.query(`SELECT * FROM panel`, (err, response) => {
         if(err) res.json("error")
         else {
             if(response[0].user == req.body.user && response[0].pass == req.body.mdp) {
-                res.json(response)
+                res.json(true)
             } else {
                 res.json(false)
             }
@@ -258,8 +348,8 @@ app.post('/connexion', (req,res) => {
 })
 
 app.post('/moveGroupe', (req,res) => {
-    console.log('MOVE GROUPE', req.body.idOn, req.body.idOut)
-    connexion.query(`UPDATE groupe SET id_categorie = ${req.body.idOut} WHERE id = ${req.body.idOn}`, (err, response) => {
+    // console.log('MOVE GROUPE', req.body.idOn, req.body.idOut)    
+    connexion.query(`UPDATE groupe SET id_categorie = ${req.body.idOut}, zIndex = ${req.body.idOut}  WHERE id = ${req.body.idOn}`, (err, response) => {
         if(err) res.json("error")
         else {
             connexion.query(`SELECT * FROM groupe` , (err, response) => {
@@ -287,23 +377,97 @@ app.post('/champs/add', (req,res) => {
     connexion.query(`INSERT INTO colonne (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
         if(err) res.json("error")
         else {
-            connexion.query(`SELECT * FROM colonne`, (err, result) => {
+            // console.log(req.body.fr)
+            connexion.query(`SELECT MAX(id) AS max_id FROM colonne`, (err, result) => {
                 if(err) res.json("error")
                 else {
-                    res.json(result)
+                    // console.log(result[0].max_id)
+                    var a = "a"+result[0].max_id
+                    // console.log(a);
+                     
+                    // "ALTER TABLE customers ADD email VARCHAR(50) NOT NULL"
+                    connexion.query(`ALTER TABLE fiches ADD ${a} VARCHAR(255) NOT NULL`, (err, response) => {
+                        if(err) res.json("error")
+                        else {
+                            connexion.query(`SELECT * FROM colonne`, (err, result1) => {
+                                if(err) res.json("error")
+                                else {
+                                    console.log(result1, 555)
+                                    res.json(result1)
+                                }
+                            }) 
+                        }
+                    }) 
                 }
             }) 
         }
     }) 
 })
 
+app.post('/addFiche', (req,res) => {
+    // console.log(req.body ,66)
+    connexion.query(`INSERT INTO idFiche (idFiche) VALUES ('${req.body.idGroupe}')`, (err, a) => {
+        if(err) res.json("error") 
+            else {     
+                connexion.query(`SELECT MAX(id) AS max_id FROM idFiche`, (err, response1) => {
+                    if(err) res.json("error")
+                    else{
+                        // console.log(req.body.champs[0], req.body.value[0])
+                        connexion.query(`INSERT INTO fiches (${req.body.champs[0]}) VALUES ('${req.body.value[0]}')`, (err, b) => {
+                            if(err) res.json("error")
+                            else { 
+                                // console.log(response[0].max_id, 6565)
+                                for(let i = 1; i < req.body.champs.length ; i++){
+                                    connexion.query(`SELECT * FROM colonne`, (err, d) => {
+                                        if(err) res.json("error")
+                                        else{                                         
+                                            connexion.query(`UPDATE fiches SET ${req.body.champs[i]} ='${req.body.value[i]}' WHERE id = '${response1[0].max_id}'`, (err, e) => {
+                                                if(err) res.json("error")
+                                                else {
+                                                    // console.log('FINISH', req.body.idGroupe)
+                                                    if( i >= req.body.champs.length-1 ) {
+                                                        connexion.query(`SELECT * FROM idFiche WHERE idFiche = '${req.body.idGroupe}' `, (err, response6) => {
+                                                            if(err) res.json("error")
+                                                            else {
+                                                                // console.log(response6[0])
+                                                                const arrayFiche = []
+                                                                for(let i = 0; i < response6.length ; i++){
+                                                                    // console.log(response6[i].id, "ici")
+                                                                    connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].id}' `, (err, response7) => {
+                                                                        if(err) res.json("error")
+                                                                        else {
+                                                                            arrayFiche.push(response7[0])
+                                                                            // console.log("--------------- -",i ,response7,  "--------------- -")
+                                                                            if( i >= response6.length-1 ) {
+                                                                                // console.log(response, i, "GOOL")
+                                                                            // console.log(arrayFiche, 7589)
+                                                                            res.json(arrayFiche)
+                                                                            }
+                                                                        }
+                                                                    })
+                                                                }                                                                
+                                                            }
+                                                        })
+                                                    }                                                
+                                                }
+                                            })
+                                        }
+                                    })                                       
+                                }
+                            }
+                        })                        
+                    }
+                })                
+            }
+        })
+})
+
 app.post('/pages/add', (req,res) => {
     // console.log(66)
     connexion.query(`INSERT INTO pages (nom, nomNl) VALUES ('${req.body.fr}', '${req.body.nl}')`, (err, response) => {
         if(err) res.json("error")
-        else {
-            
-                console.log(44, 'ERREUR ICI')
+        else {            
+                // console.log(44, 'ERREUR ICI')
                 connexion.query(`SELECT LAST_INSERT_ID() FROM pages WHERE id=LAST_INSERT_ID()`, (err, r) => {
                     if(err) console.log(err)
                     else {
@@ -333,7 +497,7 @@ app.get('/pages', (req,res) => {
     connexion.query(`SELECT * FROM pages`, (err, response) => {
         if(err) console.log(err)
         else {
-            console.log(response)
+            // console.log(response)
             res.json(response)
         }
     }) 
@@ -347,8 +511,7 @@ app.post('/post', (req,res) => {
                 if(err) console.log(err)
                 else {
                     const array = []
-                    for(let i=0;i<r.length;i++){
-                        
+                    for(let i=0;i<r.length;i++){                        
                     connexion.query(`SELECT * FROM groupe WHERE id ='${r[i].id_groupe}'`, (err, resp) => {
                         if(err) console.log(err)
                         else {
@@ -441,7 +604,7 @@ app.post('/groupe/update', (req,res) => {
 })
 
 app.post('/groupe/page', (req, res) => {
-    console.log('yes', req.body.id)
+    // console.log('yes', req.body.id)
     connexion.query(`SELECT * FROM page_groupe WHERE id_page='${req.body.id}'`, (err, resp) => {
         if(err) console.log(err)
         else {
@@ -463,7 +626,7 @@ app.post('/groupe/page', (req, res) => {
 })
 
 app.delete('/groupe/delete', (req,res) => {
-    console.log(66)
+    // console.log(66)
     connexion.query(`DELETE FROM page_groupe WHERE id_page='${req.body.id}' AND id_groupe='${req.body.groupe}'`, (err, response) => {
         if(err) console.log(err)
         else {
@@ -535,7 +698,7 @@ app.put('/input/update', (req,res) => {
 })
 
 app.get('/fiches', (req,res) => {
-    connexion.query(`SELECT id, Nom FROM fiches`, (err, response) => {
+    connexion.query(`SELECT id, 1 FROM fiches`, (err, response) => {
         if(err) console.log(err)
         else {
             res.json(response)
