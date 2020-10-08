@@ -50,6 +50,8 @@ class PanelGroupes extends Component  {
           value: "",
           updateOn: "",
           delOn: "",
+          delFiche: false,
+          delOnFiche: "",
           moveOut: "",
           moveOn: "",
           moveFiche: "",
@@ -462,7 +464,7 @@ class PanelGroupes extends Component  {
       }
       })
       .then(data => {
-      console.log('data champs :', data) 
+      // console.log('data champs :', data) 
       this.setState({champs: data}) 
       })
     }
@@ -496,7 +498,7 @@ class PanelGroupes extends Component  {
         arrayChamps.push(champs)
         arrayValue.push(value)
       })    
-      console.log('ADD FICHE REACT',  arrayChamps)
+      // console.log('ADD FICHE REACT',  arrayChamps)
       fetch('/addFiche', {
         method: 'POST',
         headers: new Headers({
@@ -519,7 +521,7 @@ class PanelGroupes extends Component  {
         }
       })
       .then(data => {
-        console.log('data champs :', data) 
+        // console.log('data champs :', data) 
         this.setState({nomFiche: data, openAddFiche: false})
       })
     }
@@ -575,6 +577,34 @@ class PanelGroupes extends Component  {
       }
           
     }
+
+    delFiche(id){
+      fetch('/delFiche', {
+        method: 'POST',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({
+          id: id,
+          idGroupe: this.state.selected
+        }),
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          // console.log('correct: ',res.status)
+          return res.json()
+        } 
+        else {
+          console.log('error: ',res.status)
+          return null
+        }
+      })
+      .then(data => {
+        // console.log('data :', data)  
+        this.setState({delOnFiche: "", nomFiche: data})        
+      })
+    }
+
     
 
     // checked(obj){
@@ -591,7 +621,7 @@ class PanelGroupes extends Component  {
 
 
     render(){
-      // console.log(this.state.champs , 9898)
+      // console.log(this.state , 9898)
       // console.log(" move fiche: ", this.state.moveFiche, "status : ", this.state.moveStatus )
         return(
           <div>
@@ -676,22 +706,30 @@ class PanelGroupes extends Component  {
                             {this.state.nomFiche.map((elem, index) => {
                               // console.log(this.state.moveFiche, elem.id)
                               return(
-                                <li className="list-group-item" >  
-                                  <p style={{textAlign: 'left', width:300}}>{elem.a0}</p>
-                                  <p style={{textAlign: 'left', width:100}}>{elem.a17}</p>
-                                  <div>
-                                    <a onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } >  <img  src={this.state.listIconPanel[4]} alt="Logo" />  </a>
-                                    <a onClick={() => this.state.moveFiche !== elem.id && this.state.moveGroupe === false
-                                      ? this.moveFiche(elem.id, this.state.moveFiche)  
-                                      : this.moveFiche(elem.id, this.state.moveFiche)  }> 
-                                      {this.state.moveFiche !== elem.id
-                                      ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> 
-                                      : <img  src={this.state.listIconPanela[3]} alt="Logo" /> } </a> 
-
-                                    <a onClick={() => console.log("delete fiche")}><img  src={this.state.listIconPanel[2]} alt="Logo" /></a>
-                                    <a onClick={() => this.ficheDetail(elem.id) } > <img  src={this.state.listIconPanel[1]} alt="Logo" /></a>
+                                <div>
+                                  <li className="list-group-item" >  
+                                    <p style={{textAlign: 'left', width:300}}>{elem.a0}</p>
+                                    <p style={{textAlign: 'left', width:100}}>{elem.a17}</p>
+                                    <div>
+                                      <a onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } >  <img  src={this.state.listIconPanel[4]} alt="Logo" />  </a>
+                                      <a onClick={() => this.state.moveFiche !== elem.id && this.state.moveGroupe === false
+                                        ? this.moveFiche(elem.id, this.state.moveFiche)  
+                                        : this.moveFiche(elem.id, this.state.moveFiche)  }> 
+                                        {this.state.moveFiche !== elem.id
+                                        ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> 
+                                        : <img  src={this.state.listIconPanela[3]} alt="Logo" /> } </a> 
+                                      <a onClick={() => this.state.delOnFiche !== elem.id ?  this.setState({delOnFiche: elem.id}) : this.setState({delOnFiche: ""})}> {this.state.delOnFiche !== elem.id ?  <img  src={this.state.listIconPanel[2]} alt="Logo" /> :  <img  src={this.state.listIconPanela[0]} alt="Logo" />  }</a>
+                                      <a onClick={() => this.ficheDetail(elem.id) } > <img  src={this.state.listIconPanel[1]} alt="Logo" /></a>
+                                    </div>                                    
+                                  </li>
+                                  <div style={{display: this.state.delOnFiche === elem.id ? "initial" :  "none"}}>
+                                    <p>Êtes vous sur?</p>
+                                    <button onClick={() => this.delFiche(elem.id) } className="btn btn-success">Oui</button>
+                                    <button onClick={() => this.setState({delOnFiche: ""})} className="btn btn-danger">Non</button>
                                   </div>
-                                </li>
+                                </div>
+                                
+                                
                               )
                             })}
                             </>
@@ -707,7 +745,7 @@ class PanelGroupes extends Component  {
                                 </li>
                               )
                             })}
-                            <button className="btn btn-success" style={{width: '100%'}} onClick={() => {this.addFiche()} }> Valider</button>
+                            <a href="#" className="btn btn-success" style={{width: '100%'}} onClick={() => {this.addFiche()} }> Valider</a>
                           </> 
                           :
                           this.state.updateFiche === false && this.state.openAddFiche === false ?
