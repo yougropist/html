@@ -204,6 +204,40 @@ app.post('/sous-groupe', (req,res) => {
     }) 
 })
 
+app.post('/delFiche', (req,res) => {
+    console.log(req.body, " SERVEUR DELETE FICHE")
+    connexion.query(`DELETE FROM fiches WHERE id="${req.body.id}"`, (err, response0) => {
+        if(err) res.json("error")
+        else {
+            connexion.query(`DELETE FROM idFiche WHERE id="${req.body.id}"`, (err, response1) => {
+                if(err) res.json("error")
+                else {
+                    connexion.query(`SELECT * FROM idFiche WHERE idFiche = "${req.body.idGroupe}"` , (err, response2) => {
+                        if(err) console.log(err)
+                        else {                   
+                            // console.log("la", response2) 
+                            const arrayFiche = []                               
+                            for(let i = 0; i < response2.length ; i++){
+                                // console.log(response2[i].id, "ici")
+                                connexion.query(`SELECT * FROM fiches WHERE id = '${response2[i].id}' `, (err, response7) => {
+                                    if(err) res.json("error")
+                                    else {
+                                        arrayFiche.push(response7[0])
+                                        if( i >= response2.length-1 ) {
+                                            // console.log(arrayFiche, "GOOL")
+                                            res.json(arrayFiche)
+                                        }
+                                    }
+                                })
+                            }  
+                        }
+                    })
+                }
+            })
+        }
+    }) 
+})
+
 app.post('/delGroupe', (req,res) => {
     // console.log(req.body.id," SERVEUR DELETE GROUPE")
     connexion.query(`DELETE FROM groupe WHERE id="${req.body.id}"`, (err, response0) => {
@@ -220,7 +254,7 @@ app.post('/delGroupe', (req,res) => {
 })
 
 app.post('/moveFiche', (req,res) => {
-    console.log(req.body," SERVEUR UPDATE FICHE/GROUPE")
+    // console.log(req.body," SERVEUR UPDATE FICHE/GROUPE")
     connexion.query(`SELECT * FROM groupe WHERE id_categorie=${req.body.idGroupe}` , (err, response) => {
         if(err) console.log(err)
         else {
