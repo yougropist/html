@@ -557,14 +557,16 @@ class PanelGroupes extends Component  {
     }
 
     moveFiche(idFiche, moveFiche){
-      // console.log(idFiche, moveFiche)
-      if(idFiche !== moveFiche){
+      console.log("MOVE FICHE, idFiche:", idFiche," moveFiche:", moveFiche, "status:", this.state.moveStatus)
+      if(idFiche !== moveFiche) {
+        // console.log("1UP move fiche: ", moveFiche, "status : ", this.state.moveStatus )
         this.setState({moveStatus: false, moveFiche: idFiche})
-        // console.log("UP move fiche: ", moveFiche, "status : ", this.state.moveStatus )        
+        // console.log("2UP move fiche: ", this.state.moveFiche, "status : ", this.state.moveStatus )
       } else {
-        this.setState({moveStatus: true})
-        // console.log("DOWN move fiche: ", moveFiche, "status : ", this.state.moveStatus )        
-      }     
+        // console.log("1DOWN move fiche: ", moveFiche, "status : ", this.state.moveStatus ) 
+        this.setState({moveStatus: true, moveFiche: "rien"})
+        // console.log("2DOWN move fiche: ", this.state.moveFiche, "status : ", this.state.moveStatus )        
+      }
     }
     
 
@@ -629,8 +631,7 @@ class PanelGroupes extends Component  {
                                 <input ref={`nom${index}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nom}/>
                                 <input ref={`nomNl${index}`} className={this.state.updateOn === elem.id ? "active" : undefined } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nomNl}/>
                                 <div>
-                                  {console.log("moveOn: ", this.state.moveOn,"/ moveStatus: ", this.state.moveStatus )}
-                                  <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id, }) : this.updateGroupe(elem.id, index, this.state.updateIcon) } > {this.state.updateOn !== elem.id ? <img  src={this.state.listIconPanel[4]} alt="Logo" /> : <img  src={this.state.listIconPanela[2]} alt="Logo" /> }   </a>
+                                  <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.updateGroupe(elem.id, index, this.state.updateIcon) } > {this.state.updateOn !== elem.id ? <img  src={this.state.listIconPanel[4]} alt="Logo" /> : <img  src={this.state.listIconPanela[2]} alt="Logo" /> }   </a>
                                   {/* <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => this.state.moveOn !== elem.id ? this.moveGroupe(this.state.moveOn, elem.id) : this.moveGroupe(this.state.moveOn, elem.id) }> {this.state.moveStatus === true && this.state.moveOn !== elem.id  ?  <img  src={this.state.listIconPanela[1]} alt="Logo" /> : this.state.moveOn === "" ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> : this.state.moveOn === elem.id ? <img  src={this.state.listIconPanela[3]} alt="Logo" /> : <img  src={this.state.listIconPanel[3]} alt="Logo" />  }   </a>  */}
                                   <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => this.state.moveOn !== elem.id ? this.moveGroupe(this.state.moveOn, elem.id) : this.moveGroupe(this.state.moveOn, elem.id) }> {this.state.moveStatus === false && this.state.moveOn === "" ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> : this.state.moveStatus === true && this.state.moveOn === "" ? <img  src={this.state.listIconPanela[1]} alt="Logo" /> : this.state.moveOn === elem.id ? <img  src={this.state.listIconPanela[1]} alt="Logo" /> : <img  src={this.state.listIconPanela[3]} alt="Logo" /> }   </a> 
 
@@ -666,7 +667,6 @@ class PanelGroupes extends Component  {
                                     <a onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } >  <img  src={this.state.listIconPanel[4]} alt="Logo" />  </a>
                                     <a onClick={() => this.state.moveFiche !== elem.id ? this.moveFiche(elem.id, this.state.moveFiche)  : this.moveFiche(elem.id, this.state.moveFiche)  }> {this.state.moveFiche !== elem.id ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> : <img  src={this.state.listIconPanela[3]} alt="Logo" /> }    </a> 
                                     {/* <a onClick={() => this.state.moveFiche !== elem.id  ?  this.moveFiche(elem.id, this.state.moveFiche) : console.log("not") }>   <img  src={this.state.listIconPanela[3]} alt="Logo" />    </a>  */}
-
                                     <a onClick={() => console.log("delete fiche")}><img  src={this.state.listIconPanel[2]} alt="Logo" /></a>
                                     <a onClick={() => this.ficheDetail(elem.id) } > <img  src={this.state.listIconPanel[1]} alt="Logo" /></a>
                                   </div>
