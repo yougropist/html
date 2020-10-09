@@ -3,6 +3,7 @@ import Footer from '../Footer/Footer';
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import "./index.scss"
+import icon15 from '../../assets/img/icone/15a.png';
 
 class Pages extends Component  {
     constructor(props){
@@ -112,6 +113,7 @@ class Pages extends Component  {
     }
     
     addPost(){
+      
       fetch('/post/add', {
         method: 'POST',
         headers: new Headers({
@@ -132,8 +134,8 @@ class Pages extends Component  {
         }
       })
       .then(data => {
-        console.log('data :', data) 
-      
+        // console.log('data :', data) 
+           
         this.setState({post: data}) 
       })
     }
@@ -360,6 +362,34 @@ class Pages extends Component  {
         })
       }
 
+    deletePage(){
+
+      console.log('delete page: ', this.state.pageSelected)
+      fetch('/page/delete', {
+        method: 'DELETE',
+        headers: new Headers({
+            'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({          
+          id: this.state.pageSelected
+        }),
+      })
+          .then((res) => {
+            if (res.status === 200) {
+              console.log('correct: ',res.status)
+              return res.json()
+            } 
+            else {
+              console.log('error: ',res.status)
+              return null
+            }
+          })
+          .then(data => {
+            // console.log('delete :', data)           
+            this.setState({pages: data})
+          })
+    }
+
     render() {
         // console.log(this.state.pageSelected, 999)
         const postElem = [
@@ -431,6 +461,7 @@ class Pages extends Component  {
                         </option>
                 ))}
                         </select>
+                        <button onClick={()=>this.deletePage()} >Supprimer la page</button>
                         <button onClick={()=>this.setState({switch:!this.state.switch})}>{this.state.switch ? 'Retourner sur la page' : 'Ajouter un post'}</button>
                         </div>
                         </div>
@@ -495,7 +526,7 @@ class Pages extends Component  {
                 {this.state.post.map((elem,index) => (
                   
                     <li style={{display: elem.id_pages !== this.state.pageSelected ? 'none' : 'initial'}}>
-                      <div className="controlPost"><button onClick={() => this.deletePost(elem.id)}><i className="fa fa-trash fa-2x"></i></button></div>
+                      <div className="controlPost"><button onClick={() => this.deletePost(elem.id)}><img alt="delete post" src={icon15} /></button></div>
                       <ul>
                         {postElem.map((el,i)=>{
                           switch(true) {

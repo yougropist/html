@@ -64,13 +64,6 @@ class Navigation extends Component {
                     </div>                    
                     :
                     <div>
-                        <ul className="nav" id="main-menu" style={{backgroundColor: '#0d1326'}}>
-                            {adminNav.map(elem => (
-                                <li style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
-                                    <Link style={{color: '#9a9494'}} to={elem.link}> {elem.text}</Link>
-                                </li>
-                            ))}
-                        </ul> 
                         <ul className="nav" style={{paddingTop: '-50px'}}>
                             <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
                                 <Link to="/"> Accueil</Link> 

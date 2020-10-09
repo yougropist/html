@@ -125,7 +125,7 @@ update(id,index){
                         </div>                       
                     <ul className="list-group list-champs">
                     {this.state.champs.map((elem,index) => (
-                        <li key={index} class="list-group-item">
+                        <li key={index} className="list-group-item">
                             {/* <input type='text'>{elem.nom}</input> */}
                             <input className={index===this.state.update? 'active':''} ref={`nom${index}`} defaultValue={elem.nom} type='text' disabled={index===this.state.update? false:true}/>
                             <input className={index===this.state.update? 'active':''} ref={`nomNl${index}`} defaultValue={elem.nomNl} type='text'disabled={index===this.state.update? false:true}/>

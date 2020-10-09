@@ -48,6 +48,33 @@ app.post('/intro', (req,res) => {
     })
 })
 
+app.post('/getProfil', (req,res) => {
+    // console.log(req.body," SERVEUR SELECT PROFIL")    
+    connexion.query(`SELECT * FROM panel` , (err, response) => {
+        if(err) console.log(err)
+        else {
+            // console.log(response[0])
+            res.json(response[0])
+        }
+    })
+})
+
+app.put('/updateProfil', (req,res) => {
+    // console.log(req.body," SERVEUR UPDATE PROFIL")
+    connexion.query(`UPDATE panel SET user="${req.body.user}", pass="${req.body.pass}" WHERE id=1`, (err, response) => {
+        if(err) res.json("error")
+        else {
+            connexion.query(`SELECT * FROM panel` , (err, response) => {
+                if(err) console.log(err)
+                else {
+                    // console.log(response[0])
+                    res.json(response[0])
+                }
+            })
+        }
+    }) 
+})
+
 app.post('/selectFiche', (req,res) => {
     // console.log(req.body," SERVEUR SELECT DETAIL FICHE")
     connexion.query(`SELECT * FROM fiches WHERE id=${req.body.id}` , (err, response) => {
@@ -693,6 +720,22 @@ app.delete('/post/delete', (req, res) => {
             connexion.query(`SELECT * FROM post`, (err, result) => {
                 if(err) console.log(err)
                 else {
+                    res.json(result)
+                }
+            }) 
+        }
+    })
+})
+
+app.delete('/page/delete', (req, res) => {
+    console.log(req.body, "DELETE PAGE")
+    connexion.query(`DELETE FROM pages WHERE id='${req.body.id}'`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            connexion.query(`SELECT * FROM pages`, (err, result) => {
+                if(err) console.log(err)
+                else {
+                    console.log(result)
                     res.json(result)
                 }
             }) 

@@ -760,7 +760,7 @@ class PanelGroupes extends Component  {
                                 <li className="list-group-item">  
                                   <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
                                   <input id={`a${this.state.champs[index].id}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={this.state.detailFiche["a"+this.state.champs[index].id]}/>
-                                  <a href="#" onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.ficheUpdate(index, this.state.selected) } >{this.state.updateOn === elem.id ?  <img  src={this.state.listIconPanela[2]} alt="Logo" /> : <img  src={this.state.listIconPanel[4]} alt="Logo" /> }</a>
+                                  <a onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.ficheUpdate(index, this.state.selected) } >{this.state.updateOn === elem.id ?  <img  src={this.state.listIconPanela[2]} alt="Logo" /> : <img  src={this.state.listIconPanel[4]} alt="Logo" /> }</a>
                                 </li>
                               // <UpdateFiche idFiche={this.state.idFiche} update={this.state.updateFiche} data={this.state.detailFiche}  champsNom={this.state.champs[index].nom} champsId={this.state.champs[index].id} />
                               )
