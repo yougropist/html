@@ -32,13 +32,43 @@ class SearchBar extends Component {
 
   urlUpdate(id) {
     console.log(id)
-    fetch('/idGroupe', {
+    // fetch('/idGroupe', {
+    //   method: 'POST',
+    //   headers: new Headers({
+    //       'Content-Type': 'application/json',
+    //   }),
+    //   body: JSON.stringify({
+    //     id: id
+    //   }),
+    // })
+    // .then((res) => {
+    //   if (res.status === 200) {
+    //     console.log('correct: ',res.status)
+    //     return res.json()
+    //   } 
+    //   else {
+    //     console.log('error: ',res.status)
+    //     return null
+    //   }
+    // })
+    // .then(data => {
+    //   window.location.href = `/sous-groupe/${data[0].idFiche}`      
+    // })
+  }
+
+  searchFiches(value){
+    if(value != ""){
+      this.setState({display: true})
+    } else {
+      this.setState({display: false})
+    }
+    fetch('/searchFiches', {
       method: 'POST',
       headers: new Headers({
           'Content-Type': 'application/json',
       }),
       body: JSON.stringify({
-        id: id
+        value: value
       }),
     })
     .then((res) => {
@@ -52,8 +82,10 @@ class SearchBar extends Component {
       }
     })
     .then(data => {
-      window.location.href = `/sous-groupe/${data[0].idFiche}`      
+      console.log("data :", data)
+      this.setState({fiches: data})
     })
+    
   }
 
   render() {
@@ -61,13 +93,17 @@ class SearchBar extends Component {
     return(
       <div className="search">
         <img src={search} />
-        <input onBlur={() => this.setState({display: false})} onFocus={() => this.setState({display: true})} type="search" onChange={e => this.setState({search: e.target.value})} />
+        <input type="search" onChange={e => this.searchFiches(e.target.value)} />
         <ul style={{opacity: this.state.display ? '1' : '0'}}>
-          {/* {this.state.fiches.filter(el => el.Nom.toLowerCase().includes(this.state.search.toLowerCase())).map(elem => (
-            <li onClick={() => this.urlUpdate(elem.id)}>
-              {elem.Nom}
-            </li>
-          ))} */}
+          {this.state.display &&
+            this.state.fiches.map((elem, index) => {
+              return(
+                <li onClick={() => this.urlUpdate(5)}>
+                  test
+                </li>
+              )             
+            }) 
+          }
         </ul>
       </div>
     )

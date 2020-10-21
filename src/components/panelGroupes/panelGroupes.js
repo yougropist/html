@@ -185,7 +185,7 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {
-          console.log('data :', data)   
+          // console.log('data :', data)   
           this.setState({dataGroupeIndex: data, delOn: ""}) 
         })
       }
@@ -218,16 +218,16 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {
-          console.log('data :', data)
+          // console.log('data :', data)
           this.setState({dataGroupeIndex: data})
         })
       }
 
       addGroupe(nom, nomNl, icon ,id) {
-        console.log(this.state.addFG, 4)
+        // console.log(this.state.addFG, 4)
         this.setState({addGroupe: false, addFG: "groupe"})
-        console.log(this.state.addFG, 5)
-        console.log("REACT SELECT SOUS GROUPE: ", nom, nomNl, icon,id)
+        // console.log(this.state.addFG, 5)
+        // console.log("REACT SELECT SOUS GROUPE: ", nom, nomNl, icon,id)
         if(id === 0) {
           fetch('/addGroupe', {
             method: 'POST',
@@ -251,7 +251,7 @@ class PanelGroupes extends Component  {
             }
           })
           .then(data => {
-            console.log('data add groupe: ', data)
+            // console.log('data add groupe: ', data)
             this.setState({dataGroupeIndex: data, newIcon: icon1})
           })
         } else {
@@ -278,7 +278,7 @@ class PanelGroupes extends Component  {
             }
           })
           .then(data => {
-            console.log('data add sous groupe: ', data)
+            // console.log('data add sous groupe: ', data)
             this.setState({dataGroupeIndex: data})
           })
         }
@@ -307,7 +307,7 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {
-          console.log('data :', data)   
+          // console.log('data :', data)   
           this.setState({dataGroupeIndex: data, moveOn: ""}) 
         })
       }
@@ -554,7 +554,7 @@ class PanelGroupes extends Component  {
         }
       })
       .then(data => {
-        console.log('data :', data)  
+        // console.log('data :', data)  
         this.setState({nomFiche: data})
         
       })
@@ -568,10 +568,8 @@ class PanelGroupes extends Component  {
           
         } else {          
           this.setState({moveStatus: false, moveFiche: "-"}
-          )
-                   
+          )                   
         } 
-
       }else{
         window.alert("Veuillez choisir un groupe destinataire valide");
       }

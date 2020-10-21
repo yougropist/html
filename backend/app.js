@@ -32,6 +32,18 @@ app.post('/contact', (req,res) => {
     }
 })
 
+
+app.post('/searchFiches', (req,res) => {
+    console.log(req.body," SERVEUR SEARCH FICHES")    
+    connexion.query(`SELECT * FROM fiches WHERE a0 LIKE '%` + req.body.name + `%'`, (err, response) => {
+        if(err) console.log(err)
+        else {
+            console.log(response)
+            res.json(response)
+        }
+    })
+})
+
 setInterval(function () {
     connexion.query('SELECT 1');
 }, 5000);
