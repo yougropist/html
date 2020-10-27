@@ -51,7 +51,7 @@ class Navigation extends Component {
                         </ul>  
                         <ul className="nav" style={{paddingTop: '0'}}>
                             <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
-                                <Link to="/"> Accueil</Link> 
+                                <Link to="/accueil"> Accueil</Link> 
                             </li>
                             {
                             this.state.pages.map(elem => (

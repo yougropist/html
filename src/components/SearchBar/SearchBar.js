@@ -73,7 +73,7 @@ class SearchBar extends Component {
     })
     .then((res) => {
       if (res.status === 200) {
-        console.log('correct: ',res.status)
+        // console.log('correct: ',res.status)
         return res.json()
       } 
       else {

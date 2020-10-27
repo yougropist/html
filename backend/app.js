@@ -32,16 +32,32 @@ app.post('/contact', (req,res) => {
     }
 })
 
-
 app.post('/searchFiches', (req,res) => {
     console.log(req.body," SERVEUR SEARCH FICHES")    
-    connexion.query(`SELECT * FROM fiches WHERE a0 LIKE '%` + req.body.name + `%'`, (err, response) => {
-        if(err) console.log(err)
+    const array = []
+    connexion.query(`SELECT * FROM colonne`, (err, response) => {
+        if(err) res.json("error")
         else {
-            console.log(response)
-            res.json(response)
+            // console.log(response)
+            // for(let i = 0; i < response.length; i++ ){
+                // console.log(i, response.length-1, "boucle for")
+                connexion.query(`SELECT * FROM fiches WHERE a${0} LIKE '%` + req.body.value + `%'`, (err, response1) => {
+                    if(err) console.log(err)
+                    else { 
+                        console.log(response1) 
+                        res.json(response1)
+                        // array.push(response1)
+                        // if(i >= response.length-1 ) {
+                        //     // console.log(i)
+                        //     res.json(array)
+                        // }
+                    }
+                })
+            // }
+            
         }
-    })
+    }) 
+    
 })
 
 setInterval(function () {
@@ -49,8 +65,7 @@ setInterval(function () {
 }, 5000);
 
 app.post('/intro', (req,res) => {
-    // console.log(req.body," SERVEUR SELECT GROUPE")
-    
+    // console.log(req.body," SERVEUR SELECT GROUPE")    
     connexion.query(`SELECT * FROM groupe WHERE zIndex="0"` , (err, response) => {
         if(err) console.log(err)
         else {
