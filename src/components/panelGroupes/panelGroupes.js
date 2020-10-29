@@ -3,6 +3,7 @@ import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
 import DetailFiche from '../DetailFiche/DetailFiche';
+import SearchBar from '../SearchBar/SearchBar'
 import icon1 from '../../assets/img/icone/1.png';
 import icon2 from '../../assets/img/icone/2.png';
 import icon3 from '../../assets/img/icone/3.png';
@@ -653,6 +654,7 @@ class PanelGroupes extends Component  {
                       })
                     }
                   </ul>
+                  <SearchBar />
                   <ul className="list-group list-champs">
                   <div style={{display : this.state.moveOn !== "" ? "initial" : "none"}}><a onClick={() => this.state.moveOn !== "" ? this.moveGroupe(this.state.moveOn, 0) : this.moveGroupe(this.state.moveOn, 0) } href='#'><i style={{color: "#2bb800"}} className="fa fa-home fa-2x" aria-hidden="true"></i></a></div>     
                         <div>  

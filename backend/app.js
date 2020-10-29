@@ -5,7 +5,6 @@ const port = 8000;
 const cors = require('cors');
 const connexion = require('./conf.js');
 require('dotenv').config();
-
 const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
@@ -34,30 +33,13 @@ app.post('/contact', (req,res) => {
 
 app.post('/searchFiches', (req,res) => {
     console.log(req.body," SERVEUR SEARCH FICHES")    
-    const array = []
-    connexion.query(`SELECT * FROM colonne`, (err, response) => {
-        if(err) res.json("error")
-        else {
-            // console.log(response)
-            // for(let i = 0; i < response.length; i++ ){
-                // console.log(i, response.length-1, "boucle for")
-                connexion.query(`SELECT * FROM fiches WHERE a${0} LIKE '%` + req.body.value + `%'`, (err, response1) => {
-                    if(err) console.log(err)
-                    else { 
-                        console.log(response1) 
-                        res.json(response1)
-                        // array.push(response1)
-                        // if(i >= response.length-1 ) {
-                        //     // console.log(i)
-                        //     res.json(array)
-                        // }
-                    }
-                })
-            // }
-            
+    connexion.query(`SELECT * FROM fiches WHERE CONCAT(a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a55,a56) LIKE '%` + req.body.value + `%'`, (err, response1) => {
+        if(err) console.log(err)
+        else { 
+            console.log(response1) 
+            res.json(response1)                    
         }
-    }) 
-    
+    })
 })
 
 setInterval(function () {

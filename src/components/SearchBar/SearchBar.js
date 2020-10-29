@@ -54,6 +54,7 @@ class SearchBar extends Component {
     // .then(data => {
     //   window.location.href = `/sous-groupe/${data[0].idFiche}`      
     // })
+    
   }
 
   searchFiches(value){
@@ -82,7 +83,7 @@ class SearchBar extends Component {
       }
     })
     .then(data => {
-      console.log("data :", data)
+      // console.log("data :", data)
       this.setState({fiches: data})
     })
     
@@ -98,8 +99,8 @@ class SearchBar extends Component {
           {this.state.display &&
             this.state.fiches.map((elem, index) => {
               return(
-                <li onClick={() => this.urlUpdate(5)}>
-                  test
+                <li onClick={() => this.urlUpdate(elem.id)}>
+                  {elem.a0}
                 </li>
               )             
             }) 

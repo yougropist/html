@@ -28,7 +28,7 @@ class Navigation extends Component {
     }
 
     render() {
-        // console.log(this.state.pages, 5656)
+        // console.log(window.redirect, 5656)
         const adminNav = [
             {text: 'Profil', link: '/profil'},
             {text: 'Gestions des champs', link: '/champs'},
@@ -51,7 +51,7 @@ class Navigation extends Component {
                         </ul>  
                         <ul className="nav" style={{paddingTop: '0'}}>
                             <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
-                                <Link to="/accueil"> Accueil</Link> 
+                                <Link to="/"> Accueil</Link> 
                             </li>
                             {
                             this.state.pages.map(elem => (
