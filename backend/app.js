@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 app.post('/contact', (req,res) => {
     sendmail({
         from: 'you.gropist@hotmail.com',
-        to: 'test@hotmail.com',
-        subject: 'test sendmail',
+        to: 'afkir.younes@hotmail.com',
+        subject: 'test',
         html: 'Mail of test sendmail ',
       }, function(err, reply) {
         console.log(err && err.stack);
