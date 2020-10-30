@@ -488,13 +488,13 @@ class Pages extends Component  {
                 :
                 <ul>
                 {this.state.groupePage.map((elem,index) => (
-                <li>
+                <li >
                   <div style={{flexDirection: 'column', alignItems: 'center'}}>
                     <i className={`${elem.icon} fa-2x`}></i>
-                    <p>{elem.nom}</p>
+                    <p style={{paddingTop: 10}}>{elem.nom}</p>
                   </div>
-                  <button className="deleteGroupe" onClick={()=>this.deleteGroupe(elem.id)}>
-                    <i className="fa fa-trash fa-1x"></i>
+                  <button  className="deleteGroupe" onClick={()=>this.deleteGroupe(elem.id)}>
+                    <img alt="delete post" src={icon15} style={{width: 20}} />
                   </button>
                
                     

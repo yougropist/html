@@ -14,6 +14,7 @@ class MailBox extends Component {
     }
   }
 
+
   sendMail(inputs) {
     fetch('/contact', {
       method: 'POST',
@@ -74,14 +75,12 @@ class MailBox extends Component {
   render() {
     return (
       <div className="mailBox">
-
         <div style={{color: this.state.open && 'transparent'}} className="mailHeader" onClick={() => this.setState({open: !this.state.open})}>
           <i className="fas fa-envelope fa-2x"></i>
           <p style={{display: this.state.open && 'none'}}>Nous contacter ?</p>
           <button style={{display: !this.state.open && 'none'}}><span></span></button>
           <span ref="info" style={{display: !this.state.open && 'none'}}></span>
         </div>
-
         <div className={`mailBody ${this.state.open && 'bodyOpen'}`}>
           <div>
             <input ref='firstName' placeholder="Prénom" type="text" onChange={e => this.setState({firstName: e.target.value})} />
@@ -95,10 +94,10 @@ class MailBox extends Component {
             <i className="fas fa-paper-plane"></i>
           </button>
         </div>
-
       </div>
     )
   }
+
 }
 
 export default MailBox

@@ -486,9 +486,6 @@ class PanelGroupes extends Component  {
       this.getChamps()      
     }
 
-    addFiche(){
-      this.setState({openAddFiche: false})
-    }
 
     addFiche(){
       const arrayChamps = []
@@ -736,11 +733,13 @@ class PanelGroupes extends Component  {
                           :
                           this.state.openAddFiche === true && this.state.updateFiche === false  ?
                           <>
+                            <h4 style={{float: 'left'}} >Information quelconque :</h4>
+                            <textarea class="form-control" id="information"></textarea><br/>
                             {this.state.champs.map((elem, index) => {
+                              console.log(this.state.champs, "la")
                               return (
                                 <li className="list-group-item">
                                   <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
-                                  <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].a17}</h4>
                                   <input style={{backgroundColor: '#fff', width: 500}} id={`${this.state.champs[index].nom}`} type="text" />
                                 </li>
                               )
@@ -755,7 +754,7 @@ class PanelGroupes extends Component  {
                             })
                           :
                             this.state.champs.map((elem, index) => {
-                              // console.log(this.state.selected, "ici")
+                              console.log("ici")
                               return (
                                 <li className="list-group-item">  
                                   <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>

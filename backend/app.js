@@ -5,7 +5,8 @@ const port = 8000;
 const cors = require('cors');
 const connexion = require('./conf.js');
 require('dotenv').config();
-const sendgrid = require('@sendgrid/mail');
+const sendmail = require('sendmail')();
+// const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
     origin: '*'
@@ -14,22 +15,35 @@ app.use(cors({
 app.use(bodyParser.json({limit: '10mb'}))
 app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+// sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 app.post('/contact', (req,res) => {
-    try {
-        sendgrid.send({
-            to: process.env.EMAIL,
-            from: req.body.email,
-            subject: req.body.subject,
-            html: `<p>${req.body.message}</p><p>${req.body.firstName} ${req.body.lastName}</p>`,
-        }, () => res.json('success'));
-    }
-    catch (error) {
-        // console.log("mailMember error:", error)
-        res.json('error')
-    }
+    sendmail({
+        from: 'you.gropist@hotmail.com',
+        to: 'test@hotmail.com',
+        subject: 'test sendmail',
+        html: 'Mail of test sendmail ',
+      }, function(err, reply) {
+        console.log(err && err.stack);
+        console.dir(reply);
+    });
 })
+
+// app.post('/contact', (req,res) => {
+//     console.log(req, "ok")
+//     try {
+//         sendgrid.send({
+//             to: "afkir.younes@hotmail.com",
+//             from: req.body.email,
+//             subject: req.body.subject,
+//             html: `<p>${req.body.message}</p><p>${req.body.firstName} ${req.body.lastName}</p>`,
+//         }, () => res.json('success'));
+//     }
+//     catch (error) {
+//         console.log("mailMember error:", error)
+//         res.json('error')
+//     }
+// })
 
 app.post('/searchFiches', (req,res) => {
     console.log(req.body," SERVEUR SEARCH FICHES")    

@@ -7,16 +7,16 @@
     padding: 5px;
     width: 650px;
     height: 40px;
-    background-color: #ffffff;
+    background-color: #428bca;
     margin: 5px;
 }
 @media (max-width: 1201px) {
     .div-square2{
         padding: 5px;
-        background-color: #ffffff;
+        background-color: #428bca;
         margin: 5px;
     }
-  }
+}
 
 .nomGroupe{
     display: flex;

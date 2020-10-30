@@ -155,9 +155,9 @@ z-index: 1;
     DASHBOARD STYLES    
     =============================================*/
 .div-square {
-    padding:5px;
-    box-shadow: 1px 1px 5px #6d6d6d;
-    background-color: #ffffff;
+    padding:5px;    
+    background-color:  #d9edf7;
+    box-shadow: 1px 1px 2px #adadad;
     -webkit-border-radius:3px;
    -moz-border-radius:38px;
     border-radius:3px;
@@ -165,7 +165,9 @@ z-index: 1;
     min-height: 130px;
 }
 .div-square:hover {
-    background-color: #caf5ff;
+    color: #fff;
+    box-shadow: 1px 1px 6px #000000;
+    background-color: #00badf;
 }
 .div-square> a,.div-square> a:hover {
     color:#808080;
