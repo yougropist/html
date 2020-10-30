@@ -5,7 +5,8 @@ const port = 8000;
 const cors = require('cors');
 const connexion = require('./conf.js');
 require('dotenv').config();
-const sendmail = require('sendmail')();
+// const sendmail = require('sendmail')();
+var nodemailer = require('nodemailer');
 // const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
@@ -17,16 +18,29 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 // sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
+
+
 app.post('/contact', (req,res) => {
-    sendmail({
-        from: 'contact@web-master.be',
-        to: 'afkir.younes@hotmail.com',
-        subject: 'test',
-        html: 'Mail of test sendmail ',
-      }, function(err, reply) {
-        console.log(err && err.stack);
-        console.dir(reply);
-    });
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'webmaster.bruxelles@gmail.com',
+          pass: 'Doxy7889!'
+        }
+      });      
+      var mailOptions = {
+        from: 'webmaster.bruxelles@gmail.com',
+        to: 'myfriend@yahoo.com',
+        subject: 'Sending Email using Node.js',
+        text: 'That was easy!'
+      };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });      
 })
 
 // app.post('/contact', (req,res) => {
