@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 app.post('/contact', (req,res) => {
     sendmail({
-        from: 'you.gropist@hotmail.com',
+        from: 'you.gropist@gmail.com',
         to: 'afkir.younes@hotmail.com',
         subject: 'test',
         html: 'Mail of test sendmail ',
