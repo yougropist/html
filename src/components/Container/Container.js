@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Groupe from '../Groupe/Groupe'
-import Fiche from '../Fiche/Fiche'
-import DetailFiche from '../DetailFiche/DetailFiche'
-import SearchBar from '../SearchBar/SearchBar'
+import DetailFiche from '../DetailFiche/DetailFiche';
+import SearchBar from '../SearchBar/SearchBar';
+import { Link } from 'react-router-dom';
+import {withRouter} from 'react-router'
 
 class Container extends Component {
 
@@ -15,8 +15,80 @@ class Container extends Component {
           detailFiches: [],
           idFiche: '',
           champs: [],
+          descFr: '',
+          descNl: '',
+          nom: '',
+          nomNl: '',
+          path: [],
+          selected: '',
+          redirect: false,
+          from: '',
         }        
       }
+
+    componentDidMount(){ 
+        // console.log(this.props)
+        this.selectDescGr()
+        if(this.props.match.params.idFiche){
+            this.ficheDetail(this.props.match.params.idFiche)
+        }       
+    }
+
+    selectDescGr(){
+        if(this.props.idGroupe !== undefined && this.props.idGroupe !== null){
+            fetch('/selectDescGroupe', {
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                }),
+                body: JSON.stringify({
+                  id: this.props.idGroupe
+                }),
+              })
+              .then((res) => {
+                if (res.status === 200) {
+                  // console.log('correct: ',res.status)
+                  return res.json()
+                } 
+                else {
+                  console.log('error: ',res.status)
+                  return null
+                }
+              })
+              .then(data => {
+                console.log('data :', data[0].descriptionGroupeFr)   
+                this.setState({
+                    descFr: data[0].descriptionGroupeFr, 
+                    descNl: data[0].descriptionGroupeNl,
+                    nom: data[0].nom,
+                    nomNl: data[0].nomNl
+                }) 
+              })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.props.match.url === '/' && prevProps.match.url !== this.props.match.url){
+            console.log('1')
+            this.setState({
+                descFr: "", 
+                descNl: "",
+                nom: "",
+                nomNl: ""
+            })
+            this.setState({detailFiches: []})
+        } 
+        if(this.props.match.url.startsWith('/sous-groupe') && prevProps.match.url !== this.props.match.url){
+            console.log('2')
+            this.selectDescGr()
+            this.setState({detailFiches: []})
+        }   
+        if(this.props.match.params.idFiche && prevProps.match.params.idFiche !== this.props.match.params.idFiche){        
+            console.log('3')   
+            this.selectDescGr()         
+            this.ficheDetail(this.props.match.params.idFiche)
+        } 
+    }
     
     ficheDetail(id){
         this.setState({idFiche: id})
@@ -62,7 +134,7 @@ class Container extends Component {
     }
 
     render(){
-        // console.log(this.state.dataGroupeIndex, 878787)
+        console.log(878787, this.state.descFr)
         return(
             <div id="page-wrapper" >
                 <div id="page-inner">
@@ -82,6 +154,13 @@ class Container extends Component {
                         </div>
                     </div>
                     <SearchBar />
+                    <div className="row" style={{display: this.state.descFr !== '' && this.state.descNl !== '' ? 'initial' : 'none'}}>
+                        <div className="col-lg-12 ">
+                            <div className="alert alert-info">
+                                <p>{this.state.descFr}</p> 
+                            </div>
+                        </div>
+                    </div>
                     {this.state.detailFiches.length !== 0 ?
                     <>
                     <ul className="list-group list-champs">
@@ -99,17 +178,28 @@ class Container extends Component {
                     <ul className="list-group list-champs">
                     {
                         this.props.fiches.map((elem, index) => (
-                            <Fiche ficheDetail={(id) => this.ficheDetail(id)} data={this.props.fiches[index]} />
+                            // <Fiche ficheDetail={(id) => this.ficheDetail(id)} data={this.props.} />
+                            
+                            <li className="list-group-item">
+                                <h4>{this.props.fiches[index]["a0"]}</h4>
+                                <Link to={`/fiche/${this.props.fiches[index].id}`} ><button className="btn btn-success">Détail</button></Link>                                    
+                            </li>
                         ))
                     }
                     </ul>
                     </> 
                     :
-                    <div className="row text-center pad-top">
-                    {
-                        this.props.dataGroupeIndex.map((elem, index) => (
-                            <Groupe data={this.props.dataGroupeIndex[index]}  />
-                        ))
+                    <div className="row text-center pad-top">                    
+                    {this.props.dataGroupeIndex.map((elem, index) => (                     
+                        <Link to={`/sous-groupe/${elem.id}` }>
+                            <div className="col-xs-12 col-md-6 col-lg-3">
+                                <div className="div-square" >
+                                    <img src={this.props.dataGroupeIndex[index].icon} alt="Logo" />
+                                    <h4>{this.props.dataGroupeIndex[index].nom}</h4>
+                                </div>
+                            </div>
+                        </Link>
+                    ))
                     }
                     </div> 
                     }
@@ -120,7 +210,5 @@ class Container extends Component {
         ) 
     }
 }
-    
 
-
-export default Container
+export default withRouter(Container);

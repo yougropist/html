@@ -1,6 +1,7 @@
-import React, {Component} from 'react'
-import './index.scss'
-import search from '../../assets/img/search.svg'
+import React, {Component} from 'react';
+import './index.scss';
+import search from '../../assets/img/search.svg';
+import { Link } from 'react-router-dom';
 
 class SearchBar extends Component {
   constructor(props) {
@@ -30,35 +31,11 @@ class SearchBar extends Component {
     })
   }
 
-  urlUpdate(id) {
-    console.log(id)
-    // fetch('/idGroupe', {
-    //   method: 'POST',
-    //   headers: new Headers({
-    //       'Content-Type': 'application/json',
-    //   }),
-    //   body: JSON.stringify({
-    //     id: id
-    //   }),
-    // })
-    // .then((res) => {
-    //   if (res.status === 200) {
-    //     console.log('correct: ',res.status)
-    //     return res.json()
-    //   } 
-    //   else {
-    //     console.log('error: ',res.status)
-    //     return null
-    //   }
-    // })
-    // .then(data => {
-    //   window.location.href = `/sous-groupe/${data[0].idFiche}`      
-    // })
-    
-  }
 
+
+  
   searchFiches(value){
-    if(value != ""){
+    if(value !== ""){
       this.setState({display: true})
     } else {
       this.setState({display: false})
@@ -99,9 +76,9 @@ class SearchBar extends Component {
           {this.state.display &&
             this.state.fiches.map((elem, index) => {
               return(
-                <li onClick={() => this.urlUpdate(elem.id)}>
+                <Link to={`fiche/${elem.id}`} >
                   {elem.a0}
-                </li>
+                </Link>
               )             
             }) 
           }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router';
 
 class Navigation extends Component {
     constructor(props) {
@@ -50,9 +50,9 @@ class Navigation extends Component {
                             ))}
                         </ul>  
                         <ul className="nav" style={{paddingTop: '0'}}>
-                            <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
-                                <Link to="/"> Accueil</Link> 
-                            </li>
+                                <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
+                                    <Link to="/"> Accueil</Link> 
+                                </li>
                             {
                             this.state.pages.map(elem => (
                                 <li className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>

@@ -31,6 +31,7 @@ class Pages extends Component  {
     }
 
     componentDidMount(){
+      if(!window.redirect) {window.location.href='/'}  
         fetch('/pages')
         .then((res) => {
             if (res.status === 200) {
@@ -413,18 +414,18 @@ class Pages extends Component  {
                   <input placeholder='Nom FR' type='text' ref='fr' />
                         <input placeholder='Nom NL' type='text' ref='nl' />
                              
-                             <select onChange= {(e) => this.setState({groupeSelected: {id: e.target.options[e.target.selectedIndex].id, nom: e.target.options[e.target.selectedIndex].value, icon: this.state.groupes.filter(elem => elem.id === e.target.options[e.target.selectedIndex].id)[0].icon}})}>
+                             {/* <select onChange= {(e) => this.setState({groupeSelected: {id: e.target.options[e.target.selectedIndex].id, nom: e.target.options[e.target.selectedIndex].value, icon: this.state.groupes.filter(elem => elem.id === e.target.options[e.target.selectedIndex].id)[0].icon}})}>
                       
                         {this.state.groupes.map((elem,index) => (
                     <option id={elem.id}>
                         {elem.nom}
-                       {/* {console.log(elem, 'groupe')} */}
+                      
                             
                         </option>
                 ))}
-                        </select>
+                        </select> */}
                         
-                        <button onClick={(e) => {e.preventDefault(); this.setState(prevState => ({groupesPost: [...prevState.groupesPost, this.state.groupeSelected]}))}}>Ajouter un groupe</button>
+                        {/* <button onClick={(e) => {e.preventDefault(); this.setState(prevState => ({groupesPost: [...prevState.groupesPost, this.state.groupeSelected]}))}}>Ajouter un groupe</button> */}
 
                   </div>
                         
@@ -439,31 +440,25 @@ class Pages extends Component  {
                        
                             
                         </li>
-                ))
-                }
+                      ))}
                         </ul>
                          <button onClick={() => this.add()}>Ajouter une page</button>
                         </div>
                         <div ref='info' className='info'>
                             Les données ont bien été ajoutées
                         </div>
-
                         <div className="container-ajout create-page">
-                        <span className='banner'>Gestion de page</span>
-                        <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                        <select ref='pageSelect' onChange= {(e) => this.setState({pageSelected: e.target.options[e.target.selectedIndex].id}, () => this.getGroupesByPage(this.state.pageSelected))}>
-                            
-                        {this.state.pages.map((elem,index) => (
-                    <option id={elem.id}>
-                        {elem.nom}
-                       
-                            
-                        </option>
-                ))}
-                        </select>
-                        <button onClick={()=>this.deletePage()} >Supprimer la page</button>
-                        <button onClick={()=>this.setState({switch:!this.state.switch})}>{this.state.switch ? 'Retourner sur la page' : 'Ajouter un post'}</button>
-                        </div>
+                          <span className='banner'>Gestion de page</span>
+                          <div style={{display: 'flex', justifyContent: 'center', width: '100%'}}>
+                            <select  style={{marginRight: '20px'}} ref='pageSelect' onChange= {(e) => this.setState({pageSelected: e.target.options[e.target.selectedIndex].id}, () => this.getGroupesByPage(this.state.pageSelected))}>
+                              {this.state.pages.map((elem,index) => (
+                                <option id={elem.id}>
+                                  {elem.nom}
+                                </option>
+                              ))}
+                            </select>
+                            <button onClick={()=>this.deletePage()} >Supprimer la page</button>
+                          </div>
                         </div>
                 
                 {this.state.switch?
@@ -485,6 +480,7 @@ class Pages extends Component  {
                   <span className='banner'>Groupes liés à la page</span>
                 {this.state.groupePage.length ===0 ?
                 <span>Aucun groupe n'est lié à la page</span>
+                
                 :
                 <ul>
                 {this.state.groupePage.map((elem,index) => (
@@ -519,6 +515,7 @@ class Pages extends Component  {
                  </div>
 
                   <span className='banner'>Posts liés à la page</span>
+                  <button onClick={()=>this.setState({switch:!this.state.switch})}>{this.state.switch ? 'Retourner sur la page' : 'Ajouter un post'}</button>
                 {this.state.post.filter(elem => elem.id_pages === this.state.pageSelected).length === 0 ?
                 <span>Aucun post n'est lié à la page</span>
                 :
@@ -538,21 +535,16 @@ class Pages extends Component  {
                                    
                             case el.type === 'textarea': 
                               return <li><p>{el.title}</p><div><textarea ref={`input${index}-${i}`} defaultValue={elem[el.content]} disabled={this.state.update.index===index&&this.state.update.i===i ?  false:true}></textarea><button className={this.state.update.index===index&&this.state.update.i===i ? 'valide':''} onClick={()=> {this.setState({update: index===this.state.update.index&&i===this.state.update.i?{index:'',i:''}:{index:index,i:i}}); index===this.state.update.index&&i===this.state.update.i&& this.updateInput(elem.id,index,i)}}>{this.state.update.index===index&&this.state.update.i===i ? 'Valider':'Modifier'}</button></div></li>
-                              
+                            default:
+                              console.log(`err`);
                           }
                         }
                         )}
-                        {/* <li><p>Titre en français:</p><div><input disabled={index===this.state.update? false:true} type='text' value={elem.titre}/><button>Modifier</button></div></li>
-                        <li><p>Titre en Néerlandais:</p><div><input type='text' value={elem.titreNL}/><button>Modifier</button></div></li>
-                        <li><p>URL:</p><div><input type='text' value={elem.url}/><button>Modifier</button></div></li>
-                        <li><p>Image</p><div><img src={elem.image} /><button>Modifier</button></div></li>
-                        <li><p>Description en Français:</p><div><textarea defaultValue={elem.descriptio}></textarea><button>Modifier</button></div></li>
-                        <li><p>Description en Néerlandais:</p><div><textarea defaultValue={elem.descriptioNL}></textarea><button>Modifier</button></div></li> */}
                         
                       </ul>
                         
   
-                        </li>
+                        </li>    
                 ))}
                 </ul>
                 }

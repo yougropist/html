@@ -15,6 +15,7 @@ class Profil extends Component  {
         }
 
         componentDidMount(){
+            if(!window.redirect) {window.location.href='/'}            
             fetch('/getProfil', {method: 'POST'})
             .then((res) => {
             if (res.status === 200) {

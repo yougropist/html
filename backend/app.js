@@ -6,7 +6,7 @@ const cors = require('cors');
 const connexion = require('./conf.js');
 require('dotenv').config();
 // const sendmail = require('sendmail')();
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 // const sendgrid = require('@sendgrid/mail');
 
 app.use(cors({
@@ -22,15 +22,15 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 app.post('/contact', (req,res) => {
     var transporter = nodemailer.createTransport({
-        service: 'gmail',
+        service: 'hotmail',
         auth: {
-          user: 'webmaster.bruxelles@gmail.com',
-          pass: 'Doxy7889!'
+          user: 'afkir.younes@hotmail.com',
+          pass: 'fatima123'
         }
       });      
       var mailOptions = {
         from: 'webmaster.bruxelles@gmail.com',
-        to: 'myfriend@yahoo.com',
+        to: 'afkir.younes@hotmail.com',
         subject: 'Sending Email using Node.js',
         text: 'That was easy!'
       };
@@ -64,7 +64,7 @@ app.post('/searchFiches', (req,res) => {
     connexion.query(`SELECT * FROM fiches WHERE CONCAT(a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a55,a56) LIKE '%` + req.body.value + `%'`, (err, response1) => {
         if(err) console.log(err)
         else { 
-            console.log(response1) 
+            // console.log(response1) 
             res.json(response1)                    
         }
     })
@@ -135,7 +135,7 @@ app.get('/selectIcon', (req,res) => {
 
 app.post('/addGroupe', (req,res) => {
     // console.log(req.body,'SERVER INSERT GROUPE')
-    connexion.query(`INSERT INTO groupe (nom , nomNl, icon, id_categorie) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '0')`, (err, response) => {
+    connexion.query(`INSERT INTO groupe (nom , nomNl, icon, id_categorie, descriptionGroupeFr, descriptionGroupeNl) VALUES ('${req.body.nom}', '${req.body.nomNl}', '${req.body.icon}', '0' , '${req.body.descFr}' , '${req.body.descNl}')`, (err, response) => {
         if(err) res.json("error")
         else {
             connexion.query(`SELECT * FROM groupe` , (err, response1) => {
@@ -162,13 +162,53 @@ app.post('/addSousGroupe', (req,res) => {
         }
     }) 
 })
-
 app.get('/allGroupe', (req,res) => {
     // console.log(req.body," SERVEUR SELECT GROUPE")
     connexion.query(`SELECT * FROM groupe` , (err, response) => {
         if(err) console.log(err)
         else {
             res.json(response)
+        }
+    })
+})
+
+app.get('/selectDescGroupe', (req,res) => {
+    // console.log(req.body," SERVEUR SELECT GROUPE")
+    connexion.query(`SELECT * FROM groupe WHERE id='${req.body.id}'` , (err, response) => {
+        if(err) console.log(err)
+        else {
+            res.json(response)
+        }
+    })
+})
+
+app.post('/selectDescGroupe', (req,res) => {
+    // console.log(req.body," SERVEUR SELECT GROUPE")
+    if(req.body.id !== 0 ){
+        connexion.query(`SELECT * FROM groupe WHERE id='${req.body.id}'` , (err, response) => {
+            if(err) console.log(err)
+            else {
+                // console.log(response)
+                res.json(response)
+            }
+        })
+    } else {
+        console.log('accueil')
+    }
+})
+
+app.post('/updateDescGroupe', (req,res) => {
+    console.log(req.body," SERVEUR UPDATE DESC GROUPE")
+    connexion.query(`UPDATE groupe SET descriptionGroupeFr="${req.body.descFr}", descriptionGroupeNl="${req.body.descNl}"  WHERE id=${req.body.id} ` , (err, respons) => {
+        if(err) console.log(err)
+        else {
+            connexion.query(`SELECT * FROM groupe WHERE id='${req.body.id}'` , (err, response) => {
+                if(err) console.log(err)
+                else{
+                    // console.log(response)
+                    res.json(response)
+                }
+            })
         }
     })
 })

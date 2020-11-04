@@ -18,9 +18,10 @@ import './assets/css/font-awesome.css';
 import PanelGroupes from './components/panelGroupes/panelGroupes';
 import Pages from './components/Pages/Pages';
 
-class App extends Component {  
+class App extends Component { 
 
   render(){
+
     return (
       <div className="App">
         <BrowserRouter>
@@ -31,11 +32,11 @@ class App extends Component {
             <Route path="/profil" component={Profil}></Route>
             <Route path="/champs" component={Champs}></Route>            
             <Route path="/panelGroupes" component={PanelGroupes}></Route>
-            <Route path="/postes" component={Postes}></Route>
-            <Route path="/fiches" component={Fiches}></Route>
             <Route path="/pages" component={Pages}></Route>
             <Route path="/sous-groupe/:groupe" component={Home}></Route>
+            <Route path="/fiche/:idFiche" component={Home}></Route>
             <Route path="/page/:page" component={Page}></Route>
+            {/* <Route path="*" component={ForgetPage}  /> */}
           </Switch>
         </BrowserRouter>
         <MailBox />

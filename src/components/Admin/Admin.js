@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
-import Profil from '../Profil/Profil';
 import {Redirect} from 'react-router-dom'
 
 class Admin extends Component  {
