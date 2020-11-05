@@ -22,15 +22,15 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 app.post('/contact', (req,res) => {
     var transporter = nodemailer.createTransport({
-        service: 'hotmail',
+        service: 'gmail',
         auth: {
-          user: 'afkir.younes@hotmail.com',
-          pass: 'fatima123'
+          user: 'webmaster.bruxelles@gmail.com',
+          pass: 'Doxy7889!'
         }
       });      
       var mailOptions = {
         from: 'webmaster.bruxelles@gmail.com',
-        to: 'afkir.younes@hotmail.com',
+        to: 'webmaster.bruxelles@gmail.com',
         subject: 'Sending Email using Node.js',
         text: 'That was easy!'
       };
