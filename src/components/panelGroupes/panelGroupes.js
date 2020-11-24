@@ -99,7 +99,7 @@ class PanelGroupes extends Component  {
           selected: 0,
           path: [],
           nomFiche: [],
-          detailFiche: [],
+          detailFiche: '',
           idFiche: '',
           champs: [],
           updateFiche: false,
@@ -112,6 +112,8 @@ class PanelGroupes extends Component  {
           addFG: "groupe",
           descFr: "",
           descNl: "",
+          ifDetailFiche: false,
+          i: '',
           listIcon: [
             icon1,
             icon2,
@@ -496,6 +498,7 @@ class PanelGroupes extends Component  {
           } else if(data.info === "none") {
             this.setState({sousGroupe: data.resp ,addFG: data.info})
           } else if(data.info === "fiche"){
+            // console.log('data nomFiche: ', data.resp)
             this.setState({nomFiche: data.resp, addFG: data.info})
           } else {
             this.setState({sousGroupe: data.resp})
@@ -521,7 +524,7 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {
-          console.log('data :', data[0])   
+          // console.log('data :', data[0])   
           this.setState({descFr: data[0].descriptionGroupeFr, descNl: data[0].descriptionGroupeNl}) 
         })    
       }
@@ -530,7 +533,8 @@ class PanelGroupes extends Component  {
 
       ficheDetail(id){
         this.setState({idFiche: id})
-        // console.log("REACT SELECT DETAIL FICHE: ", id)
+        this.getChamps()
+        console.log("REACT SELECT DETAIL FICHE: ", id)
         fetch('/selectFiche', {
           method: 'POST',
           headers: new Headers({
@@ -551,10 +555,10 @@ class PanelGroupes extends Component  {
           }
         })
         .then(data => {
-          // console.log('data :', data)   
-          this.setState({detailFiche: data}) 
+          console.log('data :', data)   
+          this.setState({detailFiche: data, ifDetailFiche: true}) 
         })
-        this.getChamps()
+        
     }
 
     getChamps(){
@@ -579,10 +583,10 @@ class PanelGroupes extends Component  {
       // console.log(id, index, this.state.path,999)
       if(id === this.state.selected) {
         const array = this.state.path.filter((elem, i) => i<=index )
-        this.setState({path: array, selected: id, detailFiche: [],updateFiche: false, openAddFiche: false })        
+        this.setState({path: array, selected: id, detailFiche: [],updateFiche: false, openAddFiche: false, ifDetailFiche: false })        
       } else {
         const array = this.state.path.filter((elem, i) => i<=index )
-        this.setState({path: array, selected: id, nomFiche: [], detailFiche: [],updateFiche: false , addFG: "groupe", openAddFiche: false})
+        this.setState({path: array, selected: id, nomFiche: [], detailFiche: [],updateFiche: false , addFG: "groupe", openAddFiche: false, ifDetailFiche: false})
       }
     }
 
@@ -601,8 +605,11 @@ class PanelGroupes extends Component  {
         arrayChamps.push(champs)
         arrayValue.push(value)
       })    
+      // console.log("ARRAY CHAMP ",arrayChamps)
+      // console.log("ARRAY VALUE ",arrayValue)
       // console.log('ADD FICHE REACT',  arrayChamps)
       fetch('/addFiche', {
+        
         method: 'POST',
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -730,7 +737,7 @@ class PanelGroupes extends Component  {
         }
       })
       .then(data => {
-        console.log('data :', data)  
+        // console.log('data :', data)  
         // this.setState({descFr: "", descNl: data})        
       })
     }
@@ -748,9 +755,14 @@ class PanelGroupes extends Component  {
     //   }                
     // }
 
+    nameColumnValue(index){
+      this.state.i = "a"+index
+      return 
+    }
+
 
     render(){
-      console.log(this.state.nomFiche, 9898)
+      console.log(this.state.detailFiche, this.state.champs, "test", 9898)
       // console.log(" move fiche: ", this.state.moveFiche, "status : ", this.state.moveStatus )
         return(
           <div>
@@ -768,13 +780,13 @@ class PanelGroupes extends Component  {
                     <div style={{backgroundColor: 'rgb(243, 243, 243)', padding: 20}}>
                       <h4>Nom du groupe</h4>
                       <input style={{width: '50%', margin: '20px auto'}} className="form-control" required id="nom" ref="nom" type="text" placeholder="Nom" />
-                      <input style={{width: '50%', marsgin: '20px auto'}} className="form-control" required id="nomNl" ref="nomNl" type="text" placeholder="Naam" /><br/>
+                      <input style={{width: '50%', margin: '20px auto'}} className="form-control" required id="nomNl" ref="nomNl" type="text" placeholder="Naam" /><br/>
                       <h4>Description du groupe (FR)</h4>
                       <textarea id="descriptionGroupeFr" style={{width: '50%',height: 100,  margin: '20px auto'}} className="form-control"></textarea><br/>
                       <h4>Description du groupe (NL)</h4>
                       <textarea id="descriptionGroupeNl" style={{width: '50%', height: 100, margin: '20px auto'}} className="form-control"></textarea><br/>
                       <h4>Icon du groupe</h4>
-                      <div style={{marginBottom: 20}}>
+                      <div style={{marginBottom: 20, margin: '0 auto'}}>
                       {
                         this.state.listIcon.map((elem, index) => {
                           return(<><a onClick={() => {this.setState({newIcon: elem})}} > {this.state.newIcon !== elem ? <img  src={elem} alt="Logo" /> : <img  src={this.state.listIcona[index]} alt="Logo" />}  </a></> )                        
@@ -786,14 +798,14 @@ class PanelGroupes extends Component  {
                   </div>  
                   {/* <SearchBar /> */}
                   <ul className="path" style={{borderRadius: 7, backgroundColor: '#f3f3f3' }}>
-                    <li className="pathItem" onClick={() => {this.setState({path: [], selected: 0, nomFiche: [], detailFiche: [], updateFiche: false , addFG: "groupe", openAddFiche: false, descFr:'', descNl: ''})}}><a href='#'><i className="fa fa-home fa-2x" aria-hidden="true"></i></a></li> 
+                    <li className="pathItem" onClick={() => {this.setState({path: [], selected: 0,ifDetailFiche: false, nomFiche: [], detailFiche: [], updateFiche: false , addFG: "groupe", openAddFiche: false, descFr:'', descNl: ''})}}><a href='#'><i className="fa fa-home fa-2x" aria-hidden="true"></i></a></li> 
                     {
                       this.state.path.map((elem, index) => {
                         return( <li className="pathItem" onClick={ () => {this.refreshPath(index, elem.id)} }> <a href='#'>{elem.nom}</a></li>)
                       })
                     }
                   </ul>
-                  <div style={{width: '50%', margin: '0 auto', display: this.state.selected !== 0 ? 'initial' : 'none', backgroundColor: '#eee'}}>
+                  <div style={{width: '50%', margin: '0 auto', display: this.state.selected !== 0 && this.state.openAddFiche === false && this.state.ifDetailFiche === false ? 'initial' : 'none', backgroundColor: '#eee'}}>
                     <h4>Description du groupe FR</h4>
                     <textarea id='newDescGrpFr' style={{width: '50%', margin: '0 auto'}} className='form-control' value={this.state.descFr} onChange={() => this.setState({descFr: document.getElementById('newDescGrpFr').value})}></textarea>
                     <h4>Description du groupe NL</h4>
@@ -845,16 +857,16 @@ class PanelGroupes extends Component  {
                                 </>
                               )})
                             :
-                            this.state.detailFiche.length === 0 && this.state.nomFiche.length > 0 && this.state.openAddFiche === false ?
+                            this.state.ifDetailFiche === false && this.state.nomFiche.length > 0 && this.state.openAddFiche === false ?
                             <>
                             <h2>Listes des fiches</h2>
                               {this.state.nomFiche.map((elem, index) => {
-                                // console.log(this.state.moveFiche, elem.id)
+                                // console.log(this.state.nomFiche, elem, 555666555666)
                                 return(
                                   <div>
                                     <li className="list-group-item" >  
-                                      <p style={{textAlign: 'left', width:300}}>{elem.a0}</p>
-                                      <p style={{textAlign: 'left', width:100}}>{elem.a17}</p>
+                                      <p style={{textAlign: 'left', width:300}}>{elem.a1}</p>
+                                      <p style={{textAlign: 'left', width:100}}>{elem.a18}</p>
                                       <div>
                                         <a onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } >  <img  src={this.state.listIconPanel[4]} alt="Logo" />  </a>
                                         <a onClick={() => this.state.moveFiche !== elem.id && this.state.moveGroupe === false
@@ -881,28 +893,29 @@ class PanelGroupes extends Component  {
                             :
                             this.state.openAddFiche === true && this.state.updateFiche === false  ?
                             <>
-                              <h4 style={{float: 'left'}} >Information quelconque :</h4>
-                              <textarea class="form-control" id="information"></textarea><br/>
                               {this.state.champs.map((elem, index) => {
-                                console.log(this.state.champs, "la")
+                                // console.log(this.state.champs, "la")
                                 return (
                                   <li className="list-group-item">
                                     <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
-                                    <input style={{backgroundColor: '#fff', width: 500}} id={`${this.state.champs[index].nom}`} type="text" />
+                                    <textarea className="form-control" style={{backgroundColor: '#fff', width: 500}} id={`${this.state.champs[index].nom}`} type="text" ></textarea>
                                   </li>
                                 )
                               })}
                               <a href="#" className="btn btn-success" style={{width: '100%'}} onClick={() => {this.addFiche()} }> Valider</a>
                             </> 
-                            :
-                            this.state.updateFiche === false && this.state.openAddFiche === false ?
+                            :                            
+                            this.state.ifDetailFiche === true && this.state.updateFiche === false && this.state.openAddFiche === false ?        
+                            // <>
+                            // <p>ok</p>
+                            // </>                     
                               this.state.champs.map((elem, index) => {
-                                return this.state.detailFiche[this.state.champs[index].nom] !== '' &&                              
-                                <DetailFiche data={this.state.detailFiche } champs={this.state.champs[index].nom} i={this.state.champs[index].id} />
+                                return this.state.detailFiche[this.state.champs[index].nom] !== '' &&
+                                <DetailFiche data={this.state.detailFiche} champs={this.state.champs[index].nom} i={this.state.champs[index].id} /> 
                               })
                             :
                               this.state.champs.map((elem, index) => {
-                                console.log("ici")
+                                // console.log("ici")
                                 return (
                                   <li className="list-group-item">  
                                     <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
@@ -913,7 +926,7 @@ class PanelGroupes extends Component  {
                                 )
                               })
                             }
-                          </div>       
+                          </div>        
                     </ul>    
                   </div>
                   </div>

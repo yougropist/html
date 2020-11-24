@@ -64,6 +64,7 @@ class Navigation extends Component {
                     </div>                    
                     :
                     <div>
+                         
                         <ul className="nav" style={{paddingTop: '-50px'}}>
                             <li className={window.location.pathname === '/' ? 'active-link' : undefined}>
                                 <Link to="/"> Accueil</Link> 

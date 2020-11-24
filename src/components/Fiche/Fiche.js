@@ -14,7 +14,7 @@ class Fiche extends Component  {
     }
 
     render(){
-        // console.log("Panel render Groupe : ", this.props)
+        console.log("Panel render Groupe : ", this.props)
         return(                
             <li className="list-group-item">
                 <h4>{this.props.data["a0"]}</h4>

@@ -12,7 +12,8 @@ class Page extends Component {
     this.state = {
       posts: [],
       groupes: [],
-      path: this.props.match.params.page
+      path: this.props.match.params.page,
+      langue: 'fr',
     }
   }
 
@@ -50,7 +51,7 @@ class Page extends Component {
   }
 
   render() {
-    // console.log(this.props.match.params, 'ici')
+    console.log(this.state.posts, 'ici')
     this.urlUpdate()
     
     return (
@@ -58,26 +59,50 @@ class Page extends Component {
             <Navbar />
             <Navigation />
             <div id='page-wrapper'>
+              <button className="btn btn-primary" onClick={() => { this.setState({langue: 'fr'}) }}>FR</button>
+              <button className="btn btn-primary" onClick={() => { this.setState({langue: 'nl'}) }}>NL</button>
                 <div id='page-inner'>
 
                 <ul className="posts">
-                  {this.state.posts.map(elem => (
+                  { 
+                  this.state.langue === 'fr' ?
+                  this.state.posts.map(elem => (
                     <li>
                       <h2>{elem.titre}</h2>
                       {elem.image.length > 0 && <div><img src={elem.image} /></div>}
                       <p>{elem.descriptio}</p>
                       {elem.url.length > 0 && <a href={elem.url} target="_blank">Plus d'informations</a>}
                     </li>
-                  ))}
+                  ))
+                  :
+                  this.state.posts.map(elem => (
+                    <li>
+                      <h2>{elem.titreNL}</h2>
+                      {elem.image.length > 0 && <div><img src={elem.image} /></div>}
+                      <p>{elem.descriptioNL}</p>
+                      {elem.url.length > 0 && <a href={elem.url} target="_blank">Plus d'informations</a>}
+                    </li>
+                  ))
+                  }
                 </ul>
 
                 <ul className="groupes">
-                  {this.state.groupes.map(elem => (
+                { 
+                  this.state.langue === 'fr' ?
+                  this.state.groupes.map(elem => (
                     <li onClick={() => window.location.pathname = `/sous-groupe/${elem.id}`}>
                       <i className={`${elem.icon} fa-2x`}></i>
                       <p>{elem.nom}</p>
                     </li>
-                  ))}
+                  ))
+                  :
+                  this.state.groupes.map(elem => (
+                    <li onClick={() => window.location.pathname = `/sous-groupe/${elem.id}`}>
+                      <i className={`${elem.icon} fa-2x`}></i>
+                      <p>{elem.nomNl}</p>
+                    </li>
+                  ))
+                  }
                 </ul>
             
                 </div>

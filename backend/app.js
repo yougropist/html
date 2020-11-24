@@ -20,28 +20,28 @@ app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}))
 
 
 
-app.post('/contact', (req,res) => {
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'webmaster.bruxelles@gmail.com',
-          pass: 'Doxy7889!'
-        }
-      });      
-      var mailOptions = {
-        from: 'webmaster.bruxelles@gmail.com',
-        to: 'webmaster.bruxelles@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-      };
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });      
-})
+// app.post('/contact', (req,res) => {
+//     var transporter = nodemailer.createTransport({
+//         service: 'gmail',
+//         auth: {
+//           user: 'webmaster.bruxelles@gmail.com',
+//           pass: 'Doxy7889!'
+//         }
+//       });      
+//       var mailOptions = {
+//         from: 'webmaster.bruxelles@gmail.com',
+//         to: 'webmaster.bruxelles@gmail.com',
+//         subject: 'Sending Email using Node.js',
+//         text: 'That was easy!'
+//       };
+//     transporter.sendMail(mailOptions, function(error, info){
+//         if (error) {
+//           console.log(error);
+//         } else {
+//           console.log('Email sent: ' + info.response);
+//         }
+//       });      
+// })
 
 // app.post('/contact', (req,res) => {
 //     console.log(req, "ok")
@@ -61,7 +61,7 @@ app.post('/contact', (req,res) => {
 
 app.post('/searchFiches', (req,res) => {
     console.log(req.body," SERVEUR SEARCH FICHES")    
-    connexion.query(`SELECT * FROM fiches WHERE CONCAT(a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a55,a56) LIKE '%` + req.body.value + `%'`, (err, response1) => {
+    connexion.query(`SELECT * FROM fiches WHERE CONCAT(a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29) LIKE '%` + req.body.value + `%'`, (err, response1) => {
         if(err) console.log(err)
         else { 
             // console.log(response1) 
@@ -113,11 +113,12 @@ app.put('/updateProfil', (req,res) => {
 })
 
 app.post('/selectFiche', (req,res) => {
-    // console.log(req.body," SERVEUR SELECT DETAIL FICHE")
+    console.log(req.body," SERVEUR SELECT DETAIL FICHE")
     connexion.query(`SELECT * FROM fiches WHERE id=${req.body.id}` , (err, response) => {
         if(err) console.log(err)
-        else {
-            res.json(response[0])
+        else {       
+            console.log(response[0])     
+            res.json(response[0])                
         }
     })    
 })
@@ -205,7 +206,7 @@ app.post('/updateDescGroupe', (req,res) => {
             connexion.query(`SELECT * FROM groupe WHERE id='${req.body.id}'` , (err, response) => {
                 if(err) console.log(err)
                 else{
-                    // console.log(response)
+                    console.log(response)
                     res.json(response)
                 }
             })
@@ -543,18 +544,18 @@ app.post('/champs/add', (req,res) => {
 })
 
 app.post('/addFiche', (req,res) => {
-    // console.log(req.body ,66)
-    connexion.query(`INSERT INTO idFiche (idFiche) VALUES ('${req.body.idGroupe}')`, (err, a) => {
+    // console.log("STEP 1 " ,req.body)
+    connexion.query(`INSERT INTO idFiche (idFiche, information) VALUES ('${req.body.idGroupe}','${req.body.information}')`, (err, a) => {
         if(err) res.json("error") 
             else {     
                 connexion.query(`SELECT MAX(id) AS max_id FROM idFiche`, (err, response1) => {
                     if(err) res.json("error")
                     else{
-                        // console.log(req.body.champs[0], req.body.value[0])
+                        // console.log("STEP 2 " ,req.body.champs[0], req.body.value[0])
                         connexion.query(`INSERT INTO fiches (${req.body.champs[0]}) VALUES ('${req.body.value[0]}')`, (err, b) => {
                             if(err) res.json("error")
                             else { 
-                                // console.log(response[0].max_id, 6565)
+                                // console.log("STEP 3 " ,response1[0].max_id)
                                 for(let i = 1; i < req.body.champs.length ; i++){
                                     connexion.query(`SELECT * FROM colonne`, (err, d) => {
                                         if(err) res.json("error")
@@ -562,15 +563,15 @@ app.post('/addFiche', (req,res) => {
                                             connexion.query(`UPDATE fiches SET ${req.body.champs[i]} ='${req.body.value[i]}' WHERE id = '${response1[0].max_id}'`, (err, e) => {
                                                 if(err) res.json("error")
                                                 else {
-                                                    // console.log('FINISH', req.body.idGroupe)
+                                                    // console.log("STEP  4 " , req.body.idGroupe)
                                                     if( i >= req.body.champs.length-1 ) {
                                                         connexion.query(`SELECT * FROM idFiche WHERE idFiche = '${req.body.idGroupe}' `, (err, response6) => {
                                                             if(err) res.json("error")
                                                             else {
-                                                                // console.log(response6[0])
+                                                                // console.log("STEP 5 " ,response6[0])
                                                                 const arrayFiche = []
                                                                 for(let i = 0; i < response6.length ; i++){
-                                                                    // console.log(response6[i].id, "ici")
+                                                                    // console.log("STEP 6 " ,response6[i].id)
                                                                     connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].id}' `, (err, response7) => {
                                                                         if(err) res.json("error")
                                                                         else {
@@ -578,7 +579,7 @@ app.post('/addFiche', (req,res) => {
                                                                             // console.log("--------------- -",i ,response7,  "--------------- -")
                                                                             if( i >= response6.length-1 ) {
                                                                                 // console.log(response, i, "GOOL")
-                                                                            // console.log(arrayFiche, 7589)
+                                                                            console.log("STEP 7 " ,arrayFiche)
                                                                             res.json(arrayFiche)
                                                                             }
                                                                         }
@@ -869,7 +870,15 @@ app.post('/idGroupe', (req,res) => {
     }) 
 })
 
-app.listen(port, () => {
+// app.listen(port, () => {
+//     console.log(`Listening on port ${port}`)
+// })
+
+app.listen(port, 'localhost', function() {
     console.log(`Listening on port ${port}`)
-})
+}).on('error', function(err){
+    console.log('on error handler');
+    console.log(err);
+});
+
 

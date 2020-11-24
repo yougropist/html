@@ -39,11 +39,11 @@ class Admin extends Component  {
         })
         .then(data => {           
           if(data !== false){
-            console.log('data :', data)  
+            // console.log('data :', data)  
             this.setState({redirect: true})   
             window.redirect = true      
           } else {
-            console.log("data: ", data)
+            // console.log("data: ", data)
             this.setState({redirect: false}) 
             window.redirect = false
           }
@@ -62,9 +62,9 @@ class Admin extends Component  {
                 <div id="page-inner">
                   <div className="row text-center pad-top">
                     <h2>Connexion administrateur</h2>
-                    <div style={{marginBottom: 50}}>
-                      <input required ref="user" type="text" placeholder="Pseudo" />
-                      <input required ref="mdp" type="password" placeholder="Mot de passe" />
+                    <div style={{margin: '0 auto', textAlign: 'center', display: 'inline-block'}}>
+                      <input className='form-control' required ref="user" type="text" placeholder="Pseudo" />
+                      <input className='form-control'  required ref="mdp" type="password" placeholder="Mot de passe" />
                       <button className="btn btn-primary" onClick={() => { this.connexion() } }>Connexion</button>
                     </div> 
                   </div>

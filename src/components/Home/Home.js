@@ -105,7 +105,7 @@ class Home extends Component {
           }
         })
         .then(data => {
-          // console.log('data :', data, 5555)   
+          console.log('data :', data, 5555)   
           if(data.fiches !== undefined) {this.setState({sousGroupe: [], fiches: data.fiches})} 
           else {this.setState({dataGroupeIndex: data, fiches: []})}
         }) 
