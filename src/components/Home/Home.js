@@ -18,7 +18,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    // console.log("démarage de la fonction serveur")
+    console.log(this.props);
     fetch('/intro', {method: 'POST'})
     .then((res) => {
       if (res.status === 200) {
@@ -63,6 +63,7 @@ class Home extends Component {
       }) 
     } 
   }
+
   componentDidUpdate(prevProps, prevState){
     // console.log(this.props.match.url, 656565656)
     if(this.props.match.url === '/' && prevProps.match.url !== this.props.match.url){
@@ -105,13 +106,12 @@ class Home extends Component {
           }
         })
         .then(data => {
-          console.log('data :', data, 5555)   
+          // console.log('data :', data, 5555)   
           if(data.fiches !== undefined) {this.setState({sousGroupe: [], fiches: data.fiches})} 
           else {this.setState({dataGroupeIndex: data, fiches: []})}
         }) 
       }
-    }
-    
+    }    
   }
   
   handleClick(){

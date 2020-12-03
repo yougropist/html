@@ -62,7 +62,6 @@ class Page extends Component {
               <button className="btn btn-primary" onClick={() => { this.setState({langue: 'fr'}) }}>FR</button>
               <button className="btn btn-primary" onClick={() => { this.setState({langue: 'nl'}) }}>NL</button>
                 <div id='page-inner'>
-
                 <ul className="posts">
                   { 
                   this.state.langue === 'fr' ?
@@ -85,7 +84,6 @@ class Page extends Component {
                   ))
                   }
                 </ul>
-
                 <ul className="groupes">
                 { 
                   this.state.langue === 'fr' ?
@@ -103,8 +101,7 @@ class Page extends Component {
                     </li>
                   ))
                   }
-                </ul>
-            
+                </ul>            
                 </div>
             </div>
             

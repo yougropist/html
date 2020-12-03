@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+// import XLSX from "xlsx";
 import Navbar from '../Navbar/Navbar';
 import Navigation from '../Navigation/Navigation';
 import Footer from '../Footer/Footer';
 import DetailFiche from '../DetailFiche/DetailFiche';
+import excelIcon from '../../assets/img/excel.png';
 import icon1 from '../../assets/img/icone/1.png';
 import icon2 from '../../assets/img/icone/2.png';
 import icon3 from '../../assets/img/icone/3.png';
@@ -229,7 +231,7 @@ class PanelGroupes extends Component  {
 
     
       componentDidMount() {
-        if(!window.redirect) {window.location.href='/'}  
+        // if(!window.redirect) {window.location.href='/'}  
         // console.log("REACT SELECT ALL GROUPE")
         fetch('/allGroupe')
         .then((res) => {
@@ -425,22 +427,28 @@ class PanelGroupes extends Component  {
             }
           })
           .then(data => {
-            // console.log('data :', data)   
+            console.log('data :', data)   
+            if(data === false ){
+              window.alert('Ce groupe contient des sous groupes !')
+            } else {
+              this.setState({moveGroupe: false, moveOn: "", moveStatus: false, moveFiche: ""}) 
+            }
             // this.setState({dataGroupeIndex: data, moveOn: "", moveGroupe: false}) 
-            this.setState({moveGroupe: false, moveOn: "", moveStatus: false, moveFiche: ""}) 
+           
           })
         }else {
           if(moveOn !== "" ) {
             if(moveOn !== elemId){
-              // console.log("Move groupe on: ", this.state.moveOn,"out: ", elemId)
+              // console.log("Move groupe | enfant: ", this.state.moveOn,"parent: ", elemId)
+
               fetch('/moveGroupe', {
                 method: 'POST',
                 headers: new Headers({
                     'Content-Type': 'application/json',
                 }),
                 body: JSON.stringify({
-                  idOn: moveOn,
-                  idOut: elemId
+                  enfant: moveOn,
+                  parent: elemId
                 }),
               })
               .then((res) => {
@@ -454,8 +462,13 @@ class PanelGroupes extends Component  {
                 }
               })
               .then(data => {
-                // console.log('data :', data)   
-                this.setState({dataGroupeIndex: data, moveOn: "", moveGroupe: false}) 
+                // console.log('data :', data)
+                if(data === false){
+                  window.alert('Ce groupe contient des fiches !');
+                } else {
+                  this.setState({dataGroupeIndex: data, moveOn: "", moveGroupe: false}) 
+                }  
+               
               })
             } else {
               this.setState({moveOn: "", moveGroupe: false}) 
@@ -534,7 +547,7 @@ class PanelGroupes extends Component  {
       ficheDetail(id){
         this.setState({idFiche: id})
         this.getChamps()
-        console.log("REACT SELECT DETAIL FICHE: ", id)
+        // console.log("REACT SELECT DETAIL FICHE: ", id)
         fetch('/selectFiche', {
           method: 'POST',
           headers: new Headers({
@@ -742,6 +755,89 @@ class PanelGroupes extends Component  {
       })
     }
     
+    extractExcel(id){
+      if(id === this.state.selected) {
+        let csvContent = "data:text/csv;charset=utf-8,NOM;NOM2;NOM3;THEME1;THEME2;THEME3;THEME4;THEME5;PUBLIC1;PUBLIC2;PUBLIC3;PUBLIC4;PUBLIC5;LANGUE;TYPE;NBR PLACE;ADRESSE;CP;LOCALITE;TEL1;TEL2;GSM1;GSM2;FAX;EMAIL;WEB;SERVICE;AGEMIN;AGEMAX;DESC\r\n\r\n";
+        this.state.nomFiche.map((elem, index) => {
+          csvContent += elem.a1+";"+elem.a2+";"+elem.a3+";"+elem.a4+";"+elem.a5+";"+elem.a6+";"+elem.a7+";"+elem.a8+";"+elem.a9+";"+elem.a10+";"+elem.a11+";"+elem.a12+";"+elem.a13+";"+elem.a14+";"+elem.a15+";"+elem.a16+";"+elem.a17+";"+elem.a18+";"+elem.a19+";"+elem.a20+";"+elem.a21+";"+elem.a22+";"+elem.a23+";"+elem.a24+";"+elem.a25+";"+elem.a26+";"+elem.a27+";"+elem.a28+";"+elem.a29+";"+elem.a30+";\r\n";
+        }); 
+        var encodedUri = encodeURI(csvContent);    
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "my_data.csv");
+        document.body.appendChild(link); 
+        console.log(link);
+        link.click();
+      } else {
+        // console.log(id)
+        fetch('/selectFiche', {
+          method: 'POST',
+          headers: new Headers({
+              'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify({
+            id: id
+          }),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {
+          // console.log('data :', data)   
+          this.setState({detailFiche: data, ifDetailFiche: false}) 
+        })        
+
+        if(this.state.detailFiche.a1 !== undefined){
+          let csvContent = "data:text/csv;content:charset=utf-8,NOM;NOM2;NOM3;THEME1;THEME2;THEME3;THEME4;THEME5;PUBLIC1;PUBLIC2;PUBLIC3;PUBLIC4;PUBLIC5;LANGUE;TYPE;NBR PLACE;ADRESSE;CP;LOCALITE;TEL1;TEL2;GSM1;GSM2;FAX;EMAIL;WEB;SERVICE;AGEMIN;AGEMAX;DESC\r\n\r\n";
+
+          csvContent +=         
+          this.state.detailFiche.a1+";"
+          +this.state.detailFiche.a2+";"
+          +this.state.detailFiche.a3+";"
+          +this.state.detailFiche.a4+";"
+          +this.state.detailFiche.a5+";"
+          +this.state.detailFiche.a6+";"
+          +this.state.detailFiche.a7+";"
+          +this.state.detailFiche.a8+";"
+          +this.state.detailFiche.a9+";"
+          +this.state.detailFiche.a10+";"
+          +this.state.detailFiche.a11+";"
+          +this.state.detailFiche.a12+";"
+          +this.state.detailFiche.a13+";"
+          +this.state.detailFiche.a14+";"
+          +this.state.detailFiche.a15+";"
+          +this.state.detailFiche.a16+";"
+          +this.state.detailFiche.a17+";"
+          +this.state.detailFiche.a18+";"
+          +this.state.detailFiche.a19+";"
+          +this.state.detailFiche.a20+";"
+          +this.state.detailFiche.a21+";"
+          +this.state.detailFiche.a22+";"
+          +this.state.detailFiche.a23+";"
+          +this.state.detailFiche.a24+";"
+          +this.state.detailFiche.a25+";"
+          +this.state.detailFiche.a26+";"
+          +this.state.detailFiche.a27+";"
+          +this.state.detailFiche.a28+";"
+          +this.state.detailFiche.a29+";"
+          +this.state.detailFiche.a30+";";          
+          var encodedUri = encodeURI(csvContent);    
+          var link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", "my_data.csv");
+          document.body.appendChild(link); 
+          console.log(link);
+          link.click();
+        } 
+      }
+    }
 
     // checked(obj){
     //   if(obj.checked){
@@ -755,14 +851,9 @@ class PanelGroupes extends Component  {
     //   }                
     // }
 
-    nameColumnValue(index){
-      this.state.i = "a"+index
-      return 
-    }
-
 
     render(){
-      console.log(this.state.detailFiche, this.state.champs, "test", 9898)
+      // console.log(this.state.detailFiche, this.state.champs, "test", 9898)
       // console.log(" move fiche: ", this.state.moveFiche, "status : ", this.state.moveStatus )
         return(
           <div>
@@ -860,6 +951,7 @@ class PanelGroupes extends Component  {
                             this.state.ifDetailFiche === false && this.state.nomFiche.length > 0 && this.state.openAddFiche === false ?
                             <>
                             <h2>Listes des fiches</h2>
+                            <img id='excel' onClick={() => {this.extractExcel(this.state.selected)}} style={{width: 50}} src={excelIcon} alt="Logo" />
                               {this.state.nomFiche.map((elem, index) => {
                                 // console.log(this.state.nomFiche, elem, 555666555666)
                                 return(
@@ -877,6 +969,7 @@ class PanelGroupes extends Component  {
                                           : <img  src={this.state.listIconPanela[3]} alt="Logo" /> } </a> 
                                         <a onClick={() => this.state.delOnFiche !== elem.id ?  this.setState({delOnFiche: elem.id}) : this.setState({delOnFiche: ""})}> {this.state.delOnFiche !== elem.id ?  <img  src={this.state.listIconPanel[2]} alt="Logo" /> :  <img  src={this.state.listIconPanela[0]} alt="Logo" />  }</a>
                                         <a onClick={() => this.ficheDetail(elem.id) } > <img  src={this.state.listIconPanel[1]} alt="Logo" /></a>
+                                        <img onClick={() => {this.extractExcel(elem.id)}} style={{width: 40}} src={excelIcon} alt="Logo" />
                                       </div>                                    
                                     </li>
                                     <div style={{display: this.state.delOnFiche === elem.id ? "initial" :  "none"}}>
@@ -885,8 +978,6 @@ class PanelGroupes extends Component  {
                                       <button onClick={() => this.setState({delOnFiche: ""})} className="btn btn-danger">Non</button>
                                     </div>
                                   </div>
-                                  
-                                  
                                 )
                               })}
                               </>
@@ -905,10 +996,7 @@ class PanelGroupes extends Component  {
                               <a href="#" className="btn btn-success" style={{width: '100%'}} onClick={() => {this.addFiche()} }> Valider</a>
                             </> 
                             :                            
-                            this.state.ifDetailFiche === true && this.state.updateFiche === false && this.state.openAddFiche === false ?        
-                            // <>
-                            // <p>ok</p>
-                            // </>                     
+                            this.state.ifDetailFiche === true && this.state.updateFiche === false && this.state.openAddFiche === false ?                    
                               this.state.champs.map((elem, index) => {
                                 return this.state.detailFiche[this.state.champs[index].nom] !== '' &&
                                 <DetailFiche data={this.state.detailFiche} champs={this.state.champs[index].nom} i={this.state.champs[index].id} /> 

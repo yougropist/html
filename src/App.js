@@ -20,6 +20,10 @@ import Pages from './components/Pages/Pages';
 
 class App extends Component { 
 
+  componentDidMount(){           
+    fetch('/addVisit')
+  }
+
   render(){
 
     return (

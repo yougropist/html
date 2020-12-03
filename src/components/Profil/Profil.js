@@ -11,11 +11,13 @@ class Profil extends Component  {
           this.state = {
             update: false,
             data: [],
+            day: 0,
+            month: 0,
           }
         }
 
         componentDidMount(){
-            if(!window.redirect) {window.location.href='/'}            
+            // if(!window.redirect) {window.location.href='/'}            
             fetch('/getProfil', {method: 'POST'})
             .then((res) => {
             if (res.status === 200) {
@@ -29,12 +31,12 @@ class Profil extends Component  {
             })
             .then(data => {
             // console.log('data :', data)
-            this.setState({data: data})      
+            this.setState({data: data[2], day: data[0], month: data[1]})      
             })
         }
 
         update(user, pass){
-            console.log(user, pass)
+            // console.log(user, pass)
             this.setState({update: false})
             fetch('/updateProfil', {
                 method: 'PUT',
@@ -57,7 +59,7 @@ class Profil extends Component  {
             }
             })
             .then(data => {
-            console.log('data :', data)
+            // console.log('data :', data)
             this.setState({data: data})      
             })
         }
@@ -84,9 +86,9 @@ class Profil extends Component  {
                                         }
                                     </li>
                                     <li className="list-group-item"><p>Visiteur total</p><p>{this.state.data.visit} </p></li>
-                                    <li className="list-group-item"><p>Visiteur du mois</p><p></p></li>
-                                    <li className="list-group-item"><p>Visiteur de la semaine</p><p></p></li>
-                                    <li className="list-group-item"><p>Visiteur de la journée</p><p></p></li>
+                                    <li className="list-group-item"><p>Visiteur du mois</p><p>{this.state.month}</p></li>
+                                    {/* <li className="list-group-item"><p>Visiteur de la semaine</p><p></p></li> */}
+                                    <li className="list-group-item"><p>Visiteur de la journée</p><p>{this.state.day}</p></li>
                                 </ul>
                                 
                                 

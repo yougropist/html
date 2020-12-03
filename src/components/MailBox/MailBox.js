@@ -39,7 +39,7 @@ class MailBox extends Component {
       }
     })
     .then(data => {    
-      if(data === 'error') {
+      if(data === false) {
         this.refs.info.textContent = "Echec de l'envoi..."
         setTimeout(() => {this.refs.info.textContent = ""}, 5000)
       } 
@@ -76,22 +76,20 @@ class MailBox extends Component {
     return (
       <div className="mailBox">
         <div style={{color: this.state.open && 'transparent'}} className="mailHeader" onClick={() => this.setState({open: !this.state.open})}>
-          <i className="fas fa-envelope fa-2x"></i>
-          <p style={{display: this.state.open && 'none'}}>Nous contacter ?</p>
+          <p style={{color: this.state.open && 'transparent'}}>Nous contacter ?</p>
           <button style={{display: !this.state.open && 'none'}}><span></span></button>
           <span ref="info" style={{display: !this.state.open && 'none'}}></span>
         </div>
         <div className={`mailBody ${this.state.open && 'bodyOpen'}`}>
           <div>
-            <input ref='firstName' placeholder="Prénom" type="text" onChange={e => this.setState({firstName: e.target.value})} />
-            <input ref='lastName' placeholder="Nom" type="text" onChange={e => this.setState({lastName: e.target.value})} />
+            <input ref='firstName' required placeholder="Prénom" type="text" onChange={e => this.setState({firstName: e.target.value})} />
+            <input ref='lastName' required placeholder="Nom" type="text" onChange={e => this.setState({lastName: e.target.value})} />
           </div>
-          <input ref='email' placeholder="Votre adresse email" type="email" onChange={e => this.setState({email: e.target.value})} />
-          <input ref='subject' placeholder="Sujet" type="text" onChange={e => this.setState({subject: e.target.value})} />
-          <textarea ref='message' placeholder="Message" onChange={e => this.setState({message: e.target.value})}></textarea>
+          <input ref='email' required placeholder="Votre adresse email" type="email" onChange={e => this.setState({email: e.target.value})} />
+          <input ref='subject' required placeholder="Sujet" type="text" onChange={e => this.setState({subject: e.target.value})} />
+          <textarea ref='message' required placeholder="Message" onChange={e => this.setState({message: e.target.value})}></textarea>
           <button onClick={() => this.verifyInputs()}>
             <p>Envoyer</p>
-            <i className="fas fa-paper-plane"></i>
           </button>
         </div>
       </div>

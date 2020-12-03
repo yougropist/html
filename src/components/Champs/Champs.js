@@ -14,7 +14,7 @@ class Champs extends Component  {
     
     }
     componentDidMount(){
-      if(!window.redirect) {window.location.href='/'}  
+      // if(!window.redirect) {window.location.href='/'}  
         fetch('/champs')
           .then((res) => {
             if (res.status === 200) {
@@ -37,7 +37,7 @@ class Champs extends Component  {
 
 
 update(id,index){
-    console.log(id,index,this.refs[`nom${index}`].value,this.refs[`nomNl${index}`].value)
+    // console.log(id,index,this.refs[`nom${index}`].value,this.refs[`nomNl${index}`].value)
 
     this.setState({update:''})
 
@@ -63,7 +63,7 @@ update(id,index){
             }
           })
           .then(data => {
-            console.log('data :', data) 
+            // console.log('data :', data) 
           
             // this.setState({champs: data}) 
           })

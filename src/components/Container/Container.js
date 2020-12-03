@@ -115,7 +115,7 @@ class Container extends Component {
           }
         })
         .then(data => {
-          console.log('data :', data)   
+        //   console.log('data :', data)   
           this.setState({detailFiches: data}) 
         })
         fetch('/champs')
@@ -179,7 +179,7 @@ class Container extends Component {
     //   };
 
     render(){
-        console.log(this.state.detailFiches, this.props.match.params.idFiche, this.props ,878787)
+        // console.log(this.state.detailFiches, this.props.match.params.idFiche, this.props ,878787)
         return(
             <div id="page-wrapper" >
                 <div id="page-inner">
@@ -242,12 +242,12 @@ class Container extends Component {
                             <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nomNl} i={this.state.champs[index].id} />                            
                         })
                     }
-                    <button
+                    {/* <button
                         className="btn btn-success"
                         onClick={this.generateExcel}
                     >
                         Export Excel File
-                    </button>
+                    </button> */}
                     </ul>
                     </>
                     : this.props.fiches.length !== 0 ?

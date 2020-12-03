@@ -35,11 +35,12 @@ class SearchBar extends Component {
 
   
   searchFiches(value){
-    if(value !== ""){
+    if(document.getElementById('search').value){
       this.setState({display: true})
     } else {
       this.setState({display: false})
     }
+    console.log()
     fetch('/searchFiches', {
       method: 'POST',
       headers: new Headers({
@@ -67,18 +68,23 @@ class SearchBar extends Component {
   }
 
   render() {
-    // console.log(this.state.fiches, 77)
+    console.log(this.state, 77)
     return(
       <div className="search">
+        {/* Code postale <input type='checkbox'/> */}
         <img src={search} />
-        <input type="search" onChange={e => this.searchFiches(e.target.value)} />
-        <ul style={{opacity: this.state.display ? '1' : '0'}}>
-          {this.state.display &&
+        <input type="text" id='search' onChange={(e) => this.searchFiches(document.getElementById('search').value)} />
+        <ul style={{opacity: this.state.display === true ? '1' : '0'}}>
+          {
+          this.state.display === true &&
             this.state.fiches.map((elem, index) => {
               return(
-                <Link to={`fiche/${elem.id}`} >
-                  {elem.a0}
+              // <p>{elem.a1}</p>
+              <li onClick={() => {this.setState({display: false})}}>
+                <Link to={`fiche/${elem.id}`}  >
+                  {elem.a1}
                 </Link>
+              </li>                
               )             
             }) 
           }
