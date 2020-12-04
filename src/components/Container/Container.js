@@ -260,12 +260,12 @@ class Container extends Component {
                             <li className="list-group-item">
                                 <h4>{elem.a1}</h4>
                                 <Link to={`/fiche/${elem.id}`} ><button className="btn btn-success">
-                                {this.state.langue === 'fr' ?
+                                    {this.state.langue === 'fr' ?
                                     'Détail'
                                     :
                                     'Zien'
                                     } 
-                                    </button></Link>                                    
+                                </button></Link>                                    
                             </li>
                         ))
                     }
@@ -273,7 +273,7 @@ class Container extends Component {
                     </> 
                     :
                     <div className="row text-center pad-top">                    
-                    {this.props.dataGroupeIndex.map((elem, index) => (                     
+                    {this.props.dataGroupeIndex.map((elem, index) => (  
                         <Link to={`/sous-groupe/${elem.id}` }>
                             <div className="col-xs-12 col-md-6 col-lg-3">
                                 <div className="div-square" >
@@ -281,14 +281,15 @@ class Container extends Component {
                                     <h4>
                                     {
                                     this.state.langue === 'fr' ?
-                                     this.props.dataGroupeIndex[index].nom
-                                     :
-                                     this.props.dataGroupeIndex[index].nomNl
+                                    this.props.dataGroupeIndex[index].nom
+                                    :
+                                    this.props.dataGroupeIndex[index].nomNl
                                     } 
-                                     </h4>
+                                    </h4>
                                 </div>
                             </div>
-                        </Link>
+                        </Link>              
+                        
                     ))
                     }
                     </div> 

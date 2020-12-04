@@ -66,7 +66,7 @@ class Page extends Component {
                   { 
                   this.state.langue === 'fr' ?
                   this.state.posts.map(elem => (
-                    <li>
+                    <li style={{display: elem.titre === '' ? 'none' : 'block' }}>
                       <h2>{elem.titre}</h2>
                       {elem.image.length > 0 && <div><img src={elem.image} /></div>}
                       <p>{elem.descriptio}</p>
@@ -75,11 +75,11 @@ class Page extends Component {
                   ))
                   :
                   this.state.posts.map(elem => (
-                    <li>
+                    <li style={{display: elem.titreNL === '' ? 'none' : 'block' }}>
                       <h2>{elem.titreNL}</h2>
                       {elem.image.length > 0 && <div><img src={elem.image} /></div>}
                       <p>{elem.descriptioNL}</p>
-                      {elem.url.length > 0 && <a href={elem.url} target="_blank">Plus d'informations</a>}
+                      {elem.url.length > 0 && <a href={elem.url} target="_blank">Meer informatie</a>}
                     </li>
                   ))
                   }
