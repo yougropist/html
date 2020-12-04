@@ -10,7 +10,7 @@ class Profil extends Component  {
           super(props);
           this.state = {
             update: false,
-            data: [],
+            data: {},
             day: 0,
             month: 0,
           }
@@ -30,7 +30,7 @@ class Profil extends Component  {
             }
             })
             .then(data => {
-            // console.log('data :', data)
+            console.log('data :', data)
             this.setState({data: data[2], day: data[0], month: data[1]})      
             })
         }
