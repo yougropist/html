@@ -40,7 +40,7 @@ class Navigation extends Component {
         return(
             <nav className="navbar-default navbar-side" role="navigation" >
                 <div className="sidebar-collapse">
-                    {/* {window.redirect === true ? 
+                    {window.redirect === true ? 
                     <div>
                         <ul className="nav" id="main-menu" style={{backgroundColor: 'rgb(15, 15, 70)'}}>
                             {adminNav.map(elem => (
@@ -78,8 +78,8 @@ class Navigation extends Component {
                             }
                         </ul>           
                     </div>
-                    } */}
-                    <div>
+                    }
+                    {/* <div>
                         <ul className="nav" id="main-menu" style={{backgroundColor: 'rgb(15, 15, 70)'}}>
                             {adminNav.map(elem => (
                                 <li style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
@@ -99,7 +99,7 @@ class Navigation extends Component {
                             ))
                             }
                         </ul> 
-                    </div>    
+                    </div>     */}
                 </div>
             </nav> 
         ) 

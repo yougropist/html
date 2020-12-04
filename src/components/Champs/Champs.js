@@ -14,7 +14,7 @@ class Champs extends Component  {
     
     }
     componentDidMount(){
-      // if(!window.redirect) {window.location.href='/'}  
+      if(!window.redirect) {window.location.href='/'}  
         fetch('/champs')
           .then((res) => {
             if (res.status === 200) {

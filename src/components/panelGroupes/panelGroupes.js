@@ -231,7 +231,7 @@ class PanelGroupes extends Component  {
 
     
       componentDidMount() {
-        // if(!window.redirect) {window.location.href='/'}  
+        if(!window.redirect) {window.location.href='/'}  
         // console.log("REACT SELECT ALL GROUPE")
         fetch('/allGroupe')
         .then((res) => {

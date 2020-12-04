@@ -31,7 +31,7 @@ class Pages extends Component  {
     }
 
     componentDidMount(){
-      // if(!window.redirect) {window.location.href='/'}  
+      if(!window.redirect) {window.location.href='/'}  
         fetch('/pages')
         .then((res) => {
             if (res.status === 200) {
