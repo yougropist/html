@@ -18,7 +18,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props)
     fetch('/intro', {method: 'POST'})
     .then((res) => {
       if (res.status === 200) {
@@ -36,7 +36,7 @@ class Home extends Component {
     })
     // console.log(this.props.match.params, 565656)
     if (this.props.match.params) {
-      // console.log(this.props.match.params.groupe," aaaa")
+      // console.log(this.props.match.params," aaaa")
       fetch('/sous-groupe', {
         method: 'POST',
         headers: new Headers({
@@ -120,7 +120,7 @@ class Home extends Component {
 
   render(){
     // console.log("REACT RENDER : ", window.redirect)
-    // console.log(this.state.fiches, this.state.dataGroupeIndex, 12)
+    console.log(this.state, 12)
     return (
       <div className="App">      
           <Navbar />

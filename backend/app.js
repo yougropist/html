@@ -39,15 +39,15 @@ app.post('/contact', (req,res) => {
             console.log('Email sent: ' + info.response);
         }
       });      
-})
+}) 
 
 
 app.post('/searchFiches', (req,res) => {
-    console.log(req.body," SERVEUR SEARCH FICHES")    
+    // console.log(req.body," SERVEUR SEARCH FICHES")    
     connexion.query(`SELECT * FROM fiches WHERE CONCAT(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29) LIKE '%` + req.body.value + `%'`, (err, response1) => {
         if(err) console.log(err)
         else { 
-            console.log(response1) 
+            // console.log(response1) 
             res.json(response1)                    
         }
     })

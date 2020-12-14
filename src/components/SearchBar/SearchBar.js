@@ -68,23 +68,21 @@ class SearchBar extends Component {
   }
 
   render() {
-    console.log(this.state, 77)
+    // console.log(this.state, 77)
     return(
-      <div className="search">
+      <div style={{marginLeft: 5, marginTop: 10}} className="search">
         {/* Code postale <input type='checkbox'/> */}
         <img src={search} />
         <input type="text" id='search' onChange={(e) => this.searchFiches(document.getElementById('search').value)} />
         <ul style={{opacity: this.state.display === true ? '1' : '0'}}>
-          {
-          this.state.display === true &&
+          { this.state.display === true &&
             this.state.fiches.map((elem, index) => {
               return(
-              // <p>{elem.a1}</p>
-              <li onClick={() => {this.setState({display: false})}}>
-                <Link to={`fiche/${elem.id}`}  >
-                  {elem.a1}
-                </Link>
-              </li>                
+              <Link to={`/fiche/${elem.id}`}  >
+                <li key={elem.id} onClick={() => {this.setState({display: false})}}>                  
+                    {elem.a1}                  
+                </li>
+              </Link>
               )             
             }) 
           }

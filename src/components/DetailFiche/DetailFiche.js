@@ -7,7 +7,7 @@ function DetailFiche(props){
     return(
         <>
         {props.data[index] !== '' &&
-            <li className="list-group-item">
+            <li  style={{backgroundColor: '#d9edf7'}} className="list-group-item">
                 <h4 style={{fontWeight: 'bold', textAlign: 'left', width:140}}>{props.champs}</h4>
                 <h4 style={{textAlign: 'right', width:500}}> {props.data[index]} </h4>
             </li>

@@ -3,6 +3,7 @@ import DetailFiche from '../DetailFiche/DetailFiche';
 import SearchBar from '../SearchBar/SearchBar';
 import { Link } from 'react-router-dom';
 import {withRouter} from 'react-router';
+import { ScrollView } from "@cantonjs/react-scroll-view";
 // import XLSX from "xlsx";
 
 class Container extends Component {
@@ -25,6 +26,12 @@ class Container extends Component {
           redirect: false,
           from: '',
           langue: 'fr',
+          i: -1,
+          display : false,
+          newArray: [],
+          tabSelected: 0,
+          array: [],
+          inputSearch: '',
         }        
       }
 
@@ -58,14 +65,14 @@ class Container extends Component {
                 }
               })
               .then(data => {
-                // console.log('data :', data[0].descriptionGroupeFr)   
+                console.log('data :', data[0].descriptionGroupeFr)   
                 this.setState({
                     descFr: data[0].descriptionGroupeFr, 
                     descNl: data[0].descriptionGroupeNl,
                     nom: data[0].nom,
                     nomNl: data[0].nomNl
                 }) 
-              })
+            })
         }
     }
 
@@ -134,54 +141,82 @@ class Container extends Component {
         this.setState({champs: data}) 
         })
     }
+    searchFiches(value){     
+        this.setState({inputSearch: value})   
+        if(document.getElementById('search').value){
+          this.setState({display: true})
+        } else {
+          this.setState({display: false})
+        }
+        console.log()
+        fetch('/searchFiches', {
+          method: 'POST',
+          headers: new Headers({
+              'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify({
+            value: value
+          }),
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            // console.log('correct: ',res.status)
+            return res.json()
+          } 
+          else {
+            console.log('error: ',res.status)
+            return null
+          }
+        })
+        .then(data => {
+            // console.log("data :", data)
+            this.setState({fiches: data}, this.sliceArray(data))                       
+        })        
+    }
+    nextPage(){        
+        if(this.state.tabSelected+1 < this.state.newArray.length){
+            this.setState({tabSelected: this.state.tabSelected+1})
+            console.log(this.state.tabSelected, this.state.newArray.length)
+        }        
+    }
+    
+    previousPage(){
+        // console.log(this.state.tabSelected, 0)
+        if(this.state.tabSelected > 0){
+            this.setState({tabSelected: this.state.tabSelected-1})
+        }
+        
+    }
 
-    // generateExcel = () => {
-    //     let cols = this.state.champs.map(
-    //       (elem, index) => this.state.champs[index].nom
-    //     );
-    //     let data = this.state.champs.map(
-    //       (elem, index) => this.state.detailFiches[`a${index}`]
-    //     );
-    
-    //     cols = cols.filter((col, i) => data[i]);
-    //     data = data.filter((val) => !!val);
-    
-    //     const excelData = [cols, data];
-    
-    //     const ws = XLSX.utils.aoa_to_sheet(excelData);
-    
-    //     /* Format */
-    //     let objectMaxLength = [];
-    //     for (let i = 0; i < cols.length; i++) {
-    //       let value = data;
-    //       for (let j = 0; j < value.length; j++) {
-    //         if (typeof value[j] == "number") {
-    //           objectMaxLength[j] = 10;
-    //         } else {
-    //           objectMaxLength[j] =
-    //             objectMaxLength[j] >= value[j].length
-    //               ? objectMaxLength[j]
-    //               : value[j].length;
-    //         }
-    //       }
-    //     }
-    
-    //     const wscols = objectMaxLength.map((width) => ({ width }));
-    
-    //     ws["!cols"] = wscols;
-    //     /* END Format*/
-    
-    //     const wb = XLSX.utils.book_new();
-    
-    //     XLSX.utils.book_append_sheet(wb, ws, "DetailFiche");
-    //     /* generate XLSX file and send to client */
-    //     XLSX.writeFile(wb, "DetailFiche.xlsx");
-    //   };
+    btnBack(){
+        if(this.state.display == true){
+            document.getElementById('search').value = ''
+            this.setState({newArray: [], fiches: [], display: false})
+        } else{
+            this.props.history.goBack()
+        }   
+    }
+
+    sliceArray(data){
+        this.setState({newArray: [], i: -1})
+        data.map((elem, index) => {                      
+            if(index > this.state.i){
+                this.state.i = index+15                
+                this.state.newArray.push(data.slice(index, this.state.i))                                             
+            }                                                     
+        }) 
+        this.setState({array: this.state.newArray[this.state.tabSelected]})
+    }
+
+    clickFiche(){
+        this.setState({display: false})
+        document.getElementById('search').value = ''
+    }
 
     render(){
-        // console.log(this.state.detailFiches, this.props.match.params.idFiche, this.props ,878787)
+        console.log(this.state,878787)
         return(
-            <div id="page-wrapper" >
+            <div style={{paddingTop: 0}} id="page-wrapper" >
                 <div id="page-inner">
                     <div className="row">
                         <div className="col-lg-12">
@@ -212,90 +247,134 @@ class Container extends Component {
                             </div>
                         </div>
                     </div>
-                    <SearchBar />
-                    <div className="row" style={{display: this.state.descFr !== '' && this.state.descNl !== '' ? 'initial' : 'none'}}>
-                        <div className="col-lg-12 ">
-                            <div className="alert alert-info">
-                                <p>{this.state.langue === 'fr' ?
-                                    this.state.descFr
-                                    :
-                                    this.state.descNl
-                                    } 
-                                </p> 
-                            </div>
-                        </div>
+                    {/* <SearchBar /> */}
+                    <div style={{width: '100%', textAlign:'center'}}>
+                        <input type="text" id='search' style={{width: 500, textAlign:'center', borderRadius: 15}} placeholder='Recherche' onChange={(e) => {this.searchFiches(document.getElementById('search').value)}} />
                     </div>
-                    {this.state.detailFiches.length !== 0 ?
-                    <>
-                    <ul className="list-group list-champs">
-                    {              
-                     this.state.langue === 'fr' ?
-                        this.state.champs.map((elem, index) => {
-                            // console.log(this.state.champs[index].id, "ZEBI")
-                            return this.state.detailFiches[this.state.champs[index].nom] !== '' &&
-                            <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nom} i={this.state.champs[index].id} />                            
-                        })
-                    :
-                        this.state.champs.map((elem, index) => {
-                            // console.log(this.state.champs[index].id, "ZEBI")
-                            return this.state.detailFiches[this.state.champs[index].nomNl] !== '' &&
-                            <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nomNl} i={this.state.champs[index].id} />                            
-                        })
-                    }
-                    {/* <button
-                        className="btn btn-success"
-                        onClick={this.generateExcel}
-                    >
-                        Export Excel File
-                    </button> */}
-                    </ul>
-                    </>
-                    : this.props.fiches.length !== 0 ?
-                    <>
-                    <ul className="list-group list-champs">
-                    {
-                        // console.log(this.props.fiches, "ici"),     
-                        this.props.fiches.map((elem, index) => (
-                                            
-                            <li className="list-group-item">
-                                <h4>{elem.a1}</h4>
-                                <Link to={`/fiche/${elem.id}`} ><button className="btn btn-success">
-                                    {this.state.langue === 'fr' ?
-                                    'Détail'
-                                    :
-                                    'Zien'
-                                    } 
-                                </button></Link>                                    
-                            </li>
-                        ))
-                    }
-                    </ul>
-                    </> 
-                    :
-                    <div className="row text-center pad-top">                    
-                    {this.props.dataGroupeIndex.map((elem, index) => (  
-                        <Link to={`/sous-groupe/${elem.id}` }>
-                            <div className="col-xs-12 col-md-6 col-lg-3">
-                                <div className="div-square" >
-                                    <img src={this.props.dataGroupeIndex[index].icon} alt="Logo" />
-                                    <h4>
-                                    {
-                                    this.state.langue === 'fr' ?
-                                    this.props.dataGroupeIndex[index].nom
-                                    :
-                                    this.props.dataGroupeIndex[index].nomNl
-                                    } 
-                                    </h4>
+                    {this.props.match.url !== '/' &&
+                        <button onClick={() => {this.btnBack() }} style={{margin: 5}} className='btn btn-primary'>Retour</button>
+                    } 
+                    <div style={{display: this.state.display === true ? 'initial' : 'none'}}>
+                        {/* {this.state.langue === "fr" ?
+                            <h4>Nombre de fiches correspondantes: {this.state.fiches.length}</h4>
+                        :    
+                            <h4>Aantal overeenkomende records: {this.state.fiches.length}</h4>
+                        }      */}
+                        <ul style={{paddingLeft:0, marginTop: 30, textAlign: 'center'}}>
+                        {
+                            <div>
+                                {                
+                                this.state.newArray.length > 0 &&                                       
+                                    this.state.newArray[this.state.tabSelected].map((elem, index) => {
+                                        return(
+                                            <Link  to={`/fiche/${elem.id}`}  >
+                                                <li key={elem.id} style={{flexDirection: 'row' , listStyle: 'none', fontSize:14, backgroundColor: '#d9edf7', marginTop: 5,marginLeft: 0, marginRight: 0}} onClick={() => {this.clickFiche()}}>                  
+                                                    <p><b>{elem.a1}</b></p>                     
+                                                </li>
+                                            </Link>                                           
+                                        )             
+                                    }) 
+                                }
+                            </div>                                 
+                        }
+                        </ul>
+                        {this.state.langue === "fr" ?
+                            <div style={{textAlign: 'center', marginTop: 20}}>
+                                <button style={{display: 'inline-block', float: 'left'}} className='btn btn-primary' onClick={() => this.previousPage()}>Page précédente</button>
+                                <h4 style={{display: 'inline-block', backgroundColor: '#d9edf7', padding: 10, borderRadius: 7}}>Page: {this.state.tabSelected+1}/{this.state.newArray.length}</h4>
+                                <button style={{display: 'inline-block', float: 'right'}} className='btn btn-primary' onClick={() => this.nextPage()}>Page suivante</button>
+                            </div>
+                        :    
+                            <div style={{textAlign: 'center', marginTop: 20}}>
+                                <button style={{display: 'inline-block', float: 'left'}} className='btn btn-primary' onClick={() => this.previousPage()}>Vorige pagina</button>
+                                <h4 style={{display: 'inline-block', backgroundColor: '#d9edf7', padding: 10, borderRadius: 7}}>Pagina: {this.state.tabSelected+1}/{this.state.newArray.length}</h4>
+                                <button style={{display: 'inline-block', float: 'right'}} className='btn btn-primary' onClick={() => this.nextPage()}>Volgende pagina</button>
+                            </div>
+                        }
+                        
+                    </div>
+                    <div style={{display: this.state.display === false ? 'initial' : 'none'}}>                                      
+                        <div className="row" style={{display: this.state.descFr !== '' && this.state.descNl !== '' ? 'initial' : 'none'}}>
+                            <div className="col-lg-12 ">
+                                <div className="alert alert-info">
+                                    <p>{this.state.langue === 'fr' ?
+                                        this.state.descFr
+                                        :
+                                        this.state.descNl
+                                        } 
+                                    </p> 
                                 </div>
                             </div>
-                        </Link>              
-                        
-                    ))
-                    }
+                        </div>
+                        {this.state.detailFiches.length !== 0 ?
+                        <>
+                        <ul className="list-group list-champs">
+                        {              
+                        this.state.langue === 'fr' ?
+                            this.state.champs.map((elem, index) => {
+                                // console.log(this.state.champs[index].id, "ZEBI")
+                                return this.state.detailFiches[this.state.champs[index].nom] !== '' &&
+                                <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nom} i={this.state.champs[index].id} />                            
+                            })
+                        :
+                            this.state.champs.map((elem, index) => {
+                                // console.log(this.state.champs[index].id, "ZEBI")
+                                return this.state.detailFiches[this.state.champs[index].nomNl] !== '' &&
+                                <DetailFiche data={this.state.detailFiches} champs={this.state.champs[index].nomNl} i={this.state.champs[index].id} />                            
+                            })
+                        }
+                        {/* <button
+                            className="btn btn-success"
+                            onClick={this.generateExcel}
+                        >
+                            Export Excel File
+                        </button> */}
+                        </ul>
+                        </>
+                        : this.props.fiches.length !== 0 ?
+                        <>
+                        <ul className="list-group list-champs">
+                        {
+                            // console.log(this.props.fiches, "ici"),     
+                            this.props.fiches.map((elem, index) => (
+                                                
+                                <li style={{backgroundColor: '#d9edf7'}} className="list-group-item">
+                                    <h4>{elem.a1}</h4>
+                                    <Link to={`/fiche/${elem.id}`} ><button className="btn btn-success">
+                                        {this.state.langue === 'fr' ?
+                                        'Détail'
+                                        :
+                                        'Zien'
+                                        } 
+                                    </button></Link>                                    
+                                </li>
+                            ))
+                        }
+                        </ul>
+                        </> 
+                        :
+                        <div className="row text-center pad-top" style={{marginLeft: 10, marginRight:10}}>                    
+                        {this.props.dataGroupeIndex.map((elem, index) => (  
+                            <Link to={`/sous-groupe/${elem.id}` }>
+                                <div className="col-xs-12 col-md-6 col-lg-3" style={{paddingLeft: 0, paddingRight: 0}}>
+                                    <div className="div-square" >
+                                        <img src={this.props.dataGroupeIndex[index].icon} alt="Logo" />
+                                        <h4>
+                                        {
+                                        this.state.langue === 'fr' ?
+                                            this.props.dataGroupeIndex[index].nom
+                                        :
+                                            this.props.dataGroupeIndex[index].nomNl
+                                        } 
+                                        </h4>
+                                    </div>
+                                </div>
+                            </Link>     
+                        ))
+                        }
+                        </div> 
+                        } 
                     </div> 
-                    }
-                    
-                     
                 </div> 
             </div>
         ) 
