@@ -430,11 +430,10 @@ class PanelGroupes extends Component  {
             console.log('data :', data)   
             if(data === false ){
               window.alert('Ce groupe contient des sous groupes !')
+              this.setState({moveGroupe: false, moveOn: "", moveStatus: false, moveFiche: ""})
             } else {
               this.setState({moveGroupe: false, moveOn: "", moveStatus: false, moveFiche: ""}) 
             }
-            // this.setState({dataGroupeIndex: data, moveOn: "", moveGroupe: false}) 
-           
           })
         }else {
           if(moveOn !== "" ) {
@@ -854,7 +853,7 @@ class PanelGroupes extends Component  {
 
     render(){
       // console.log(this.state.detailFiche, this.state.champs, "test", 9898)
-      // console.log(" move fiche: ", this.state.moveFiche, "status : ", this.state.moveStatus )
+      console.log("state :\n", this.state)
         return(
           <div>
             <Navbar />
@@ -880,7 +879,7 @@ class PanelGroupes extends Component  {
                       <div style={{marginBottom: 20, margin: '0 auto'}}>
                       {
                         this.state.listIcon.map((elem, index) => {
-                          return(<><a onClick={() => {this.setState({newIcon: elem})}} > {this.state.newIcon !== elem ? <img  src={elem} alt="Logo" /> : <img  src={this.state.listIcona[index]} alt="Logo" />}  </a></> )                        
+                          return(<><a key={index} onClick={() => {this.setState({newIcon: elem})}} > {this.state.newIcon !== elem ? <img  src={elem} alt="Logo" /> : <img  src={this.state.listIcona[index]} alt="Logo" />}  </a></> )                        
                         }) 
                       }
                       </div>
@@ -892,7 +891,7 @@ class PanelGroupes extends Component  {
                     <li className="pathItem" onClick={() => {this.setState({path: [], selected: 0,ifDetailFiche: false, nomFiche: [], detailFiche: [], updateFiche: false , addFG: "groupe", openAddFiche: false, descFr:'', descNl: ''})}}><a href='#'><i className="fa fa-home fa-2x" aria-hidden="true"></i></a></li> 
                     {
                       this.state.path.map((elem, index) => {
-                        return( <li className="pathItem" onClick={ () => {this.refreshPath(index, elem.id)} }> <a href='#'>{elem.nom}</a></li>)
+                        return( <li key={index} className="pathItem" onClick={ () => {this.refreshPath(index, elem.id)} }> <a href='#'>{elem.nom}</a></li>)
                       })
                     }
                   </ul>
@@ -911,8 +910,8 @@ class PanelGroupes extends Component  {
                             this.state.dataGroupeIndex.map((elem, index) => {
                               return (
                                 <>
-                                <li className={`list-group-item ${elem.id_categorie !== this.state.selected && "hidden" }`} > 
-                                  <img  src={elem.icon} alt="Logo" />
+                                <li key={index} className={`list-group-item ${elem.id_categorie !== this.state.selected && "hidden" }`} > 
+                                  <img src={elem.icon} alt="Logo" />
                                   <input ref={`nom${index}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nom}/>
                                   <input ref={`nomNl${index}`} className={this.state.updateOn === elem.id ? "active" : undefined } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nomNl}/>
                                   <div>
@@ -941,7 +940,7 @@ class PanelGroupes extends Component  {
                                 <div style={{display: this.state.updateOn === elem.id ? "initial" :  "none"}}>
                                   {
                                     this.state.listIcon.map((elem, index) => {
-                                      return(<><a onClick={() => {this.setState({updateIcon: elem})}} > {this.state.updateIcon !== elem ? <img  src={elem} alt="Logo" /> : <img  src={this.state.listIcona[index]} alt="Logo" />}  </a></> )                        
+                                      return(<><a key={index} onClick={() => {this.setState({updateIcon: elem})}} > {this.state.updateIcon !== elem ? <img  src={elem} alt="Logo" /> : <img  src={this.state.listIcona[index]} alt="Logo" />}  </a></> )                        
                                     })
                                   }
                                 </div>
@@ -955,7 +954,7 @@ class PanelGroupes extends Component  {
                               {this.state.nomFiche.map((elem, index) => {
                                 // console.log(this.state.nomFiche, elem, 555666555666)
                                 return(
-                                  <div>
+                                  <div key={index}>
                                     <li className="list-group-item" >  
                                       <p style={{textAlign: 'left', width:300}}>{elem.a1}</p>
                                       <p style={{textAlign: 'left', width:100}}>{elem.a18}</p>
@@ -987,7 +986,7 @@ class PanelGroupes extends Component  {
                               {this.state.champs.map((elem, index) => {
                                 // console.log(this.state.champs, "la")
                                 return (
-                                  <li className="list-group-item">
+                                  <li key={index} className="list-group-item">
                                     <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
                                     <textarea className="form-control" style={{backgroundColor: '#fff', width: 500}} id={`${this.state.champs[index].nom}`} type="text" ></textarea>
                                   </li>
@@ -1005,7 +1004,7 @@ class PanelGroupes extends Component  {
                               this.state.champs.map((elem, index) => {
                                 // console.log("ici")
                                 return (
-                                  <li className="list-group-item">  
+                                  <li key={index} className="list-group-item">  
                                     <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
                                     <input id={`a${this.state.champs[index].id}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={this.state.detailFiche["a"+this.state.champs[index].id]}/>
                                     <a onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.ficheUpdate(index, this.state.selected) } >{this.state.updateOn === elem.id ?  <img  src={this.state.listIconPanela[2]} alt="Logo" /> : <img  src={this.state.listIconPanel[4]} alt="Logo" /> }</a>

@@ -51,7 +51,7 @@ class Page extends Component {
   }
 
   render() {
-    console.log(this.state.posts, 'ici')
+    console.log(this.state, 'ici')
     this.urlUpdate()
     
     return (
@@ -70,7 +70,7 @@ class Page extends Component {
                       <h2>{elem.titre}</h2>
                       {elem.image.length > 0 && <div><img src={elem.image} /></div>}
                       <p>{elem.descriptio}</p>
-                      {elem.url.length > 0 && <a href={elem.url} target="_blank">Plus d'informations</a>}
+                      {elem.url.length > 0 && <a href={`https://`+elem.url} target="_blank">Plus d'informations</a>}
                     </li>
                   ))
                   :
@@ -79,7 +79,7 @@ class Page extends Component {
                       <h2>{elem.titreNL}</h2>
                       {elem.image.length > 0 && <div><img src={elem.image} /></div>}
                       <p>{elem.descriptioNL}</p>
-                      {elem.url.length > 0 && <a href={elem.url} target="_blank">Meer informatie</a>}
+                      {elem.url.length > 0 && <a href={`https://`+elem.url} target="_blank">Meer informatie</a>}
                     </li>
                   ))
                   }

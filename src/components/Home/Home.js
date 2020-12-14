@@ -120,7 +120,7 @@ class Home extends Component {
 
   render(){
     // console.log("REACT RENDER : ", window.redirect)
-    console.log(this.state, 12)
+    // console.log(this.state, 12)
     return (
       <div className="App">      
           <Navbar />

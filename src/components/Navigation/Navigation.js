@@ -28,13 +28,13 @@ class Navigation extends Component {
     }
 
     render() {
-        // console.log(window.redirect, 5656)
+        // console.log(this.state, 5656)
         const adminNav = [
-            {text: 'Profil', link: '/profil'},
-            {text: 'Gestions des champs', link: '/champs'},
-            {text: 'Gestions des groupes', link: '/panelGroupes'},
-            {text: 'Gestions des pages', link: '/pages'},
-            {text: 'Deconnexion', link: '/logout'}
+            {id: 0, text: 'Profil', link: '/profil'},
+            {id: 1, text: 'Gestions des champs', link: '/champs'},
+            {id: 2, text: 'Gestions des groupes', link: '/panelGroupes'},
+            {id: 3, text: 'Gestions des pages', link: '/pages'},
+            {id: 4, text: 'Deconnexion', link: '/logout'}
         ]
 
         return(
@@ -44,7 +44,7 @@ class Navigation extends Component {
                     <div>
                         <ul className="nav" id="main-menu" style={{backgroundColor: 'rgb(15, 15, 70)'}}>
                             {adminNav.map(elem => (
-                                <li style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
+                                <li key={elem.id} style={{backgroundColor: window.location.pathname === elem.link && 'rgb(50, 50, 130)'}}>
                                     <Link style={{color: 'rgb(150, 150, 245)'}} to={elem.link}> {elem.text}</Link>
                                 </li>
                             ))}
@@ -55,7 +55,7 @@ class Navigation extends Component {
                                 </li>
                             {
                             this.state.pages.map(elem => (
-                                <li className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>
+                                <li key={elem.id} className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>
                                     <Link to={`/page/${elem.id}`}>{elem.nom}</Link>
                                 </li>
                             ))
@@ -71,7 +71,7 @@ class Navigation extends Component {
                             </li>
                             {
                             this.state.pages.map(elem => (
-                                <li className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>
+                                <li key={elem.id} className={this.props.match.params.page === elem.id ? 'active-link' : undefined}>
                                     <Link to={`/page/${elem.id}`}>{elem.nom}</Link>
                                 </li>
                             ))

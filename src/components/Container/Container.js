@@ -65,7 +65,7 @@ class Container extends Component {
                 }
               })
               .then(data => {
-                console.log('data :', data[0].descriptionGroupeFr)   
+                // console.log('data :', data[0].descriptionGroupeFr)   
                 this.setState({
                     descFr: data[0].descriptionGroupeFr, 
                     descNl: data[0].descriptionGroupeNl,
@@ -176,7 +176,7 @@ class Container extends Component {
     nextPage(){        
         if(this.state.tabSelected+1 < this.state.newArray.length){
             this.setState({tabSelected: this.state.tabSelected+1})
-            console.log(this.state.tabSelected, this.state.newArray.length)
+            // console.log(this.state.tabSelected, this.state.newArray.length)
         }        
     }
     
@@ -214,7 +214,7 @@ class Container extends Component {
     }
 
     render(){
-        console.log(this.state,878787)
+        // console.log(this.state,878787)
         return(
             <div style={{paddingTop: 0}} id="page-wrapper" >
                 <div id="page-inner">
@@ -267,7 +267,7 @@ class Container extends Component {
                                 this.state.newArray.length > 0 &&                                       
                                     this.state.newArray[this.state.tabSelected].map((elem, index) => {
                                         return(
-                                            <Link  to={`/fiche/${elem.id}`}  >
+                                            <Link key={elem.id} to={`/fiche/${elem.id}`}  >
                                                 <li key={elem.id} style={{flexDirection: 'row' , listStyle: 'none', fontSize:14, backgroundColor: '#d9edf7', marginTop: 5,marginLeft: 0, marginRight: 0}} onClick={() => {this.clickFiche()}}>                  
                                                     <p><b>{elem.a1}</b></p>                     
                                                 </li>
@@ -355,7 +355,7 @@ class Container extends Component {
                         :
                         <div className="row text-center pad-top" style={{marginLeft: 10, marginRight:10}}>                    
                         {this.props.dataGroupeIndex.map((elem, index) => (  
-                            <Link to={`/sous-groupe/${elem.id}` }>
+                            <Link key={elem.id} to={`/sous-groupe/${elem.id}` }>
                                 <div className="col-xs-12 col-md-6 col-lg-3" style={{paddingLeft: 0, paddingRight: 0}}>
                                     <div className="div-square" >
                                         <img src={this.props.dataGroupeIndex[index].icon} alt="Logo" />

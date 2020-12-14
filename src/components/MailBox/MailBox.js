@@ -40,12 +40,12 @@ class MailBox extends Component {
     })
     .then(data => {    
       if(data === false) {
-        this.refs.info.textContent = "Echec de l'envoi..."
-        setTimeout(() => {this.refs.info.textContent = ""}, 5000)
+        document.getElementById('info').textContent = "Echec de l'envoi..."
+        setTimeout(() => {document.getElementById('info').textContent = ""}, 5000)
       } 
       else {
-        this.refs.info.textContent = "Envoyé avec succès !"
-        setTimeout(() => {this.refs.info.textContent = ""}, 5000)
+        document.getElementById('info').textContent = "Envoyé avec succès !"
+        setTimeout(() => {document.getElementById('info').textContent = ""}, 5000)
     
         inputs.map(elem => {
           this.refs[elem].value = ''
@@ -78,7 +78,7 @@ class MailBox extends Component {
         <div style={{color: this.state.open && 'transparent'}} className="mailHeader" onClick={() => this.setState({open: !this.state.open})}>
           <p style={{color: this.state.open && 'transparent'}}>Nous contacter ?</p>
           <button style={{display: !this.state.open && 'none'}}><span></span></button>
-          <span ref="info" style={{display: !this.state.open && 'none'}}></span>
+          <span id="info" style={{display: !this.state.open && 'none'}}></span>
         </div>
         <div className={`mailBody ${this.state.open && 'bodyOpen'}`}>
           <div>
