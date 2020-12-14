@@ -144,9 +144,9 @@ class Container extends Component {
     searchFiches(value){     
         this.setState({inputSearch: value})   
         if(document.getElementById('search').value){
-          this.setState({display: true})
+          this.setState({display: true, tabSelected: 0})
         } else {
-          this.setState({display: false})
+          this.setState({display: false, tabSelected: 0})
         }
         console.log()
         fetch('/searchFiches', {
@@ -191,7 +191,7 @@ class Container extends Component {
     btnBack(){
         if(this.state.display == true){
             document.getElementById('search').value = ''
-            this.setState({newArray: [], fiches: [], display: false})
+            this.setState({newArray: [], fiches: [], display: false, tabSelected: 0})
         } else{
             this.props.history.goBack()
         }   

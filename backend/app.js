@@ -242,7 +242,7 @@ app.post('/updateDescGroupe', (req,res) => {
             connexion.query(`SELECT * FROM groupe WHERE id='${req.body.id}'` , (err, response) => {
                 if(err) console.log(err)
                 else{
-                    console.log(response)
+                    // console.log(response)
                     res.json(response)
                 }
             })
