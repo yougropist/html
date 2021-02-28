@@ -617,11 +617,9 @@ class PanelGroupes extends Component  {
         arrayChamps.push(champs)
         arrayValue.push(value)
       })    
-      // console.log("ARRAY CHAMP ",arrayChamps)
-      // console.log("ARRAY VALUE ",arrayValue)
-      // console.log('ADD FICHE REACT',  arrayChamps)
-      fetch('/addFiche', {
-        
+      console.log("ARRAY CHAMP ",arrayChamps)
+      console.log("ARRAY VALUE ",arrayValue)
+      fetch('/addFiche', {        
         method: 'POST',
         headers: new Headers({
             'Content-Type': 'application/json',
@@ -643,7 +641,7 @@ class PanelGroupes extends Component  {
         }
       })
       .then(data => {
-        // console.log('data champs :', data) 
+        console.log('data champs :', data) 
         this.setState({nomFiche: data, openAddFiche: false})
       })
     }
@@ -916,20 +914,20 @@ class PanelGroupes extends Component  {
                                   <input ref={`nomNl${index}`} className={this.state.updateOn === elem.id ? "active" : undefined } disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={elem.nomNl}/>
                                   <div>
                                     {/* {console.log("moveOn: ", this.state.moveOn,"/ moveStatus: ", this.state.moveStatus )} */}
-                                    <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id, }) : this.updateGroupe(elem.id, index, this.state.updateIcon) } > {this.state.updateOn !== elem.id ? <img  src={this.state.listIconPanel[4]} alt="Logo" /> : <img  src={this.state.listIconPanela[2]} alt="Logo" /> }   </a>
+                                    <a className={this.state.updateOn === elem.id ? "green" : "white"} onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id, }) : this.updateGroupe(elem.id, index, this.state.updateIcon) } > {this.state.updateOn !== elem.id ? <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Modifier</i> : <i style={{color: 'white', backgroundColor: 'green', padding: 3, borderRadius: 3}}>Modifier</i> }   </a>
                                     {/* <a className={this.state.moveOn === "" ? "white" : this.state.moveOn === elem.id ? "red" : "green"} onClick={() => this.state.moveOn !== elem.id ? this.moveGroupe(this.state.moveOn, elem.id) : this.moveGroupe(this.state.moveOn, elem.id) }> {this.state.moveStatus === true && this.state.moveOn !== elem.id  ?  <img  src={this.state.listIconPanela[1]} alt="Logo" /> : this.state.moveOn === "" ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> : this.state.moveOn === elem.id ? <img  src={this.state.listIconPanela[3]} alt="Logo" /> : <img  src={this.state.listIconPanel[3]} alt="Logo" />  }   </a>  */}
                                     <a onClick={() => this.state.moveOn === elem.id 
                                       ? this.moveGroupe(this.state.moveOn, elem.id) 
                                       : this.moveGroupe(this.state.moveOn, elem.id) }> 
                                       {this.state.moveStatus === false && this.state.moveOn === "" 
-                                      ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> 
+                                      ? <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Déplacer</i>
                                       : this.state.moveStatus === true && this.state.moveOn === "" 
-                                      ? <img  src={this.state.listIconPanela[1]} alt="Logo" /> 
+                                      ? <i style={{color: 'white', backgroundColor: 'green', padding: 3, borderRadius: 3}}>Envoyer</i> 
                                       : this.state.moveOn === elem.id 
-                                      ? <img  src={this.state.listIconPanela[3]} alt="Logo" /> 
-                                      : <img  src={this.state.listIconPanela[1]} alt="Logo" /> }   </a> 
-                                    <a className={this.state.delOn === elem.id ? "green" : "white"} onClick={() => this.state.delOn !== elem.id ?  this.setState({delOn: elem.id}) : this.setState({delOn: ""})}> {this.state.delOn !== elem.id ?  <img  src={this.state.listIconPanel[2]} alt="Logo" /> :  <img  src={this.state.listIconPanela[0]} alt="Logo" />  }</a>
-                                    <a className="white" onClick={() => this.setState((prevState => ({path: [...prevState.path, elem], selected: elem.id})), () => {this.openGroupe()} ) } > <img  src={this.state.listIconPanel[1]} alt="Logo" />   </a>
+                                      ? <i style={{color: 'white', backgroundColor: 'red', padding: 3, borderRadius: 3}}>Annuler</i>
+                                      : <i style={{color: 'white', backgroundColor: 'green', padding: 3, borderRadius: 3}}>Envoyer</i> }   </a> 
+                                    <a className={this.state.delOn === elem.id ? "green" : "white"} onClick={() => this.state.delOn !== elem.id ?  this.setState({delOn: elem.id}) : this.setState({delOn: ""})}> {this.state.delOn !== elem.id ?  <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Supp.</i> :  <i style={{color: 'white', backgroundColor: 'red', padding: 3, borderRadius: 3}}>Supp.</i>  }</a>
+                                    <a className="white" onClick={() => this.setState((prevState => ({path: [...prevState.path, elem], selected: elem.id})), () => {this.openGroupe()} ) } > <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Voir</i>   </a>
                                   </div>
                                 </li>
                                 <div style={{display: this.state.delOn === elem.id ? "initial" :  "none"}}>
@@ -959,15 +957,15 @@ class PanelGroupes extends Component  {
                                       <p style={{textAlign: 'left', width:300}}>{elem.a1}</p>
                                       <p style={{textAlign: 'left', width:100}}>{elem.a18}</p>
                                       <div>
-                                        <a onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } >  <img  src={this.state.listIconPanel[4]} alt="Logo" />  </a>
+                                        <a onClick={() => this.setState({updateFiche: true}, this.ficheDetail(elem.id)) } >  <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Modifier</i> </a>
                                         <a onClick={() => this.state.moveFiche !== elem.id && this.state.moveGroupe === false
                                           ? this.moveFiche(elem.id, this.state.moveFiche)  
                                           : this.moveFiche(elem.id, this.state.moveFiche)  }> 
                                           {this.state.moveFiche !== elem.id
-                                          ? <img  src={this.state.listIconPanel[3]} alt="Logo" /> 
-                                          : <img  src={this.state.listIconPanela[3]} alt="Logo" /> } </a> 
-                                        <a onClick={() => this.state.delOnFiche !== elem.id ?  this.setState({delOnFiche: elem.id}) : this.setState({delOnFiche: ""})}> {this.state.delOnFiche !== elem.id ?  <img  src={this.state.listIconPanel[2]} alt="Logo" /> :  <img  src={this.state.listIconPanela[0]} alt="Logo" />  }</a>
-                                        <a onClick={() => this.ficheDetail(elem.id) } > <img  src={this.state.listIconPanel[1]} alt="Logo" /></a>
+                                          ? <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Déplacer</i> 
+                                          : <i style={{color: 'white', backgroundColor: 'red', padding: 3, borderRadius: 3}}>Annuler</i> } </a> 
+                                        <a onClick={() => this.state.delOnFiche !== elem.id ?  this.setState({delOnFiche: elem.id}) : this.setState({delOnFiche: ""})}> {this.state.delOnFiche !== elem.id ?  <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Supp</i> : <i style={{color: 'white', backgroundColor: 'red', padding: 3, borderRadius: 3}}>Supp</i> }</a>
+                                        <a onClick={() => this.ficheDetail(elem.id) } > <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Voir</i> </a>
                                         <img onClick={() => {this.extractExcel(elem.id)}} style={{width: 40}} src={excelIcon} alt="Logo" />
                                       </div>                                    
                                     </li>
@@ -1007,7 +1005,7 @@ class PanelGroupes extends Component  {
                                   <li key={index} className="list-group-item">  
                                     <h4 style={{fontWeight: 'bold'}}>{this.state.champs[index].nom}</h4>
                                     <input id={`a${this.state.champs[index].id}`} className={this.state.updateOn === elem.id ? "active" : undefined} disabled={this.state.updateOn === elem.id ? false : true} type="text" defaultValue={this.state.detailFiche["a"+this.state.champs[index].id]}/>
-                                    <a onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.ficheUpdate(index, this.state.selected) } >{this.state.updateOn === elem.id ?  <img  src={this.state.listIconPanela[2]} alt="Logo" /> : <img  src={this.state.listIconPanel[4]} alt="Logo" /> }</a>
+                                    <a onClick={() => this.state.updateOn !== elem.id ? this.setState({updateOn: elem.id}) : this.ficheUpdate(index, this.state.selected) } >{this.state.updateOn === elem.id ?  <i style={{color: 'white', backgroundColor: 'green', padding: 3, borderRadius: 3}}>Confirmer</i> : <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Modifier</i> }</a>
                                   </li>
                                 // <UpdateFiche idFiche={this.state.idFiche} update={this.state.updateFiche} data={this.state.detailFiche}  champsNom={this.state.champs[index].nom} champsId={this.state.champs[index].id} />
                                 )

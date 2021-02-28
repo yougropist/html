@@ -439,14 +439,16 @@ app.put('/refreshFiches', (req,res) => {
             connexion.query(`SELECT * FROM idFiche WHERE idFiche = ${req.body.idGroupe} `, (err, response6) => {
                 if(err) res.json("error")
                 else {
-                    // console.log(response6, "JUS DE FRUIT")
+                    // console.log( "JUS DE FRUIT " ,response6)
                     const arrayFiche = []
                     for(let i = 0; i < response6.length ; i++){
-                        // console.log(response6[i].id, "ici")
+                        console.log(response6[i].id, "ici")
                         connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].id}' `, (err, response7) => {
                             if(err) res.json("error")
                             else {
-                                arrayFiche.push(response7[0])
+                                if(response7[0]){
+                                    arrayFiche.push(response7[0])
+                                }                                
                                 // console.log("--------------- -",i ,response7,  "--------------- -")
                                 if( i >= response6.length-1 ) {
                                     // console.log(response, i, "GOOL")
@@ -602,7 +604,7 @@ app.post('/champs/add', (req,res) => {
 
 app.post('/addFiche', (req,res) => {
     // console.log("STEP 1 " ,req.body)
-    connexion.query(`INSERT INTO idFiche (idFiche, information) VALUES ('${req.body.idGroupe}','${req.body.information}')`, (err, a) => {
+    connexion.query(`INSERT INTO idFiche (idFiche) VALUES ('${req.body.idGroupe}')`, (err, a) => {
         if(err) res.json("error") 
             else {     
                 connexion.query(`SELECT MAX(id) AS max_id FROM idFiche`, (err, response1) => {
@@ -635,9 +637,9 @@ app.post('/addFiche', (req,res) => {
                                                                             arrayFiche.push(response7[0])
                                                                             // console.log("--------------- -",i ,response7,  "--------------- -")
                                                                             if( i >= response6.length-1 ) {
-                                                                                // console.log(response, i, "GOOL")
-                                                                            console.log("STEP 7 " ,arrayFiche)
-                                                                            res.json(arrayFiche)
+                                                                                // console.log( "STEP 7", response, i)
+                                                                                // console.log("STEP 8 " ,arrayFiche)
+                                                                                res.json(arrayFiche)
                                                                             }
                                                                         }
                                                                     })
