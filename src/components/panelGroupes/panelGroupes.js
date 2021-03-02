@@ -88,6 +88,7 @@ class PanelGroupes extends Component  {
         this.state = {
           dataGroupeIndex: [],
           copie: '',
+          copied: false,
           sousGroupe:[],
           checked: [],
           value: "",
@@ -873,6 +874,7 @@ class PanelGroupes extends Component  {
       })
       .then(data => {
         console.log('data :', data)   
+        this.setState({copied: true})
         // this.setState({detailFiche: data, ifDetailFiche: false}) 
       }) 
     }
@@ -993,7 +995,7 @@ class PanelGroupes extends Component  {
                                           ? <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Déplacer</i> 
                                           : <i style={{color: 'white', backgroundColor: 'red', padding: 3, borderRadius: 3}}>Annuler</i> } </a> 
                                         <a onClick={() => this.state.delOnFiche !== elem.id ?  this.setState({delOnFiche: elem.id}) : this.setState({delOnFiche: ""})}> {this.state.delOnFiche !== elem.id ?  <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Supp</i> : <i style={{color: 'white', backgroundColor: 'red', padding: 3, borderRadius: 3}}>Supp</i> }</a>
-                                        <a onClick={() => this.state.copie !== elem.id ?  this.setState({copie: elem.id}) : this.setState({copie: ""})}> {this.state.copie !== elem.id ?  <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>copie</i> : <i style={{color: 'white', backgroundColor: 'green', padding: 3, borderRadius: 3}}>copie</i> }</a>
+                                        <a onClick={() => this.state.copie !== elem.id ?  this.setState({copie: elem.id, copied: false}) : this.setState({copie: "", copied: false})}> {this.state.copie !== elem.id ?  <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>copie</i> : <i style={{color: 'white', backgroundColor: 'green', padding: 3, borderRadius: 3}}>copie</i> }</a>
                                         <a onClick={() => this.ficheDetail(elem.id) } > <i style={{color: 'white', backgroundColor: 'black', padding: 3, borderRadius: 3}}>Voir</i> </a>
                                         <img onClick={() => {this.extractExcel(elem.id)}} style={{width: 40}} src={excelIcon} alt="Logo" />
                                       </div>                                    
@@ -1012,6 +1014,9 @@ class PanelGroupes extends Component  {
                                           )
                                         })}                                        
                                       </ul>
+                                    </div>
+                                    <div style={{display: this.state.copied === true && this.state.copie === elem.id ? "initial" :  "none"}}>
+                                        <p style={{backgroundColor: 'green', color: 'white', padding: 3, borderRadius: 3}}>La fiche à bien été copié !</p>
                                     </div>
                                   </div>
                                 )
