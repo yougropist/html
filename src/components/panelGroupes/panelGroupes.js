@@ -642,7 +642,7 @@ class PanelGroupes extends Component  {
         }
       })
       .then(data => {
-        // console.log('data champs :', data) 
+        console.log('data champs :', data) 
         this.setState({nomFiche: data, openAddFiche: false})
       })
     }
