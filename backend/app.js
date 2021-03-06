@@ -329,7 +329,10 @@ app.post('/sous-groupe', (req,res) => {
                                 if(err) res.json("error")
                                 else {    
                                     // console.log(response2)   
-                                    array.push(response2[0])
+                                    if(response2[0] !== undefined && response2[0] !== null) {
+                                        array.push(response2[0])
+                                    }
+                                    
                                     if(i === response1.length-1) res.json({fiches: array})  
                                 }
                             })
@@ -363,7 +366,10 @@ app.post('/delFiche', (req,res) => {
                                 connexion.query(`SELECT * FROM fiches WHERE id = '${response2[i].idFiche}' `, (err, response7) => {
                                     if(err) res.json("error")
                                     else {
-                                        arrayFiche.push(response7[0])
+                                        if(response7[0] !== undefined && response7[0] !== null) {
+                                            arrayFiche.push(response7[0])
+                                        }
+                                        
                                         if( i >= response2.length-1 ) {
                                             // console.log(arrayFiche, "GOOL")
                                             res.json(arrayFiche)
@@ -446,9 +452,9 @@ app.put('/refreshFiches', (req,res) => {
                         connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].idFiche}' `, (err, response7) => {
                             if(err) res.json("error")
                             else {
-                                if(response7[0]){
+                                if(response7[0] !== undefined && response7[0] !== null) {
                                     arrayFiche.push(response7[0])
-                                }                                
+                                }                              
                                 // console.log("--------------- -",i ,response7,  "--------------- -")
                                 if( i >= response6.length-1 ) {
                                     // console.log(response, i, "GOOL")
@@ -602,6 +608,7 @@ app.post('/champs/add', (req,res) => {
     }) 
 })
 
+
 app.post('/addFiche', (req,res) => {
     // console.log("ADD FICHE" ,req.body)
     connexion.query(`SELECT MAX(id) AS max_id FROM idFiche`, (err, response1) => {    
@@ -622,9 +629,9 @@ app.post('/addFiche', (req,res) => {
                                 connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].idFiche}' `, (err, response7) => {
                                     if(err) res.json("error")
                                     else {
-                                        if(response7[0]){
+                                        if(response7[0] !== undefined && response7[0] !== null) {
                                             arrayFiche.push(response7[0])
-                                        }                                        
+                                        }                                         
                                         if( i >= response6.length-1 ) {
                                             res.json(arrayFiche)
                                         }
@@ -638,6 +645,44 @@ app.post('/addFiche', (req,res) => {
         }
     })
 })
+
+
+// app.post('/addFiche', (req,res) => {
+//     // console.log("ADD FICHE" ,req.body)
+//     connexion.query(`SELECT MAX(id) AS max_id FROM idFiche`, (err, response1) => {    
+//     if(err) res.json("error") 
+//         else {     
+//             const maxId = response1[0].max_id+1
+//             connexion.query(`INSERT INTO idFiche (idGroupe, idFiche) VALUES ('${req.body.idGroupe}', '${maxId}')`)
+//             connexion.query(`INSERT INTO fiches (id,${req.body.champs[0]}) VALUES ('${maxId}','${req.body.value[0]}')`)
+//             for(let i = 1; i < req.body.champs.length ; i++){                                     
+//                 connexion.query(`UPDATE fiches SET ${req.body.champs[i]} ='${req.body.value[i]}' WHERE id = '${maxId}'`)
+//                 if( i >= req.body.champs.length-1 ) {
+//                     connexion.query(`SELECT * FROM idFiche WHERE idGroupe = '${req.body.idGroupe}' `, (err, response6) => {
+//                         if(err) res.json("error")
+//                         else {
+//                             const arrayFiche = []                            
+//                             for(let i = 0; i < response6.length ; i++){
+//                                 // console.log("select fiche :",response6[i].idFiche)                                
+//                                 connexion.query(`SELECT * FROM fiches WHERE id = '${response6[i].idFiche}' `, (err, response7) => {
+//                                     if(err) res.json("error")
+//                                     else {
+//                                         if(response7[0] !== undefined && response7[0] !== null) {
+//                                             arrayFiche.push(response7[0])
+//                                         }                                    
+//                                         if( i >= response6.length-1 ) {
+//                                             res.json(arrayFiche)
+//                                         }
+//                                     }
+//                                 })
+//                             }                                                                
+//                         }
+//                     })
+//                 }                                   
+//             }         
+//         }
+//     })
+// })
 
 app.post('/pages/add', (req,res) => {
     console.log(66)
@@ -710,7 +755,10 @@ app.post('/post', (req,res) => {
                     connexion.query(`SELECT * FROM groupe WHERE id ='${r[i].id_groupe}'`, (err, resp) => {
                         if(err) console.log(err)
                         else {
-                            array.push(resp[0])
+                            if(resp[0] !== undefined && resp[0] !== null) {
+                                array.push(resp[0])
+                            }
+                            
                             if(i === r.length - 1) {
                             res.json({posts:response,groupes:array})
                             }
@@ -802,7 +850,10 @@ app.post('/groupe/update', (req,res) => {
                             if(err) console.log(err)
                             else {
                                 // console.log(result, 8)
-                                array.push(result[0])
+                                if(result[0] !== undefined && result[0] !== null) {
+                                    array.push(result[0])
+                                }
+                                
                                 if(i===resp.length-1) res.json(array)
                                 }
                         }) 
@@ -825,7 +876,10 @@ app.post('/groupe/page', (req, res) => {
                     if(err) console.log(err)
                     else {
                         // console.log(result, 8)
-                        array.push(result[0])
+                        if(result[0] !== undefined && result[0] !== null) {
+                            array.push(result[0])
+                        }
+                        
                         if(i===resp.length-1) res.json(array)
                         }
                 }) 
@@ -869,7 +923,10 @@ app.delete('/groupe/delete', (req,res) => {
                             if(err) console.log(err)
                             else {
                                 // console.log(result, 8)
-                                array.push(result[0])
+                                if(result[0] !== undefined && result[0] !== null) {
+                                    array.push(result[0])
+                                }
+                                
                                 if(i===resp.length-1) res.json(array)
                                 }    
                         }) 
